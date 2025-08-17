@@ -26,86 +26,127 @@ export default function Home() {
       </section>
 
       {/* Classes */}
-      <section id="classes" className="py-16 bg-gradient-to-b from-white to-gray-100">
+      <section id="classes" className="py-16 bg-gradient-to-r from-gray-900 via-black to-gray-800 ">
         <div className="container mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold mb-8 tracking-tight text-gray-800">
-            Our Classes
+          <h2 className="text-4xl font-semibold mb-8 tracking-tighter text-red-500">
+            OUR CLASSES
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded-xl shadow hover:shadow-xl transition">
-              <h3 className="text-xl font-semibold tracking-tight text-gray-900">Strength Training</h3>
-              <p className="mt-2 text-gray-600">Build muscle and endurance.</p>
+            <div className="h-[300px] bg-gray-900 p-6 rounded-xl shadow hover:shadow-xl transition text-white">
+              <h3 className="text-xl font-semibold tracking-tight">Strength Training</h3>
+              <p className="mt-2">Build muscle and endurance.</p>
             </div>
-            <div className="bg-white p-6 rounded-xl shadow hover:shadow-xl transition">
-              <h3 className="text-xl font-semibold tracking-tight text-gray-900">Yoga & Flexibility</h3>
-              <p className="mt-2 text-gray-600">Enhance mobility and relaxation.</p>
+            <div className="h-[300px] bg-gray-900 p-6 rounded-xl shadow hover:shadow-xl transition text-white">
+              <h3 className="text-xl font-semibold tracking-tight">Yoga & Flexibility</h3>
+              <p className="mt-2">Enhance mobility and relaxation.</p>
             </div>
-            <div className="bg-white p-6 rounded-xl shadow hover:shadow-xl transition">
-              <h3 className="text-xl font-semibold tracking-tight text-gray-900">HIIT</h3>
-              <p className="mt-2 text-gray-600">High intensity cardio bursts.</p>
+            <div className="h-[300px] bg-gray-900 p-6 rounded-xl shadow hover:shadow-xl transition text-white">
+              <h3 className="text-xl font-semibold tracking-tight">HIIT</h3>
+              <p className="mt-2">High intensity cardio bursts.</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Trainers */}
-      <section id="trainers" className="py-16 bg-gradient-to-r from-gray-100 via-white to-gray-100">
+      <section id="trainers" className="py-16 bg-gradient-to-r from-gray-900 via-black to-gray-800 ">
         <div className="container mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold mb-8 tracking-tight text-gray-800">
+          <h2 className="text-4xl font-semibold mb-8 tracking-tighter text-white">
             Meet Our Trainers
           </h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-gradient-to-tr from-gray-200 to-gray-300 h-64 flex flex-col items-center justify-center rounded-xl shadow hover:shadow-lg transition">
-              <div className="bg-gray-500 h-32 w-32 rounded-full mb-4"></div>
-              <h3 className="text-xl font-semibold tracking-tight text-gray-900">Alex Smith</h3>
-              <p className="text-gray-600">Strength Coach</p>
+          <div className="flex gap-4 flex-wrap justify-center items-center">
+            <div className="flex flex-col gap-x-4 items-center rounded p-8 transition transform hover:scale-105">
+              <div className="flex flex-col items-center">
+                <img
+                  src="./11.jpg"
+                  alt="trainer"
+                  className="bg-red-500 p-2 h-40 w-40 rounded-full bg-gray-100 mb-4"
+                />  
+                <h3 className="text-white text-3xl font-semibold tracking-tight mb-5">Aaron Rodriguez</h3>
+              </div>
+
+              {/* Hidden text, shown on hover */}
+              <p className="max-w-[300px] text-white tracking-tighter">
+                “A good trainer doesn’t just build your body, they strengthen your discipline, 
+                mindset, and belief in yourself.”
+              </p>
             </div>
-            <div className="bg-gradient-to-tr from-gray-200 to-gray-300 h-64 flex flex-col items-center justify-center rounded-xl shadow hover:shadow-lg transition">
-              <div className="bg-gray-500 h-32 w-32 rounded-full mb-4"></div>
-              <h3 className="text-xl font-semibold tracking-tight text-gray-900">Jane Doe</h3>
-              <p className="text-gray-600">Yoga Instructor</p>
+
+            <div className="flex flex-col gap-x-4 items-center rounded p-8 transition transform hover:scale-105">
+              <div className="flex flex-col items-center">
+                <img
+                  src="./11.jpg"
+                  alt="trainer"
+                  className="bg-red-500 p-2 h-40 w-40 rounded-full bg-gray-100 mb-4"
+                />  
+                <h3 className="text-white text-3xl font-semibold tracking-tight mb-5">Aaron Rodriguez</h3>
+              </div>
+
+              {/* Hidden text, shown on hover */}
+              <p className="max-w-[300px] text-white tracking-tighter">
+                “A good trainer doesn’t just build your body, they strengthen your discipline, 
+                mindset, and belief in yourself.”
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-x-4 items-center rounded p-8 transition transform hover:scale-105">
+              <div className="flex flex-col items-center">
+                <img
+                  src="./11.jpg"
+                  alt="trainer"
+                  className="bg-red-500 p-2 h-40 w-40 rounded-full bg-gray-100 mb-4"
+                />  
+                <h3 className="text-white text-3xl font-semibold tracking-tight mb-5">Aaron Rodriguez</h3>
+              </div>
+
+              {/* Hidden text, shown on hover */}
+              <p className="max-w-[300px] text-white tracking-tighter">
+                “A good trainer doesn’t just build your body, they strengthen your discipline, 
+                mindset, and belief in yourself.”
+              </p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Pricing */}
-      <section id="pricing" className="py-16 bg-gradient-to-b from-gray-900 via-black to-gray-800 text-white">
+      <section id="pricing" className="py-16 bg-gradient-to-r from-gray-900 via-black to-gray-800 text-white">
         <div className="container mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold mb-8 tracking-tight">
+          <h2 className="text-4xl font-semibold mb-8 tracking-tighter text-red-500">
             Membership Plans
           </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-gray-800 p-6 rounded-xl shadow hover:shadow-lg transition">
-              <h3 className="text-xl font-semibold tracking-tight">Basic</h3>
-              <p className="text-2xl font-bold my-4">$29/mo</p>
-              <a
-                href="#join"
-                className="bg-red-500 px-4 py-2 rounded-lg text-white font-semibold hover:bg-red-600 transition"
-              >
-                Choose
-              </a>
+          
+          <div className="flex justify-evenly items-center gap-12">
+            <div className="flex flex-col gap-y-4">
+              <div className="rounded bg-white flex items-center gap-6 p-4">
+                <h2 className="text-red-500 text-2xl tracking-tighter">₱1500</h2>
+
+                <div className="text-black text-left">
+                  <h3 className="text-2xl tracking-tighter">BASIC</h3>
+                  <p className="tracking-tight text-sm">Gym equipment access, locker rooms, 1 fitness consultation</p>
+                </div>
+              </div>
+
+              <div className="rounded bg-white flex items-center gap-6 p-4">
+                <h2 className="text-red-500 text-2xl tracking-tighter">₱2000</h2>
+
+                <div className="text-black text-left">
+                  <h3 className="text-2xl tracking-tighter">PRO</h3>
+                  <p className="tracking-tight text-sm">Gym equipment access, locker rooms, group classes, 2 personal training sessions</p>
+                </div>
+              </div>
+
+              <div className="rounded bg-white flex items-center gap-6 p-4">
+                <h2 className="text-red-500 text-2xl tracking-tighter">₱3000</h2>
+
+                <div className="text-black text-left">
+                  <h3 className="text-2xl tracking-tighter">ELITE</h3>
+                  <p className="tracking-tight text-sm">Gym equipment access, locker rooms, unlimited group classes, weekly personal training, nutrition guidance, progress tracking</p>
+                </div>
+              </div>
             </div>
-            <div className="bg-gray-800 p-6 rounded-xl shadow border-2 border-red-500 hover:shadow-lg transition">
-              <h3 className="text-xl font-semibold tracking-tight">Pro</h3>
-              <p className="text-2xl font-bold my-4">$49/mo</p>
-              <a
-                href="#join"
-                className="bg-red-500 px-4 py-2 rounded-lg text-white font-semibold hover:bg-red-600 transition"
-              >
-                Choose
-              </a>
-            </div>
-            <div className="bg-gray-800 p-6 rounded-xl shadow hover:shadow-lg transition">
-              <h3 className="text-xl font-semibold tracking-tight">Elite</h3>
-              <p className="text-2xl font-bold my-4">$69/mo</p>
-              <a
-                href="#join"
-                className="bg-red-500 px-4 py-2 rounded-lg text-white font-semibold hover:bg-red-600 transition"
-              >
-                Choose
-              </a>
-            </div>
+
+            <img src="./gym.jpg" alt="" className="h-full w-[40%] rounded-lg "/>
           </div>
         </div>
       </section>
