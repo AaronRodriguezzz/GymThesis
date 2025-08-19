@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AlertPopup } from '../components/ui/dialogs/CustomAlert';
+import { AlertPopup } from '../components/dialogs/CustomAlert';
 // Set Authorization header if token exists
 const token = localStorage.getItem('token');
 

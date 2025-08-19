@@ -3,6 +3,15 @@ import { useState } from "react";
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
+   const navClicked = (id) => {
+    setTimeout(() => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 500);
+  };
+  
   return (
     <header className="bg-black text-white fixed top-0 left-0 w-full z-50">
       <div className="container mx-auto flex justify-between items-center px-6 py-4">
@@ -12,11 +21,12 @@ export default function Header() {
 
         {/* Desktop Menu */}
         <nav className="hidden md:flex gap-6">
-          <a href="#home" className="hover:text-red-500">Home</a>
-          <a href="#classes" className="hover:text-red-500">Classes</a>
-          <a href="#trainers" className="hover:text-red-500">Trainers</a>
-          <a href="#pricing" className="hover:text-red-500">Pricing</a>
-          <a href="#contact" className="hover:text-red-500">Contact</a>
+          <a className="hover:text-red-500 cursor-pointer" onClick={() => navClicked('Home')}>Home</a>
+          <a className="hover:text-red-500 cursor-pointer" onClick={() => navClicked('About')}>About</a>
+          <a className="hover:text-red-500 cursor-pointer" onClick={() => navClicked('Classes')}>Classes</a>
+          <a className="hover:text-red-500 cursor-pointer" onClick={() => navClicked('Trainers')}>Trainers</a>
+          <a className="hover:text-red-500 cursor-pointer" onClick={() => navClicked('Pricing')}>Pricing</a>
+          <a className="hover:text-red-500 cursor-pointer" onClick={() => navClicked('Contact')}>Contact</a>
         </nav>
 
         <a href="#join" className="hidden md:inline-block bg-red-500 px-4 py-2 rounded-lg font-semibold hover:bg-red-600">
