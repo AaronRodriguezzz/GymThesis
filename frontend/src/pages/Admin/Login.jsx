@@ -29,7 +29,9 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <main className="h-screen bg-gradient-to-r from-gray-900 via-black to-gray-800 flex items-center justify-center px-6">
+    <main className="h-screen bg-gradient-to-r from-gray-900 via-black to-gray-800 flex flex-col items-center justify-center px-6">
+
+      <h1 className="text-red-500 text-[60px] font-bold mb-8 tracking-tighter">GYM<span className="text-white">Pro</span></h1>
       <div className="bg-gray-900 rounded-2xl shadow-xl p-8 w-full max-w-md text-white">
         {/* Title */}
         <h1 className="text-4xl font-bold text-center mb-2 tracking-tight">

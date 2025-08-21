@@ -15,6 +15,7 @@ import Equipments from "./pages/Admin/Equipments";
 import Product from "./pages/Admin/Products";
 import Trainers from './pages/Admin/Trainers';
 import Sales from "./pages/Admin/Sales";
+import POS from "./pages/Admin/POS";
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
           <Route path='products' element={<Product/>} />
           <Route path='trainers' element={<Trainers/>} />
           <Route path='sales' element={<Sales/>} />
+          <Route path='POS' element={<POS/>} />
         </Route>
 
         <Route path='/login' element={<Login/>} />
