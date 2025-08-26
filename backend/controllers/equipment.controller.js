@@ -64,6 +64,11 @@ export const getEquipments = async (req, res) => {
         }
 
         const equipments = await Equipment.find(query).skip(skip).limit(limit)
+
+        const equipmentsWithBorrowed = await Promise.all(equipments.map(async (equipment) => {
+            const borrowed = await equipment.getBorrowed();
+            return { ...equipment.toJSON(), borrowed, available: equipment.stock - borrowed}
+        }))
         
         const totalEquipments = await Equipment.countDocuments(query);
 
@@ -71,7 +76,7 @@ export const getEquipments = async (req, res) => {
             success: true,
             totalPages: Math.ceil(totalEquipments / limit),
             page,
-            equipments,
+            equipments: equipmentsWithBorrowed,
             totalEquipments
         })
         
