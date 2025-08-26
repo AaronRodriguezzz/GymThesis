@@ -42,6 +42,20 @@ export const updateEquipment = async (req, res) => {
     }
 }
 
+export const getEquipmentById = async (req, res) => {
+    try{
+        const equipment = await Equipment.findById(req.params.id).populate('equipment');
+        if(!equipment){
+            return res.status(404).json({ success: false, message: 'Equipment not found' })
+        }
+
+        res.status(200).json({ success: true, equipment })
+
+    }catch(err){
+        res.status(500).json({ success: false, message: err.message });
+    }
+}
+
 export const getEquipments = async (req, res) => {
     try{
         const page = req.query.page || 1;

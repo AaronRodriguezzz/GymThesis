@@ -30,6 +30,20 @@ export const updateBorrowHistory = async (req, res) => {
     }
 }
 
+export const getBorrowHistoryById = async (req, res) => {
+    try{
+        const borrowHistory = await BorrowHistory.findById(req.params.id);
+        if(!borrowHistory){
+            return res.status(404).json({ success: false, message: 'Borrow history not found'});
+        }
+
+        res.status(200).json({ success: true, borrowHistory })
+
+    }catch(err){
+        res.status(500).json({ success: false, message: err.message });
+    }
+}
+
 export const getBorrowHistory = async (req, res) => {
     try{
         const page = req.query.page || 1;
