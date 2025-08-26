@@ -39,7 +39,7 @@ const EquipmentSchema = new Schema({
 EquipmentSchema.methods.getBorrowed = async function () {
   const totalBorrowed = await BorrowHistory.aggregate([
     {
-      $match: { equipment_id: new Types.ObjectId(this._id) }
+      $match: { equipment_id: new Types.ObjectId(this._id), status: 'Borrowed' }
     },
     {
       $group: {

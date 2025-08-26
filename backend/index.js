@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import memberRoutes from "./routes/member.routes.js";
 import equipmentsRoutes from "./routes/equipment.routes.js";
 import borrowHistoryRoutes from "./routes/borrowHistory.routes.js";
+import adminRoutes from "./routes/admin.routes.js";
 
 const app = express();
 
@@ -24,5 +25,6 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use('/api/members', memberRoutes);
 app.use('/api/equipments', equipmentsRoutes);
 app.use('/api/borrow-history', borrowHistoryRoutes);
+app.use('/api/admins', adminRoutes)
 
 export default app;
