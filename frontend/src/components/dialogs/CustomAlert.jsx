@@ -2,9 +2,7 @@ import { motion } from "framer-motion";
 import { CheckCircle, XCircle, AlertTriangle } from "lucide-react"; // clean icons
 import { useState } from "react";
 
-export const AlertPopup = ( type = "success", message, onClose = false ) => {
-
-    const [visible, setVisible] = useState(onClose);
+export const AlertPopup = ( type = "success", message, open, onClose ) => {
 
     const icon =
         type === "success" ? (
@@ -13,7 +11,7 @@ export const AlertPopup = ( type = "success", message, onClose = false ) => {
         <XCircle className="text-red-400" size={40} />
         );
 
-    if(!visible) return 
+    if(!open) return 
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
@@ -30,7 +28,7 @@ export const AlertPopup = ( type = "success", message, onClose = false ) => {
 
                 <p className="text-gray-300 mb-6">{message}</p>
                 <button
-                    onClick={() => setVisible(false)}
+                    onClick={onClose}
                     className="w-full bg-red-500 hover:bg-red-600 transition py-2 rounded-lg shadow font-medium"
                 >
                     Close

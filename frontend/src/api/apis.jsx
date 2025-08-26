@@ -12,8 +12,8 @@ export const fetchData = async (endpoint) => {
     const response = await axios.get(endpoint);
 
     if (response.status === 200) {
-        AlertPopup( error.response.data.message || 'Error Updating Data', true);
-        return response.data;
+      // AlertPopup(response.data.message || 'Error Updating Data', true);
+      return response.data;
     }
 
   } catch (error) {
@@ -28,12 +28,13 @@ export const postData = async (endpoint, data) => {
     const response = await axios.post(endpoint, data);
 
     if(response.status === 201){
-        AlertPopup(error.response.data.message || 'Error Updating Data', true);
+        // AlertPopup(response.data.message || 'Error Updating Data', true);
         return response.data;
     }
 
   } catch (error) {
-    AlertPopup('error', error.response.data.message || 'Error Posting Data', true);
+    console.log(err);
+    // AlertPopup('error', error.response.data.message || 'Error Posting Data', true);
   }
 };
 
@@ -42,7 +43,7 @@ export const updateData = async (endpoint, data) => {
     const response = await axios.put(endpoint, data);
 
     if (response.status === 200) {
-        AlertPopup(error.response.data.message || 'Error Updating Data', true);
+        AlertPopup(response.data.message || 'Error Updating Data', true);
         return response.data;
     }  
 
@@ -57,7 +58,7 @@ export const deleteData = async (endpoint) => {
     const response = await axios.delete(endpoint);
 
     if(response.status === 200){
-        AlertPopup(error.response.data.message || 'Error Updating Data', true);
+        AlertPopup(response.data.message || 'Error Updating Data', true);
         return response.data;
     }
 

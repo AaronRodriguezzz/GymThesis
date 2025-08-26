@@ -1,13 +1,22 @@
 // TermsModal.jsx
 import { useEffect, useState } from "react";
+import { postData } from "../../api/apis";
+import { expirationData } from "../../data/expirationData";
+import { AlertPopup } from '../../components/dialogs/CustomAlert';
 
 export default function TermsModal({
   open,
   title = "Terms & Conditions",
-  onAccept,
+  membershipForm,
+  setMembershipForm,
   onClose,
 }) {
   const [agreed, setAgreed] = useState(false);
+  const [popUp, setPopUp] = useState({
+    visible: false,
+    type: 'success',
+    message: ''
+  })
 
   // Reset checkbox each time the modal opens
   useEffect(() => setAgreed(false), [open]);
@@ -20,7 +29,65 @@ export default function TermsModal({
     return () => (document.body.style.overflow = prev);
   }, [open]);
 
+  const handleSubmit = async (e) =>{
+    e.preventDefault();
+
+    if(!agreed) return 
+
+    const today = new Date();
+    const thisDay = today.getDate();
+    const thisMonth = today.getMonth(); 
+    const thisYear = today.getFullYear();
+    const addedMonths = expirationData[membershipForm.plan];
+
+    const expirationMonth =  thisMonth + addedMonths;
+
+    console.log(thisDay);
+
+    if(expirationMonth > 12) {
+      const extraYears = Math.floor(expirationMonth / 12);
+      const newMonth = expirationMonth % 12;
+      const newYear = thisYear + extraYears;
+      const expiration = new Date(newYear, newMonth, thisDay);
+      membershipForm.expirationDate = expiration;
+    }else{
+      const expiration = new Date(thisYear, thisMonth + addedMonths, thisDay);
+      membershipForm.expirationDate = expiration;
+    }
+
+    console.log(membershipForm);
+
+    try{    
+      const res = await postData('/api/members', membershipForm);
+
+      if(res){
+        alert('Membership Form Submitted')
+        setPopUp({
+          visible: true,
+          type: 'success',
+          message: res.message || ''
+        })
+        setMembershipForm({
+          fullName: '',
+          email: '',
+          phone: '',
+          selectedPlan: '',
+          fitnessGoal: ''
+        })
+        onClose();
+
+      }
+    }catch(err){
+      setPopUp({
+        visible: true,
+        type: 'error',
+        message: err?.message || 'Membership Submission Failed'
+      })
+    }
+  }
+
   if (!open) return null;
+
 
   return (
     <div
@@ -109,10 +176,7 @@ export default function TermsModal({
             </button>
             <button
               disabled={!agreed}
-              onClick={() => {
-                if (!agreed) return;
-                onAccept?.();
-              }}
+              onClick={(e) => handleSubmit(e)}
               className={`rounded-lg px-4 py-2 font-semibold transition ${
                 agreed
                   ? "bg-red-500 hover:bg-red-600"
@@ -124,6 +188,19 @@ export default function TermsModal({
           </div>
         </div>
       </div>
+
+      {popUp && 
+        <AlertPopup 
+          type={popUp.type} 
+          message={popUp.message} 
+          open={popUp.visible}
+          onClose={() => setPopUp({
+            visible: false,
+            type: 'success',
+            message: ''
+          })}
+        />
+      }
     </div>
   );
 }

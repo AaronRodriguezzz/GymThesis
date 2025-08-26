@@ -6,7 +6,7 @@ const MemberSchema = new Schema({
         required: true,
         unique: true,
     },
-    fullname: {
+    fullName: {
         type: String,
         required: true
     },
@@ -19,11 +19,11 @@ const MemberSchema = new Schema({
         enum: ['Basic', 'Pro', 'Elite'],
         required: true,
     },
-    expiration: {
+    expirationDate: {
         type: Date,
         required: true,
     },
-    goal: {
+    fitnessGoal: {
         type: String,
         required: true
     },

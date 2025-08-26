@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { postData } from '../../api/apis';
 import TermsModal from "../../components/modals/TermsModal";
 
 export default function Home() {
@@ -8,8 +7,9 @@ export default function Home() {
     fullName: '',
     email: '',
     phone: '',
-    selectedPlan: '',
-    fitnessGoal: ''
+    plan: '',
+    fitnessGoal: '',
+    expirationDate: ''
   })
 
   const handleChange = (e) => {
@@ -27,31 +27,15 @@ export default function Home() {
     if(!membershipForm.fullName ||
       !membershipForm.email ||
       !membershipForm.phone ||
-      !membershipForm.selectedPlan ||
+      !membershipForm.plan ||
       !membershipForm.fitnessGoal
-    ) return 
+    ) {
+      console.log(membershipForm);
+      alert('Complete the form before submitting.');
+      return;
+    }
 
     setTermsOpen(true);
-  }
-
-  const handleSubmit = async (e) =>{
-    e.preventDefault();
-
-    try{    
-      const res = await postData('/api/membership', membershipForm);
-
-      if(res){
-        setMembershipForm({
-          fullName: '',
-          email: '',
-          phone: '',
-          selectedPlan: '',
-          fitnessGoal: ''
-        })
-      }
-    }catch(err){
-      console.log(err);
-    }
   }
 
   return (
@@ -346,13 +330,15 @@ export default function Home() {
                 Select Plan
               </label>
               <select 
-                name="selectedPlan"
+                name="plan"
                 className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500" 
-                value={membershipForm.selectedPlan}
-                onChange={handleChange}>
-                <option value="basic">Basic - ₱1500</option>
-                <option value="pro">Pro - ₱2000</option>
-                <option value="elite">Elite - ₱3000</option>
+                value={membershipForm.plan}
+                onChange={handleChange}
+              >
+                <option value="">-- Choose a Plan --</option>
+                <option value="Basic">Basic - ₱1500</option>
+                <option value="Pro">Pro - ₱2000</option>
+                <option value="Elite">Elite - ₱3000</option>
               </select>
             </div>
 
@@ -383,9 +369,11 @@ export default function Home() {
 
       <TermsModal 
         open={termsOpen}
-        onAccept={handleSubmit}
+        membershipForm={membershipForm}
+        setMembershipForm={setMembershipForm}
         onClose={() => setTermsOpen(false)}
       />
+
     </main>
   );
 }

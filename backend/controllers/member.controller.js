@@ -1,11 +1,12 @@
 import Member from "../models/Member.js"
 
 export const createMembership = async (req, res) => {
+    console.log(req.body);
     try{
         const memberExists = await Member.findOne({ 
             email: req.body.email, 
             status: { $ne: 'Expired' }
-            });
+        });
 
         if (memberExists) {
             return res.status(409).json({ success: false, message: 'This email is already registered as a member or has a pending request.' });
@@ -18,6 +19,7 @@ export const createMembership = async (req, res) => {
         res.status(201).json({ success: true, message: 'Membership request successfully created'})
 
     }catch(err){
+        console.log(err);
         res.status(500).json({ success: false, message: err.message });
     }
 }
