@@ -1,0 +1,81 @@
+import Equipment from "../models/Equipments.js";
+import { deleteImage, uploadImage } from "../services/cloudinary.service.js";
+
+export const createEquipment = async (req, res) => {
+    try{
+        const equipmentExists = await Equipment.findOne({ name: req.body.name });
+
+        if(equipmentExists){
+            return res.status(409).json({ success: false, message: 'Equipment already exists'});
+        }
+        const image = await uploadImage(req.body.image)
+        const equipment = new Equipment({ ...req.body, image });
+        await equipment.save();
+
+        res.status({ success: true, equipment });
+    }catch(err){
+        res.status(500).json({ success: false, message: err.message });
+    }
+}
+
+export const updateEquipment = async (req, res) => {
+    try{
+        const equipment = await Equipment.findById(req.params.id);
+        if(!equipment){
+            return res.status(404).json({ success: false, message: 'Equipment not found' })
+        }
+
+        let image;
+
+        if(typeof req.body.image === 'string'){
+            await deleteImage(equipment.image.imagePublicId);
+            image = await uploadImage(req.body.image)
+        }
+
+        equipment.set({ ...req.body, image })
+        await equipment.save();
+
+        res.status(200).json({ success: true, message: 'Equipment successfully updated' })
+
+    }catch(err){
+        res.status(500).json({ success: false, message: err.message });
+    }
+}
+
+export const getEquipments = async (req, res) => {
+    try{
+        const page = req.query.page || 1;
+        const limit = req.query.limit || 20;
+        const skip = (page - 1) * limit;
+        const searchTerm = req.query.searchTerm || '';
+        const category = req.query.category || '';
+
+        let query = {};
+
+        if(searchTerm){
+            query.$or = [
+                { name: { $regex: searchTerm, $options: "i" } },
+                { sku: { $regex: searchTerm, $options: "i" } },
+            ]
+        }
+
+        if(category && category !== 'All'){
+            query.category = category
+        }
+
+        const equipments = await Equipment.find(query).skip(skip).limit(limit)
+        
+        const totalEquipments = await Equipment.countDocuments(query);
+
+        res.status(200).json({
+            success: true,
+            totalPages: Math.ceil(totalEquipments / limit),
+            page,
+            equipments,
+            totalEquipments
+        })
+        
+    }catch(err){
+        res.status(500).json({ success: false, message: err.message });
+    }
+}

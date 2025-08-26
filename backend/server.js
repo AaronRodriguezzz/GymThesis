@@ -2,16 +2,16 @@ dotenv.config();
 import app from './index.js';
 import dotenv from 'dotenv';
 import mongoose from "mongoose";
-// import path from 'path';
+import path from 'path';
 
-// const dirname = path.resolve();
-// Now you can use dirname
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static(path.join(dirname, "/frontend/dist")));
-//   app.get(/(.*)/, (req, res) => {
-//     res.sendFile(path.resolve(dirname, "frontend", "dist", "index.html"));
-//   });
-// }
+const dirname = path.resolve();
+
+if (process.env.NODE_ENV === "production") {
+   app.use(express.static(path.join(dirname, "/frontend/dist")));
+   app.get(/(.*)/, (req, res) => {
+     res.sendFile(path.resolve(dirname, "frontend", "dist", "index.html"));
+   }); 
+  }
 
 mongoose.connect(process.env.DB_URI)
   .then(() => {
