@@ -26,6 +26,8 @@ export const createMembership = async (req, res) => {
 
 
 export const updateMembership = async (req, res) => {
+    console.log(req.body, req.params.id);
+
     try{
         const member = await Member.findById(req.params.id)
 
@@ -36,6 +38,33 @@ export const updateMembership = async (req, res) => {
         member.status = req.body.status
 
         await member.save();
+
+        res.status(201).json({ success: true, message: 'Membership successfully updated'})
+
+    }catch(err){
+        res.status(500).json({ success: false, message: err.message });
+    }
+}
+
+export const updateMember = async (req, res) => {
+    console.log(req.body, req.params.id);
+
+
+    if(!req.params.id || !req.body){
+        res.status(400).json({ success: false, message: 'ID mismatch.'})
+    }
+
+    try{
+
+        const member = await Member.findByIdAndUpdate(  
+            req.params.id,
+            req.body,
+            { new: true }
+        )
+
+        if(!member){
+            return res.status(404).json({ success: false, message: 'Membership not found.'})
+        }
 
         res.status(201).json({ success: true, message: 'Membership successfully updated'})
 

@@ -2,18 +2,23 @@ import Equipment from "../models/Equipments.js";
 import { deleteImage, uploadImage } from "../services/cloudinary.service.js";
 
 export const createEquipment = async (req, res) => {
+
+    console.log(req.body);
+
     try{
         const equipmentExists = await Equipment.findOne({ name: req.body.name });
 
         if(equipmentExists){
             return res.status(409).json({ success: false, message: 'Equipment already exists'});
         }
+
         const image = await uploadImage(req.body.image)
         const equipment = new Equipment({ ...req.body, image });
         await equipment.save();
 
-        res.status({ success: true, equipment });
+        res.status(201).json({ success: true, equipment });
     }catch(err){
+        console.log(err);
         res.status(500).json({ success: false, message: err.message });
     }
 }
