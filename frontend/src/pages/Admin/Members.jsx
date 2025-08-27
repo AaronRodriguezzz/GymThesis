@@ -1,17 +1,51 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AdminHeader from '../../components/ui/AdminHeader'
+import MembershipModal from '../../components/modals/MembershipModal';
+import MemberGoalModal from '../../components/modals/MemberGoalModal';
+import { FaEdit, FaBan, FaEye } from "react-icons/fa";
+import { fetchData, updateData } from '../../api/apis';
 
 const Members = () => {
-  // Mock data
-  const mockData = [
-    { id: 1, name: "John Doe", item: "Dumbbell Set", quantity: 2, date: "2025-08-01", status: "Returned" },
-    { id: 2, name: "Jane Smith", item: "Yoga Mat", quantity: 1, date: "2025-08-03", status: "Borrowed" },
-    { id: 3, name: "Mike Johnson", item: "Treadmill Key", quantity: 1, date: "2025-08-05", status: "Overdue" },
-    { id: 4, name: "Emily Davis", item: "Resistance Bands", quantity: 3, date: "2025-08-08", status: "Borrowed" },
-    { id: 4, name: "Emily Davis", item: "Resistance Bands", quantity: 3, date: "2025-08-08", status: "Borrowed" },
-    { id: 4, name: "Emily Davis", item: "Resistance Bands", quantity: 3, date: "2025-08-08", status: "Borrowed" },
-    { id: 4, name: "Emily Davis", item: "Resistance Bands", quantity: 3, date: "2025-08-08", status: "Borrowed" }
-  ];
+
+  const [showModal, setShowModal] = useState(false);
+  const [members, setMembers] = useState([]);
+  const [memberToUpdate, setMemberToUpdate] = useState(null); 
+  const [goalModalOpen, setGoalModalOpen] = useState(false);
+  const [memberToView, setMemberToView] = useState(null);
+
+  useEffect(() => {
+
+    const fetchMembers = async () => {
+      try{
+        const response = await fetchData('/api/members');
+
+        if(response){
+          console.log('Members:', response);
+          setMembers(response?.members || []);
+        }
+
+      }catch(error){
+
+      }
+    }
+    fetchMembers();
+
+  }, []);
+
+
+  const updateMemberStatus = async (memberId, newStatus) => {
+    try{
+      const response = await updateData(`/api/members/${memberId}`, { status: newStatus });
+
+      if(response){
+        alert('Member status updated');
+        window.location.reload();
+      }
+
+    }catch(error){
+      console.error('Error updating member status:', error);
+    }
+  }
 
   return (
     <div className='h-screen w-full p-10'>
@@ -28,7 +62,7 @@ const Members = () => {
             className='flex-8 rounded bg-gray-900 px-4 py-2 text-white placeholder:text-gray-400' 
             placeholder='Search name, type, quantity, etc...'
           />
-          <button className='flex-1 bg-red-500 text-white px-4 py-2 rounded'>
+          <button className='flex-1 bg-red-500 text-white px-4 py-2 rounded' onClick={() => setShowModal(true)}>
             + NEW MEMBER
           </button>
         </div>
@@ -38,29 +72,61 @@ const Members = () => {
           <table className="w-full  text-sm text-left text-gray-300">
             <thead className="bg-gray-900 text-gray-100 uppercase text-xs">
               <tr>
-                <th className="px-6 py-3">Borrower</th>
-                <th className="px-6 py-3">Item</th>
-                <th className="px-6 py-3">Quantity</th>
-                <th className="px-6 py-3">Date</th>
+                <th className="px-6 py-3">Email</th>
+                <th className="px-6 py-3">Full Name</th>
+                <th className="px-6 py-3">Phone</th>
+                <th className="px-6 py-3">Plan</th>
+                <th className="px-6 py-3">Expiration</th>
                 <th className="px-6 py-3">Status</th>
+                <th className="px-6 py-3">Action</th>
               </tr>
             </thead>
             <tbody>
-              {mockData.map((row) => (
+              {members && members.map((member, index) => (
                 <tr 
-                  key={row.id} 
+                  key={index} 
                   className="border-b border-gray-700 hover:bg-gray-700/50"
                 >
-                  <td className="px-6 py-3">{row.name}</td>
-                  <td className="px-6 py-3">{row.item}</td>
-                  <td className="px-6 py-3">{row.quantity}</td>
-                  <td className="px-6 py-3">{row.date}</td>
-                  <td className={`px-6 py-3 font-semibold ${
-                    row.status === "Returned" ? "text-green-400" : 
-                    row.status === "Overdue" ? "text-red-400" : 
-                    "text-yellow-400"
-                  }`}>
-                    {row.status}
+                  <td className="px-6 py-3">{member?.email}</td>
+                  <td className="px-6 py-3">{member?.fullName}</td>
+                  <td className="px-6 py-3">{member?.phone}</td>
+                  <td className="px-6 py-3">{member?.plan}</td>
+                  <td className="px-6 py-3">{member?.expirationDate.toString().split('T')[0]}</td>
+                  <td 
+                    className="px-6 py-3 font-semibold rounded"
+                    style={{color: member?.status === 'Paid' ? 'green' : member?.status === 'Pending' ? 'orange' : 'red'}}
+                  >
+                    {member?.status}
+                  </td>
+
+                  <td>
+                    <div className="flex gap-1">
+                      <button 
+                        className="p-2 text-blue-500 hover:text-blue-700" 
+                        onClick={() => {
+                          setMemberToUpdate(member);
+                          setShowModal(true);
+                        }}
+                      >
+                        <FaEdit />
+                      </button>
+                      <button 
+                        className="p-2 text-red-500 hover:text-red-700 disabled:cursor-not-allowed disabled:opacity-50" 
+                        onclick={() => updateMemberStatus(member._id, 'Expired')}
+                        disabled={member?.status === 'Pending' || member?.status === 'Expired' || new Date(member?.expirationDate) > new Date()}
+                      >
+                        <FaBan  />
+                      </button>
+                      <button 
+                        className="p-2 text-green-500 hover:text-green-700" 
+                        onClick={() => {
+                          setGoalModalOpen(true);
+                          setMemberToView(member);
+                        }}
+                      >
+                        <FaEye />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -68,6 +134,9 @@ const Members = () => {
           </table>
         </div>
       </div>
+
+      {showModal && <MembershipModal onClose={setShowModal} member={memberToUpdate}/>}
+      {goalModalOpen && <MemberGoalModal onClose={setGoalModalOpen} member={memberToView} />}
     </div>
   )
 }

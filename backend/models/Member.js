@@ -30,7 +30,7 @@ const MemberSchema = new Schema({
     status: {
         type: String,
         enum: ['Pending', 'Paid', 'Expired'],
-        defaultValue: 'Pending'
+        default: 'Pending'
     }
 }, { timestamps: true })
 
