@@ -1,11 +1,13 @@
 import Header from '../components/ui/Header';
 import Footer from '../components/ui/Footer';
 import { Outlet } from 'react-router-dom';
+import Chatbot from '../components/ui/Chatbot';
 
 const UserLayout = () => {
     return(
-        <div>
+        <div className='relative'>
             <Header />
+            <Chatbot />
             <main className="overflow-x-hidden">
                 <Outlet />
             </main>

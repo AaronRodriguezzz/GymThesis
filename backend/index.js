@@ -6,6 +6,7 @@ import memberRoutes from "./routes/member.routes.js";
 import equipmentsRoutes from "./routes/equipment.routes.js";
 import borrowHistoryRoutes from "./routes/borrowHistory.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
+import { chatAIagent } from "./controllers/ai.controller.js";
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(express.static('public'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
+app.post('/api/ai/chat', chatAIagent)
 app.use('/api/members', memberRoutes);
 app.use('/api/equipments', equipmentsRoutes);
 app.use('/api/borrow-history', borrowHistoryRoutes);
