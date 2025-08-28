@@ -86,15 +86,15 @@ const AddEquipmentModal = ({ onClose }) => {
 
                 {/* SKU */}
                 <div>
-                <label className="block text-sm mb-2">SKU</label>
-                <input
-                    type="text"
-                    name="sku"
-                    value={formData.sku}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500"
-                    placeholder="Enter SKU"
-                />
+                    <label className="block text-sm mb-2">SKU</label>
+                    <input
+                        type="text"
+                        name="sku"
+                        value={formData.sku}
+                        onChange={handleChange}
+                        className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                        placeholder="Enter SKU"
+                    />
                 </div>
 
                 {/* Stock */}

@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 
 const Borrower = {
-    fullname: {
+    fullName: {
         type: String,
         required: true,
     },
@@ -12,7 +12,19 @@ const Borrower = {
     email: {
         type: String,
         required: true,
+    },
+    borrowerType: {
+        type: String,
+        enum: ['Member', 'Non Member'],
+        required: true,
+    },
+    idPresented: {
+        type: String,
+        required: function () {
+            return this.borrowerType === 'Non Member';
+        }
     }
+
 }
 
 const BorrowHistorySchema = new Schema({
@@ -31,11 +43,11 @@ const BorrowHistorySchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['Borrowed', 'Returned']
+        enum: ['Borrowed', 'Returned'],
+        default: 'Borrowed'
     },
     return_date: {
         type: Date,
-        required: false
     }
 }, { timestamps: true })
 

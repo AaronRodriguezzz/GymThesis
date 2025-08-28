@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import AdminHeader from '../../components/ui/AdminHeader'
 import { fetchData, updateData } from '../../api/apis';
-import { FaEdit, FaBan, FaEye } from "react-icons/fa";
+import { FaEdit, FaBan, FaEye, FaExchangeAlt, FaHandHolding } from "react-icons/fa";
 import NewEquipmentModal from '../../components/modals/NewEquipmentModal';
 
 const Equipments = () => {
@@ -90,17 +90,17 @@ const Equipments = () => {
                         className="p-2 text-blue-500 hover:text-blue-700" 
                        
                       >
-                        <FaEdit size={25} />
+                        <FaEdit size={20} />
                       </button>
                       <button 
                         className="p-2 text-red-500 hover:text-red-700 disabled:cursor-not-allowed disabled:opacity-50" 
                       >
-                        <FaBan size={25} />
+                        <FaExchangeAlt size={20} />
                       </button>
                       <button 
                         className="p-2 text-green-500 hover:text-green-700" 
                       >
-                        <FaEye size={25} />
+                        <FaEye size={20} />
                       </button>
                     </div>
                   </td>                
