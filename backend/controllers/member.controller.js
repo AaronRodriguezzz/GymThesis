@@ -1,7 +1,6 @@
 import Member from "../models/Member.js"
 
 export const createMembership = async (req, res) => {
-    console.log(req.body);
     try{
         const memberExists = await Member.findOne({ 
             email: req.body.email, 

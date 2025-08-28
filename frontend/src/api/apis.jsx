@@ -27,10 +27,7 @@ export const postData = async (endpoint, data) => {
   try {
     const response = await axios.post(endpoint, data);
 
-    if(response.status === 201){
-        // AlertPopup(response.data.message || 'Error Updating Data', true);
-        return response.data;
-    }
+    return response.data;
 
   } catch (error) {
     console.log(err);
