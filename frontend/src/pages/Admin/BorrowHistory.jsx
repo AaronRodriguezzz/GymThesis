@@ -1,17 +1,48 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AdminHeader from '../../components/ui/AdminHeader'
+import { FaArrowLeft } from "react-icons/fa";
+import { MdClose } from "react-icons/md";
+import { fetchData } from '../../api/apis';
+import { updateData } from '../../api/apis';
 
 const BorrowHistory = () => {
-  // Mock data
-  const mockData = [
-    { id: 1, name: "John Doe", item: "Dumbbell Set", quantity: 2, date: "2025-08-01", status: "Returned" },
-    { id: 2, name: "Jane Smith", item: "Yoga Mat", quantity: 1, date: "2025-08-03", status: "Borrowed" },
-    { id: 3, name: "Mike Johnson", item: "Treadmill Key", quantity: 1, date: "2025-08-05", status: "Overdue" },
-    { id: 4, name: "Emily Davis", item: "Resistance Bands", quantity: 3, date: "2025-08-08", status: "Borrowed" },
-    { id: 4, name: "Emily Davis", item: "Resistance Bands", quantity: 3, date: "2025-08-08", status: "Borrowed" },
-    { id: 4, name: "Emily Davis", item: "Resistance Bands", quantity: 3, date: "2025-08-08", status: "Borrowed" },
-    { id: 4, name: "Emily Davis", item: "Resistance Bands", quantity: 3, date: "2025-08-08", status: "Borrowed" }
-  ];
+
+  const [borrowHistory, setBorrowHistory] = useState([]);
+
+  useEffect(() => {
+
+    const fetchHistory = async () => {
+      try{
+        const response = await fetchData('/api/borrow-history');
+
+        if(response){
+          console.log(response.histories)
+          setBorrowHistory(response.histories);
+        }
+
+      }catch(err){
+        console.log(err);
+      }
+    }
+
+    fetchHistory();
+  },[])
+
+
+  const handleReturn = async (borrowed, status) => {
+
+    borrowed.status = status
+
+    try{
+      const response = await updateData(`/api/borrow-history/${borrowed._id}`, borrowed )
+
+      if(response){
+        window.location.reload();
+      }
+    }catch(err){
+      console.log(err)
+    }
+  }
 
   return (
     <div className='h-screen w-full p-10'>
@@ -28,9 +59,6 @@ const BorrowHistory = () => {
             className='flex-8 rounded bg-gray-900 px-4 py-2 text-white placeholder:text-gray-400' 
             placeholder='Search name, type, quantity, etc...'
           />
-          <button className='flex-1 bg-red-500 text-white px-4 py-2 rounded'>
-            + BORROW
-          </button>
         </div>
 
         {/* Table */}
@@ -38,29 +66,52 @@ const BorrowHistory = () => {
           <table className="w-full  text-sm text-left text-gray-300">
             <thead className="bg-gray-900 text-gray-100 uppercase text-xs">
               <tr>
-                <th className="px-6 py-3">Borrower</th>
-                <th className="px-6 py-3">Item</th>
+                <th className="px-6 py-3">Name</th>
+                <th className="px-6 py-3">Email</th>
+                <th className="px-6 py-3">Phone</th>
+                <th className="px-6 py-3">Member Type</th>
+                <th className="px-6 py-3">Id Presented</th>
+                <th className="px-6 py-3">Equipment</th>
                 <th className="px-6 py-3">Quantity</th>
-                <th className="px-6 py-3">Date</th>
-                <th className="px-6 py-3">Status</th>
+                <th className="px-6 py-3">Action</th>
               </tr>
             </thead>
             <tbody>
-              {mockData.map((row) => (
+              {borrowHistory && [...borrowHistory].sort((a, b) => a.status.localeCompare(b.status)).map((item) => (
                 <tr 
-                  key={row.id} 
-                  className="border-b border-gray-700 hover:bg-gray-700/50"
+                  key={item?.id} 
+                  className={`
+                    border-b border-gray-700 hover:bg-gray-700/50 
+                    ${item.available < 3 && item.status === 'Borrowed' ? 'bg-red-500' : ''}
+                    ${item.status !== 'Borrowed' ? 'opacity-50' : ''}
+
+                  `}
                 >
-                  <td className="px-6 py-3">{row.name}</td>
-                  <td className="px-6 py-3">{row.item}</td>
-                  <td className="px-6 py-3">{row.quantity}</td>
-                  <td className="px-6 py-3">{row.date}</td>
-                  <td className={`px-6 py-3 font-semibold ${
-                    row.status === "Returned" ? "text-green-400" : 
-                    row.status === "Overdue" ? "text-red-400" : 
-                    "text-yellow-400"
-                  }`}>
-                    {row.status}
+                  <td className="px-6 py-3">{item.borrower.fullName}</td>
+                  <td className="px-6 py-3">{item.borrower?.email || 'N/A'}</td>
+                  <td className="px-6 py-3">{item.borrower.phone}</td>
+                  <td 
+                    className={`px-6 py-3 font-semibold ${item.borrower.borrowerType === 'Member' ? 'text-green-500' : 'text-orange-500'}`}
+                  >
+                    {item.borrower.borrowerType}
+                  </td>
+                  <td className="px-6 py-3">{item?.borrower?.idPresented || 'N/A'}</td>
+                  <td className="px-6 py-3">{item?.equipment_id.name}</td>
+                  <td className="px-6 py-3">{item?.quantity}</td>
+                  <td>
+                    <p 
+                      className={`
+                        ${item.status === 'Borrowed' ? 'hidden' : ''}
+                        ${item.status === 'Returned' ? 'text-green-500' : 'text-red-500'}
+
+                      `}
+                    >
+                      {item.status}
+                    </p>
+                    <div className={`space-x-2 ${item.status === 'Returned' || item.status === 'Damaged' ? 'hidden' : ''}`}>
+                      <button className='p-2 rounded-full bg-green-500' onClick={() => handleReturn(item, 'Returned')}><FaArrowLeft/></button>
+                      <button className='p-2 rounded-full bg-red-500' onClick={() => handleReturn(item, 'Damaged')}><MdClose /></button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -68,6 +119,7 @@ const BorrowHistory = () => {
           </table>
         </div>
       </div>
+
     </div>
   )
 }

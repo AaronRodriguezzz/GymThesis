@@ -3,6 +3,7 @@ import AdminHeader from '../../components/ui/AdminHeader'
 import { fetchData, updateData } from '../../api/apis';
 import { FaEdit, FaBan, FaEye, FaExchangeAlt, FaHandHolding } from "react-icons/fa";
 import NewEquipmentModal from '../../components/modals/NewEquipmentModal';
+import BorrowingModal from '../../components/modals/BorrowModal';
 
 const Equipments = () => {
   // Mock data
@@ -18,6 +19,8 @@ const Equipments = () => {
 
   const [equipments, setEquipments] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showBorrowModal, setShowBorrowModal] = useState(false);
+  const [equipmentToBorrow, setEquipmentToBorrow] = useState(null);
 
   useEffect(() => {
 
@@ -94,6 +97,10 @@ const Equipments = () => {
                       </button>
                       <button 
                         className="p-2 text-red-500 hover:text-red-700 disabled:cursor-not-allowed disabled:opacity-50" 
+                        onClick={() => {
+                          setShowBorrowModal(true);
+                          setEquipmentToBorrow(equipment._id);
+                        }}
                       >
                         <FaExchangeAlt size={20} />
                       </button>
@@ -112,6 +119,7 @@ const Equipments = () => {
       </div>
 
       {showModal && <NewEquipmentModal onClose={setShowModal} />}
+      {showBorrowModal && <BorrowingModal onClose={setShowBorrowModal} equipment={equipmentToBorrow} />}
     </div>
   )
 }

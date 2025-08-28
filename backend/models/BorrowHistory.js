@@ -11,7 +11,6 @@ const Borrower = {
     },
     email: {
         type: String,
-        required: true,
     },
     borrowerType: {
         type: String,
@@ -43,7 +42,7 @@ const BorrowHistorySchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['Borrowed', 'Returned'],
+        enum: ['Borrowed', 'Returned', 'Damaged'],
         default: 'Borrowed'
     },
     return_date: {

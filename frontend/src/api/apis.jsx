@@ -30,7 +30,7 @@ export const postData = async (endpoint, data) => {
     return response.data;
 
   } catch (error) {
-    console.log(err);
+    console.log(error);
     // AlertPopup('error', error.response.data.message || 'Error Posting Data', true);
   }
 };
