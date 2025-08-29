@@ -14,20 +14,6 @@ export const createBorrowHistory = async (req, res) => {
     } = req.body;
 
     try{
-        const equipment = await Equipment.findById(equipment_id);
-
-        if(!equipment) {
-            return res.status(404).json({ success: false, message: "Equipment not found" });
-        }
-
-        if(equipment.stock < quantity) {
-            return res.status(400).json({ success: false, message: "Not enough stock available" });
-        }
-
-        // 3. Deduct stock
-        equipment.stock -= quantity;
-        await equipment.save(); 
-
         const borrowHistory = new BorrowHistory({
             borrower: {
                 fullName, 
@@ -51,7 +37,6 @@ export const createBorrowHistory = async (req, res) => {
 }
 
 export const updateBorrowHistory = async (req, res) => {
-    console.log(req.body);
     try{
         const borrowHistory = await BorrowHistory.findById(req.params.id);
 
@@ -59,16 +44,12 @@ export const updateBorrowHistory = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Borrow history not found'});
         }
 
-        const equipment = await Equipment.findById(req.body.equipment_id._id);
-
-        if(!equipment) {
-            return res.status(404).json({ success: false, message: "Equipment not found" });
+        console.log(req.body.status)
+        if(req.body.status === 'Returned' || req.body.status === 'Damaged'){
+            borrowHistory.return_date = new Date();
         }
-
-        equipment.stock += req.body.quantity;
         borrowHistory.status = req.body.status;
 
-        await equipment.save();
         await borrowHistory.save();
 
         res.status(200).json({ success: true, message: 'Update successful'})
@@ -111,13 +92,9 @@ export const getBorrowHistory = async (req, res) => {
             ]
         }
 
-        // if(status && status !== 'All'){
-        //     query.status = status
-        // }
-
-        // if(plan){
-        //     query.plan = plan
-        // }
+        if(status && status !== 'All'){
+            query.status = status
+        }
 
         const histories = await BorrowHistory
             .find()

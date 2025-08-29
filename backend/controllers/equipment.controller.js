@@ -3,8 +3,6 @@ import { deleteImage, uploadImage } from "../services/cloudinary.service.js";
 
 export const createEquipment = async (req, res) => {
 
-    console.log(req.body);
-
     try{
         const equipmentExists = await Equipment.findOne({ name: req.body.name });
 

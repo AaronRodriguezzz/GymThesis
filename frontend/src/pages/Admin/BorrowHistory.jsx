@@ -4,6 +4,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
 import { fetchData } from '../../api/apis';
 import { updateData } from '../../api/apis';
+import { formatDate } from '../../utils/dateUtils';
 
 const BorrowHistory = () => {
 
@@ -31,16 +32,18 @@ const BorrowHistory = () => {
 
   const handleReturn = async (borrowed, status) => {
 
-    borrowed.status = status
+    if(confirm(`Return this ${status === 'Damaged' ? status : ''} item?`)){
+      borrowed.status = status
 
-    try{
-      const response = await updateData(`/api/borrow-history/${borrowed._id}`, borrowed )
+      try{
+        const response = await updateData(`/api/borrow-history/${borrowed._id}`, borrowed )
 
-      if(response){
-        window.location.reload();
+        if(response){
+          window.location.reload();
+        }
+      }catch(err){
+        console.log(err)
       }
-    }catch(err){
-      console.log(err)
     }
   }
 
@@ -73,6 +76,8 @@ const BorrowHistory = () => {
                 <th className="px-6 py-3">Id Presented</th>
                 <th className="px-6 py-3">Equipment</th>
                 <th className="px-6 py-3">Quantity</th>
+                <th className="px-6 py-3">Date Borrowed</th>
+                <th className="px-6 py-3">Date Returned</th>
                 <th className="px-6 py-3">Action</th>
               </tr>
             </thead>
@@ -98,6 +103,8 @@ const BorrowHistory = () => {
                   <td className="px-6 py-3">{item?.borrower?.idPresented || 'N/A'}</td>
                   <td className="px-6 py-3">{item?.equipment_id.name}</td>
                   <td className="px-6 py-3">{item?.quantity}</td>
+                  <td className="px-6 py-3">{formatDate(new Date(item?.createdAt))}</td>
+                  <td className="px-6 py-3">{item?.return_date ? formatDate(new Date(item?.return_date)) : ''}</td>
                   <td>
                     <p 
                       className={`

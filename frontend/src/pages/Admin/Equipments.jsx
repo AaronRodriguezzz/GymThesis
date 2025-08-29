@@ -29,7 +29,6 @@ const Equipments = () => {
         const res = await fetchData('/api/equipments')
 
         if(res.success){
-          console.log(res.equipments);
           setEquipments(res.equipments);
         }
       }catch(err){
@@ -70,6 +69,7 @@ const Equipments = () => {
                 <th className="px-6 py-3">SKU</th>
                 <th className="px-6 py-3">Name</th>
                 <th className="px-6 py-3">Stock</th>
+                <th className="px-6 py-3">Available</th>
                 <th className="px-6 py-3">Category</th>
                 <th className="px-6 py-3">Action</th>
               </tr>
@@ -86,6 +86,7 @@ const Equipments = () => {
                   <td className="px-6 py-3">{equipment.sku}</td>
                   <td className="px-6 py-3">{equipment.name}</td>
                   <td className="px-6 py-3">{equipment.stock}</td>
+                  <td className="px-6 py-3 font-bold">{equipment.available}</td>
                   <td className="px-6 py-3">{equipment.category}</td>
                   <td>
                     <div className="flex">
