@@ -24,6 +24,7 @@ export const createProduct = async (req, res) => {
 }
 
 export const soldProduct = async (req, res) => {
+
     const { 
         products, 
         totalPrice,
@@ -31,6 +32,8 @@ export const soldProduct = async (req, res) => {
         paymentAmount, 
         change 
     } = req.body;
+    
+    console.log(req.body);
 
     if(!req.body){
         return res.status(409).json({ success: false, message: 'Payload did not receive'});
@@ -41,17 +44,17 @@ export const soldProduct = async (req, res) => {
         await Promise.all(
             products.map(product => 
                 Product.findByIdAndUpdate(
-                    product._id,
-                    { stock: product.stock - product.checkOutQuantity},
+                    product.id,
+                    { stock: product.stock - product.quantity},
                     { new: true }
                 ),
             )
         )
 
         const sales = new ProductSales ({ 
-            products: products.map(p => ({
-                product: p._id,
-                quantity: p.checkOutQuantity
+            products: products.map(p => ({ 
+                product: p.id,
+                quantity: p.quantity
             })),
             totalPrice,
             modeOfPayment,
@@ -61,7 +64,7 @@ export const soldProduct = async (req, res) => {
 
         await sales.save();
 
-        res.status(201).json({ saved: true})
+        res.status(200).json({ success: true})
         
     }catch(err){
         console.log(err);
@@ -143,6 +146,48 @@ export const getProducts = async (req, res) => {
         })
         
     }catch(err){
+        res.status(500).json({ success: false, message: err.message });
+    }
+}
+
+export const getProductSales = async (req, res) => {
+    try{
+        const page = req.query.page || 1;
+        const limit = req.query.limit || 20;
+        const skip = (page - 1) * limit;
+        const searchTerm = req.query.searchTerm || '';
+        const category = req.query.category || '';
+
+        let query = {};
+
+        if(searchTerm){
+            query.$or = [
+                { name: { $regex: searchTerm, $options: "i" } },
+                { sku: { $regex: searchTerm, $options: "i" } },
+            ]
+        }
+
+        if(category && category !== 'All'){
+            query.category = category
+        }
+
+        const sales = await ProductSales.find(query)
+        .skip(skip)
+        .limit(limit)
+        .populate('products.product');      
+
+        const totalSalesCount = await ProductSales.countDocuments(query);
+
+        res.status(200).json({
+            success: true,
+            totalPages: Math.ceil(totalSalesCount / limit),
+            page,
+            sales,
+            totalSalesCount
+        })
+        
+    }catch(err){
+        console.log(err);
         res.status(500).json({ success: false, message: err.message });
     }
 }

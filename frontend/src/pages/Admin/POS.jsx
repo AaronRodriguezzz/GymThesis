@@ -36,7 +36,6 @@ const Sales = () => {
 
 
   const handleAdd = (product) => {
-    console.log(product);
     setCheckoutProducts((prev) => {
       // Check if product already exists in cart
       const existing = prev.find((item) => item.product._id === product._id);
@@ -71,11 +70,12 @@ const Sales = () => {
 
     if (list.product._id === id) {
       const newQuantity = value;
-        return {
-          ...list,
-          quantity: newQuantity, 
-        };
-      }
+      return {
+        ...list,
+        quantity: newQuantity, 
+        lineTotal: list.product.price * newQuantity
+      };
+    }
       return list;
     });
 

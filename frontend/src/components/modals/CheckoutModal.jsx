@@ -1,34 +1,57 @@
 import React, { useState } from "react";
 import { MdClose } from "react-icons/md";
+import { updateData } from "../../api/apis";
 
 const CheckoutModal = ({ onClose, checkoutProducts, totalPrice }) => {
-  const [paymentMethod, setPaymentMethod] = useState("Cash");
+  const [modeOfPayment, setModeOfPayment] = useState("Cash");
   const [paymentAmount, setPaymentAmount] = useState("");
   const [change, setChange] = useState(0);
 
   const handlePaymentChange = (e) => {
     const value = e.target.value;
+    
     setPaymentAmount(value);
 
     const numeric = parseFloat(value || 0);
-    if (!isNaN(numeric) && totalPrice <= paymentAmount) {
+    if (!isNaN(numeric) && totalPrice <= value) {
       setChange(numeric - totalPrice);
     } else {
       setChange(0);
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!paymentAmount || parseFloat(paymentAmount) < totalPrice) {
-      alert("Insufficient payment!");
-      return;
+    if(paymentAmount === 0) return
+
+    const payload = {
+      products: checkoutProducts.map(c => (
+        {
+          id: c.product._id,
+          quantity: c.quantity,
+          stock: c.product.stock
+        }
+      )),
+      totalPrice,
+      paymentAmount,
+      modeOfPayment,
+      change
     }
 
-    // 🔗 You can save checkout transaction here via API call
-    alert("Payment Successful!");
-    onClose(false);
+    try{
+      const res = await updateData('/api/products', payload);
+
+      console.log(res);
+      if(res.success){
+        alert('Check out successful');
+        onClose(false);
+        window.location.reload();
+      }
+
+    }catch(err){
+      console.log(err);
+    }
   };
 
   return (
@@ -65,8 +88,8 @@ const CheckoutModal = ({ onClose, checkoutProducts, totalPrice }) => {
         <div>
           <label className="block text-sm mb-2">Payment Method</label>
           <select
-            value={paymentMethod}
-            onChange={(e) => setPaymentMethod(e.target.value)}
+            value={modeOfPayment}
+            onChange={(e) => setModeOfPayment(e.target.value)}
             className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none"
           >
             <option value="Cash">Cash</option>

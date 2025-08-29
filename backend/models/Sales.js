@@ -1,17 +1,17 @@
 import mongoose, { Schema } from "mongoose";
 
 const ProductSalesSchema = new Schema({
-    products: {
-        productId: {
+    products: [{
+        product: {
             type: mongoose.Schema.Types.ObjectId, 
-            ref: 'Product',
+            ref: 'Products',
             required: true,
         },
-        quantity: [{
+        quantity: {
             type: Number,
             required: true
-        }]
-    },
+        },
+    }],
     totalPrice: {
         type: Number,
         required: true
