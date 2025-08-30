@@ -69,12 +69,15 @@ const BorrowHistory = () => {
           <table className="w-full  text-sm text-left text-gray-300">
             <thead className="bg-gray-900 text-gray-100 uppercase text-xs">
               <tr>
-                <th className="px-6 py-3">Image</th>
-                <th className="px-6 py-3">SKU</th>
                 <th className="px-6 py-3">Name</th>
-                <th className="px-6 py-3">Price</th>
-                <th className="px-6 py-3">Stock</th>
-                <th className="px-6 py-3">Category</th>
+                <th className="px-6 py-3">Email</th>
+                <th className="px-6 py-3">Phone</th>
+                <th className="px-6 py-3">Member Type</th>
+                <th className="px-6 py-3">Id Presented</th>
+                <th className="px-6 py-3">Equipment</th>
+                <th className="px-6 py-3">Quantity</th>
+                <th className="px-6 py-3">Date Borrowed</th>
+                <th className="px-6 py-3">Date Returned</th>
                 <th className="px-6 py-3">Action</th>
               </tr>
             </thead>
