@@ -28,10 +28,10 @@ export default function Sidebar() {
     ];
 
     return (
-        <div className="fixed w-[220px] h-full bg-gradient-to-b from-gray-900 to-black p-4">
+        <div className="fixed w-[220px] h-full bg-blue-800 p-4">
         {/* Logo */}
         <h1 className="font-bold text-4xl my-8 text-white">
-            GYM<span className="text-red-500">Pro</span>
+            Dan's <br/> <span className="text-blue-500">Fitness</span>
         </h1>
 
         {/* Nav Menu */}
@@ -46,8 +46,8 @@ export default function Sidebar() {
                 className={`flex items-center gap-3 px-4 py-2 rounded-md transition-colors
                 ${
                     isActive === item.name
-                    ? "bg-red-500 text-white"
-                    : "hover:text-red-500 hover:bg-white/10"
+                    ? "bg-blue-900 text-white"
+                    : "hover:text-blue-500 hover:bg-white hover:text-black"
                 }`}
             >
                 {item.icon} {item.name}

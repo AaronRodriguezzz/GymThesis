@@ -101,7 +101,7 @@ export default function ChatbotComponent() {
               >
                 <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ring-2 ${
                   message.sender === 'user' 
-                    ? 'bg-gradient-to-br from-red-500 to-pink-600 ring-red-400 ring-opacity-50' 
+                    ? 'bg-gradient-to-br from-blue-500 to-black-600 ring-blue-400 ring-opacity-50' 
                     : 'bg-gradient-to-br from-gray-700 to-gray-600 ring-gray-500 ring-opacity-50'
                 }`}>
                   {message.sender === 'user' ? (
@@ -115,7 +115,7 @@ export default function ChatbotComponent() {
                 }`}>
                   <div className={`inline-block p-3 rounded-2xl ${
                     message.sender === 'user'
-                      ? 'bg-gradient-to-br from-red-600 to-red-700 text-white rounded-br-sm shadow-lg'
+                      ? 'bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-br-sm shadow-lg'
                       : 'bg-gray-800 text-gray-100 rounded-bl-sm shadow-lg border border-gray-700'
                   }`}>
                     <p className="text-sm leading-relaxed">{message.text}</p>
@@ -174,7 +174,7 @@ export default function ChatbotComponent() {
         className={`w-14 h-14 rounded-full shadow-xl flex items-center justify-center transition-all duration-300 transform hover:scale-110 ${
           isOpen 
             ? 'bg-gray-700 hover:bg-gray-600 shadow-gray-900/50' 
-            : 'bg-gradient-to-br from-red-600 via-red-500 to-pink-600 hover:from-red-700 hover:via-red-600 hover:to-pink-700 shadow-red-500/25'
+            : 'bg-gradient-to-br from-blue-600 via-blue-500 to-black-600 hover:from-blue-700 hover:via-blue-600 hover:to-blue-700 shadow-blue-500/25'
         }`}
       >
         <div className="relative">

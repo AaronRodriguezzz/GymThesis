@@ -12,6 +12,7 @@ const Members = () => {
   const [memberToUpdate, setMemberToUpdate] = useState(null); 
   const [goalModalOpen, setGoalModalOpen] = useState(false);
   const [memberToView, setMemberToView] = useState(null);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
 
@@ -31,6 +32,18 @@ const Members = () => {
     fetchMembers();
 
   }, []);
+
+  const filteredMembers = members.filter((member) => {
+    const searchLower = search.toLowerCase();
+    return (
+      member?.email?.toLowerCase().includes(searchLower) ||
+      member?.fullName?.toLowerCase().includes(searchLower) ||
+      member?.phone?.toLowerCase().includes(searchLower) ||
+      member?.plan?.toLowerCase().includes(searchLower) ||
+      member?.status?.toLowerCase().includes(searchLower) ||
+      member?.expirationDate?.toString().toLowerCase().includes(searchLower)
+    );
+  });
 
 
   const updateMemberStatus = async (memberId, newStatus) => {
@@ -54,23 +67,24 @@ const Members = () => {
         description={'Handles the list of registered members with their profiles and status.'} 
       />
       
-      <div className='h-[85%] rounded bg-gray-500 mt-4 p-4'>
+      <div className='h-[85%] rounded bg-white/50 shadow-md mt-4 p-4'>
         {/* Search + Button */}
         <div className='flex w-full space-x-2 mb-4'>
           <input 
             type="text" 
-            className='flex-8 rounded bg-gray-900 px-4 py-2 text-white placeholder:text-gray-400' 
+            className='flex-8 rounded bg-white shadow-lg px-4 py-2 text-black caret-blue-500 outline-0 placeholder:text-gray-400' 
             placeholder='Search name, type, quantity, etc...'
+            onChange={(e) => setSearch(e.target.value)}
           />
-          <button className='flex-1 bg-red-500 text-white px-4 py-2 rounded' onClick={() => setShowModal(true)}>
+          <button className='flex-1 bg-blue-500 text-white px-4 py-2 rounded' onClick={() => setShowModal(true)}>
             + NEW MEMBER
           </button>
         </div>
 
         {/* Table */}
-        <div className="overflow-y-auto overflow-x-auto custom-scrollbar rounded h-[90%] bg-gray-800">
+        <div className="overflow-y-auto overflow-x-auto custom-scrollbar rounded h-[90%] bg-white">
           <table className="w-full  text-sm text-left text-gray-300">
-            <thead className="bg-gray-900 text-gray-100 uppercase text-xs">
+            <thead className="bg-blue-900 text-white uppercase text-xs">
               <tr>
                 <th className="px-6 py-3">Email</th>
                 <th className="px-6 py-3">Full Name</th>
@@ -82,10 +96,10 @@ const Members = () => {
               </tr>
             </thead>
             <tbody>
-              {members && members.map((member, index) => (
+              {filteredMembers.map((member, index) => (
                 <tr 
                   key={index} 
-                  className="border-b border-gray-700 hover:bg-gray-700/50"
+                  className="border-b border-gray-700/20 text-black bg-white hover:bg-gray-700/50 "
                 >
                   <td className="px-6 py-3">{member?.email}</td>
                   <td className="px-6 py-3">{member?.fullName}</td>

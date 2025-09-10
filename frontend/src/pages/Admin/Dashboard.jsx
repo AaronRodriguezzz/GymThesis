@@ -9,13 +9,13 @@ import AdminHeader from '../../components/ui/AdminHeader';
 
 const MetricCard = ({ title, value, icon }) => {
   return(
-    <div className="flex-1 w-[170px] lg:w-[220px] bg-gray-500 p-4 rounded-md shadow-md flex items-center gap-4">
-      <div className={`p-3 rounded-full bg-red-500`}>
+    <div className="flex-1 w-[170px] lg:w-[220px] bg-white/50 p-4 rounded-md shadow-md flex items-center gap-4">
+      <div className={`p-3 rounded-full bg-blue-500`}>
         {icon}
       </div>
       <div>
-        <h2 className="text-sm lg:text-md font-semibold text-gray-200 tracking-tight">{title}</h2>
-        <p className="text-md lg:text-xl font-bold text-gray-200 tracking-tighter">{value}</p>
+        <h2 className="text-sm lg:text-md font-semibold text-gray-700 tracking-tight">{title}</h2>
+        <p className="text-md lg:text-xl font-bold text-gray-700 tracking-tighter">{value}</p>
       </div>
     </div>
   )
@@ -52,20 +52,20 @@ const Dashboard = () => {
 
         <div className='h-[80%] mt-8'>
             <div className='flex gap-x-4 h-[30%] mb-4'>
-                <div className='flex-1 bg-gray-500 rounded'>
+                <div className='flex-1 bg-white/50 shadow-md rounded'>
 
                 </div>  
 
-                <div className='flex-1 bg-gray-500 rounded'>
+                <div className='flex-1 bg-white/50 shadow-md rounded'>
 
                 </div>
 
-                <div className='flex-1 bg-gray-500 rounded'>
+                <div className='flex-1 bg-white/50 shadow-md  rounded'>
 
                 </div>
             </div>
 
-            <div className='h-[65%] bg-gray-500 rounded'>
+            <div className='h-[65%] bg-white/50 shadow-md  rounded'>
 
             </div>
         </div>

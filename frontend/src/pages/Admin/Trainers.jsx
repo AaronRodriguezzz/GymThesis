@@ -20,23 +20,23 @@ const Product = () => {
         description={'Manages gym-related products available for sale.'} 
       />
       
-      <div className='h-[85%] rounded bg-gray-500 mt-4 p-4'>
+      <div className='h-[85%] rounded bg-white mt-4 p-4'>
         {/* Search + Button */}
         <div className='flex w-full space-x-2 mb-4'>
           <input 
             type="text" 
-            className='flex-8 rounded bg-gray-900 px-4 py-2 text-white placeholder:text-gray-400' 
+            className='flex-8 rounded bg-white shadow-md px-4 py-2 text-black caret-blue-500 outline-0 placeholder:text-gray-400' 
             placeholder='Search name, type, quantity, etc...'
           />
-          <button className='flex-1 bg-red-500 text-white px-4 py-2 rounded'>
+          <button className='flex-1 bg-blue-500 text-white px-4 py-2 rounded'>
             + NEW TRAINER
           </button>
         </div>
 
         {/* Table */}
-        <div className="overflow-y-auto overflow-x-auto custom-scrollbar rounded h-[90%] bg-gray-800">
-          <table className="w-full  text-sm text-left text-gray-300">
-            <thead className="bg-gray-900 text-gray-100 uppercase text-xs">
+        <div className="overflow-y-auto overflow-x-auto custom-scrollbar rounded h-[90%] bg-white shadow-md">
+          <table className="w-full text-sm text-left text-gray-300">
+            <thead className="bg-blue-900 text-gray-100 uppercase text-xs">
               <tr>
                 <th className="px-6 py-3">Borrower</th>
                 <th className="px-6 py-3">Item</th>
@@ -49,7 +49,7 @@ const Product = () => {
               {mockData.map((row) => (
                 <tr 
                   key={row.id} 
-                  className="border-b border-gray-700 hover:bg-gray-700/50"
+                  className="border-b border-gray-700/20 hover:bg-gray-200/50 text-black"
                 >
                   <td className="px-6 py-3">{row.name}</td>
                   <td className="px-6 py-3">{row.item}</td>

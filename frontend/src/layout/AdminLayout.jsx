@@ -5,7 +5,7 @@ const AdminLayout = () => {
     return(
         <div>
             <SideBar />
-            <main className="bg-gray-950 overflow-x-hidden pl-50">
+            <main className="bg-white/10 overflow-x-hidden pl-50">
                 <Outlet />
             </main>
         </div>

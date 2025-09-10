@@ -6,7 +6,7 @@ const AdminHeader = ({ title,description }) => {
     <div className="flex items-center justify-between">
       {/* Left: Title & description */}
       <div>
-        <h1 className="text-[30px] font-bold tracking-tighter text-red-500">
+        <h1 className="text-[30px] font-bold tracking-tighter text-blue-500">
           {title}
         </h1>
         <p className="text-gray-400 tracking-tight">{description}</p>
@@ -18,7 +18,7 @@ const AdminHeader = ({ title,description }) => {
         <button className="relative p-2 rounded-full hover:bg-gray-100">
           <FaBell className="w-6 h-6 text-gray-600" />
           {/* Badge */}
-          <span className="absolute top-1 right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+          <span className="absolute top-1 right-1 bg-blue-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
             3
           </span>
         </button>

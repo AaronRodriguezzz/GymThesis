@@ -9,6 +9,7 @@ import { formatDate } from '../../utils/dateUtils';
 const BorrowHistory = () => {
 
   const [borrowHistory, setBorrowHistory] = useState([]);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
 
@@ -28,6 +29,19 @@ const BorrowHistory = () => {
 
     fetchHistory();
   },[])
+
+  const filteredHistory = borrowHistory.filter((item) => {
+    const searchLower = search.toLowerCase();
+    return (
+      item.borrower?.fullName?.toLowerCase().includes(searchLower) ||
+      item.borrower?.email?.toLowerCase().includes(searchLower) ||
+      item.borrower?.phone?.toLowerCase().includes(searchLower) ||
+      item.borrower?.borrowerType?.toLowerCase().includes(searchLower) ||
+      item?.equipment_id?.name?.toLowerCase().includes(searchLower) ||
+      String(item?.quantity).includes(searchLower) ||
+      item?.status?.toLowerCase().includes(searchLower)
+    );
+  });
 
 
   const handleReturn = async (borrowed, status) => {
@@ -54,20 +68,21 @@ const BorrowHistory = () => {
         description={'Displays a record of all borrowed items with dates and details.'} 
       />
       
-      <div className='h-[85%] rounded bg-gray-500 mt-4 p-4'>
+      <div className='h-[85%] rounded bg-white/50 mt-4 p-4 shadow-md'>
         {/* Search + Button */}
         <div className='flex w-full space-x-2 mb-4'>
           <input 
             type="text" 
-            className='flex-8 rounded bg-gray-900 px-4 py-2 text-white placeholder:text-gray-400' 
+            className='flex-8 rounded bg-white shadow-lg px-4 py-2 text-black caret-blue-500 outline-0 placeholder:text-gray-400' 
             placeholder='Search name, type, quantity, etc...'
+            onChange={(e) => setSearch(e.target.value)}
           />
         </div>
 
         {/* Table */}
-        <div className="overflow-y-auto overflow-x-auto custom-scrollbar rounded h-[90%] bg-gray-800">
+        <div className="overflow-y-auto overflow-x-auto custom-scrollbar rounded h-[90%] bg-white">
           <table className="w-full  text-sm text-left text-gray-300">
-            <thead className="bg-gray-900 text-gray-100 uppercase text-xs">
+            <thead className="bg-blue-900 text-white uppercase text-xs">
               <tr>
                 <th className="px-6 py-3">Name</th>
                 <th className="px-6 py-3">Email</th>
@@ -82,14 +97,13 @@ const BorrowHistory = () => {
               </tr>
             </thead>
             <tbody>
-              {borrowHistory && [...borrowHistory].sort((a, b) => a.status.localeCompare(b.status)).map((item) => (
+              {[...filteredHistory].sort((a, b) => a.status.localeCompare(b.status)).map((item) => (
                 <tr 
                   key={item?.id} 
                   className={`
-                    border-b border-gray-700 hover:bg-gray-700/50 
-                    ${item.available < 3 && item.status === 'Borrowed' ? 'bg-red-500' : ''}
+                    border-b border-gray-700 text-black hover:bg-gray-700/50 
+                    ${item.status === 'Borrowed' ? 'bg-red-400 text-white' : ''}
                     ${item.status !== 'Borrowed' ? 'opacity-50' : ''}
-
                   `}
                 >
                   <td className="px-6 py-3">{item.borrower.fullName}</td>

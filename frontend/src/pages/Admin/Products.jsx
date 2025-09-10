@@ -11,6 +11,7 @@ const Equipments = () => {
   const [showModal, setShowModal] = useState(false);
   const [showBorrowModal, setShowBorrowModal] = useState(false);
   const [equipmentToBorrow, setEquipmentToBorrow] = useState(null);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
 
@@ -31,6 +32,17 @@ const Equipments = () => {
 
   },[])
 
+  const filteredProducts = products.filter((product) => {
+    const searchLower = search.toLowerCase();
+    return (
+      product?.sku?.toLowerCase().includes(searchLower) ||
+      product?.name?.toLowerCase().includes(searchLower) ||
+      product?.category?.toLowerCase().includes(searchLower) ||
+      product?.stock?.toString().includes(searchLower) ||
+      product?.price?.toString().includes(searchLower)
+    );
+  });
+
   return (
     <div className='h-screen w-full p-10'>
       <AdminHeader 
@@ -38,23 +50,24 @@ const Equipments = () => {
         description={'Manages gym equipment inventory, availability, and maintenance.'} 
       />
       
-      <div className='h-[85%] rounded bg-gray-500 mt-4 p-4'>
+      <div className='h-[85%] rounded bg-white/50 mt-4 p-4'>
         {/* Search + Button */}
         <div className='flex w-full space-x-2 mb-4'>
           <input 
             type="text" 
-            className='flex-8 rounded bg-gray-900 px-4 py-2 text-white placeholder:text-gray-400' 
+            className='flex-8 rounded bg-white shadow-md px-4 py-2 text-black caret-blue-500 outline-0 placeholder:text-gray-400' 
             placeholder='Search name, type, quantity, etc...'
+            onChange={(e) => setSearch(e.target.value)}
           />
-          <button className='flex-1 bg-red-500 text-white px-4 py-2 rounded' onClick={() => setShowModal(true)}>
+          <button className='flex-1 bg-blue-500 text-white px-4 py-2 rounded' onClick={() => setShowModal(true)}>
             + NEW PRODUCT
           </button>
         </div>
 
         {/* Table */}
-        <div className="overflow-y-auto overflow-x-auto custom-scrollbar rounded h-[90%] bg-gray-800">
+        <div className="overflow-y-auto overflow-x-auto custom-scrollbar rounded h-[90%] bg-white">
           <table className="w-full  text-sm text-left text-gray-300">
-            <thead className="bg-gray-900 text-gray-100 uppercase text-xs">
+            <thead className="bg-blue-900 text-gray-100 uppercase text-xs">
               <tr>
                 <th className="px-6 py-3">Image</th>
                 <th className="px-6 py-3">SKU</th>
@@ -66,10 +79,10 @@ const Equipments = () => {
               </tr>
             </thead>
             <tbody>
-              {products && products.map((product) => (
+              {filteredProducts.map((product) => (
                 <tr 
                   key={product._id} 
-                  className="border-b border-gray-700 hover:bg-gray-700/50"
+                  className="border-b border-gray-700/20 hover:bg-gray-200/50 text-black"
                 >
                   <td className="px-6 py-3">
                     <img src={product.image?.imageUrl} alt="" className='w-20 h-20 rounded-full' />

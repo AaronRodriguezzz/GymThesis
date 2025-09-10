@@ -13,23 +13,23 @@ export default function Header() {
   };
   
   return (
-    <header className="bg-black text-white fixed top-0 left-0 w-full z-50">
+    <header className="bg-white text-black fixed top-0 left-0 w-full z-50 shadow">
       <div className="container mx-auto flex justify-between items-center px-6 py-4">
-        <div className="text-2xl font-bold tracking-wide">
-          GYM<span className="text-red-500">Pro</span>
+        <div className="text-2xl font-bold tracking-tight">
+          Don's<span className="text-blue-500">Fitness</span>
         </div>
 
         {/* Desktop Menu */}
         <nav className="hidden md:flex gap-6">
-          <a className="hover:text-red-500 cursor-pointer" onClick={() => navClicked('Home')}>Home</a>
-          <a className="hover:text-red-500 cursor-pointer" onClick={() => navClicked('About')}>About</a>
-          <a className="hover:text-red-500 cursor-pointer" onClick={() => navClicked('Classes')}>Classes</a>
-          <a className="hover:text-red-500 cursor-pointer" onClick={() => navClicked('Trainers')}>Trainers</a>
-          <a className="hover:text-red-500 cursor-pointer" onClick={() => navClicked('Pricing')}>Pricing</a>
-          <a className="hover:text-red-500 cursor-pointer" onClick={() => navClicked('Contact')}>Contact</a>
+          <a className="hover:text-blue-500 cursor-pointer" onClick={() => navClicked('Home')}>Home</a>
+          <a className="hover:text-blue-500 cursor-pointer" onClick={() => navClicked('About')}>About</a>
+          <a className="hover:text-blue-500 cursor-pointer" onClick={() => navClicked('Classes')}>Classes</a>
+          <a className="hover:text-blue-500 cursor-pointer" onClick={() => navClicked('Trainers')}>Trainers</a>
+          <a className="hover:text-blue-500 cursor-pointer" onClick={() => navClicked('Pricing')}>Pricing</a>
+          <a className="hover:text-blue-500 cursor-pointer" onClick={() => navClicked('Contact')}>Contact</a>
         </nav>
 
-        <a href="#join" className="hidden md:inline-block bg-red-500 px-4 py-2 rounded-lg font-semibold hover:bg-red-600">
+        <a href="#join" className="hidden text-white md:inline-block bg-blue-500 px-4 py-2 rounded-lg font-semibold hover:bg-blue-600">
           Join Now
         </a>
 
@@ -50,7 +50,7 @@ export default function Header() {
           <a href="#trainers" onClick={() => setMenuOpen(false)}>Trainers</a>
           <a href="#pricing" onClick={() => setMenuOpen(false)}>Pricing</a>
           <a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a>
-          <a href="#join" className="bg-red-500 px-4 py-2 rounded-lg font-semibold hover:bg-red-600">
+          <a href="#join" className="bg-blue-500 px-4 py-2 rounded-lg font-semibold hover:bg-blue-600">
             Join Now
           </a>
         </div>
