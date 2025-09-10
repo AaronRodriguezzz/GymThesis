@@ -10,6 +10,7 @@ const Sales = () => {
   const [productSales, setProductSales] = useState([]);
   const [saleViewOpen, setSaleViewOpen] = useState(false);
   const [saleToView, setSaleToView] = useState(null);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
   
@@ -32,7 +33,7 @@ const Sales = () => {
 
 
   const filtered = productSales.filter((sale) => {
-    const lower = searchTerm.toLowerCase();
+    const lower = search.toLowerCase();
     const productNames = sale.products
       ?.map((p) => p.name)
       .join(", ")
@@ -58,11 +59,11 @@ const Sales = () => {
         {/* Search + Button */}
 
         <input 
-            type="text" 
-            className='w-full rounded bg-white shadow-md px-4 py-2 mb-4 text-black outline-none caret-blue-500 placeholder:text-gray-400' 
-            placeholder='Search name, type, quantity, etc...'
-          />
-
+          type="text" 
+          className='w-full rounded bg-white shadow-md px-4 py-2 mb-4 text-black outline-none caret-blue-500 placeholder:text-gray-400' 
+          placeholder='Search name, type, quantity, etc...'
+          onChange={(e) => setSearch(e.target.value)}
+        />
 
         {/* Table */}
         <div className="overflow-y-auto overflow-x-auto custom-scrollbar rounded h-[90%] bg-white shadow-md">
