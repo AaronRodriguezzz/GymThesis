@@ -5,44 +5,34 @@ import { MdClose } from "react-icons/md";
 import { fetchData } from '../../api/apis';
 import { updateData } from '../../api/apis';
 import { formatDate } from '../../utils/dateUtils';
+import { Pagination } from "@mui/material"
 
 const BorrowHistory = () => {
-
+  const [page, setPage] = useState(1);
   const [borrowHistory, setBorrowHistory] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState('');
 
-  useEffect(() => {
-
-    const fetchHistory = async () => {
-      try{
-        const response = await fetchData('/api/borrow-history');
-
-        if(response){
-          console.log(response.histories)
-          setBorrowHistory(response.histories);
-        }
-
-      }catch(err){
-        console.log(err);
+  const fetchHistory = async () => {
+    try{
+      const response = await fetchData(`/api/borrow-history?searchTerm=${search}&limit=20&page=${page}`);
+      if(response) {
+        setBorrowHistory(response.histories);
+        setTotalPages(response.totalPages);
       }
+
+    }catch(err){
+      console.log(err);
     }
+  }
 
-    fetchHistory();
-  },[])
-
-  const filteredHistory = borrowHistory.filter((item) => {
-    const searchLower = search.toLowerCase();
-    return (
-      item.borrower?.fullName?.toLowerCase().includes(searchLower) ||
-      item.borrower?.email?.toLowerCase().includes(searchLower) ||
-      item.borrower?.phone?.toLowerCase().includes(searchLower) ||
-      item.borrower?.borrowerType?.toLowerCase().includes(searchLower) ||
-      item?.equipment_id?.name?.toLowerCase().includes(searchLower) ||
-      String(item?.quantity).includes(searchLower) ||
-      item?.status?.toLowerCase().includes(searchLower)
-    );
-  });
-
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      fetchHistory()
+    }, 300); 
+        
+    return () => clearTimeout(delayDebounce);
+  },[search, page])
 
   const handleReturn = async (borrowed, status) => {
 
@@ -61,6 +51,10 @@ const BorrowHistory = () => {
     }
   }
 
+  const handlePage = (_event, value) => {
+    setPage(value)
+  };
+
   return (
     <div className='h-screen w-full p-10'>
       <AdminHeader 
@@ -68,19 +62,19 @@ const BorrowHistory = () => {
         description={'Displays a record of all borrowed items with dates and details.'} 
       />
       
-      <div className='h-[85%] rounded bg-white/50 mt-4 p-4 shadow-md'>
+      <div className='h-[85%] rounded bg-white/50 mt-4 p-4 shadow-md flex flex-col gap-5 border border-gray-200'>
         {/* Search + Button */}
         <div className='flex w-full space-x-2 mb-4'>
           <input 
             type="text" 
-            className='flex-8 rounded bg-white shadow-lg px-4 py-2 text-black caret-blue-500 outline-0 placeholder:text-gray-400' 
+            className='border border-gray-200 flex-8 rounded-lg bg-white shadow-lg px-4 py-2 text-black caret-blue-500 outline-0 placeholder:text-gray-400' 
             placeholder='Search name, type, quantity, etc...'
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
 
         {/* Table */}
-        <div className="overflow-y-auto overflow-x-auto custom-scrollbar rounded h-[90%] bg-white">
+        <div className="overflow-y-auto overflow-x-auto custom-scrollbar rounded bg-white flex-grow min-h-0">
           <table className="w-full  text-sm text-left text-gray-300">
             <thead className="bg-blue-900 text-white uppercase text-xs">
               <tr>
@@ -97,7 +91,7 @@ const BorrowHistory = () => {
               </tr>
             </thead>
             <tbody>
-              {[...filteredHistory].sort((a, b) => a.status.localeCompare(b.status)).map((item) => (
+              {borrowHistory.sort((a, b) => a.status.localeCompare(b.status)).map((item) => (
                 <tr 
                   key={item?.id} 
                   className={`
@@ -139,6 +133,9 @@ const BorrowHistory = () => {
             </tbody>
           </table>
         </div>
+        <Pagination 
+            count={totalPages} page={page} onChange={handlePage} color='primary'
+        />
       </div>
 
     </div>

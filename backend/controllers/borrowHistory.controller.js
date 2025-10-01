@@ -97,7 +97,7 @@ export const getBorrowHistory = async (req, res) => {
         }
 
         const histories = await BorrowHistory
-            .find()
+            .find(query)
             .populate('equipment_id')
             .skip(skip)
             .limit(limit)

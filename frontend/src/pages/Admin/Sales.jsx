@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import ViewSales from '../../components/modals/ViewSalesModal';
 
 const Sales = () => {
-
+  const [searchTerm, setSearchTerm] = useState('');
   const [productSales, setProductSales] = useState([]);
   const [saleViewOpen, setSaleViewOpen] = useState(false);
   const [saleToView, setSaleToView] = useState(null);
@@ -29,7 +29,6 @@ const Sales = () => {
     fetchSales();
   
   }, [])
-
 
   const filtered = productSales.filter((sale) => {
     const lower = searchTerm.toLowerCase();

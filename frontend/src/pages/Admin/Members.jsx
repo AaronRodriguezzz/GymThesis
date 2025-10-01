@@ -4,47 +4,45 @@ import MembershipModal from '../../components/modals/MembershipModal';
 import MemberGoalModal from '../../components/modals/MemberGoalModal';
 import { FaEdit, FaBan, FaEye } from "react-icons/fa";
 import { fetchData, updateData } from '../../api/apis';
+import { Pagination } from '@mui/material';
 
 const Members = () => {
-
+  const [totalPages, setTotalPages] = useState(1);
+  const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const [members, setMembers] = useState([]);
   const [memberToUpdate, setMemberToUpdate] = useState(null); 
   const [goalModalOpen, setGoalModalOpen] = useState(false);
   const [memberToView, setMemberToView] = useState(null);
-  const [search, setSearch] = useState('');
+
+  const handlePage = (_event, value) => {
+    setPage(value)
+  };
 
   useEffect(() => {
 
     const fetchMembers = async () => {
       try{
-        const response = await fetchData('/api/members');
+        const response = await fetchData(`/api/members?searchTerm=${search}&limit=20&page=${page}`);
 
         if(response){
-          console.log('Members:', response);
           setMembers(response?.members || []);
+          setTotalPages(response?.totalPages || 1)
         }
 
       }catch(error){
-
+        console.error(err)
       }
     }
-    fetchMembers();
 
-  }, []);
+    const delayDebounce = setTimeout(() => {
+      fetchMembers()
+    }, 300); 
+        
+    return () => clearTimeout(delayDebounce);
 
-  const filteredMembers = members.filter((member) => {
-    const searchLower = search.toLowerCase();
-    return (
-      member?.email?.toLowerCase().includes(searchLower) ||
-      member?.fullName?.toLowerCase().includes(searchLower) ||
-      member?.phone?.toLowerCase().includes(searchLower) ||
-      member?.plan?.toLowerCase().includes(searchLower) ||
-      member?.status?.toLowerCase().includes(searchLower) ||
-      member?.expirationDate?.toString().toLowerCase().includes(searchLower)
-    );
-  });
-
+  }, [page, search]);
 
   const updateMemberStatus = async (memberId, newStatus) => {
     try{
@@ -67,12 +65,12 @@ const Members = () => {
         description={'Handles the list of registered members with their profiles and status.'} 
       />
       
-      <div className='h-[85%] rounded bg-white/50 shadow-md mt-4 p-4'>
+      <div className='h-[85%] rounded bg-white/50 shadow-md mt-4 p-4 flex flex-col gap-5 border border-gray-200'>
         {/* Search + Button */}
         <div className='flex w-full space-x-2 mb-4'>
           <input 
             type="text" 
-            className='flex-8 rounded bg-white shadow-lg px-4 py-2 text-black caret-blue-500 outline-0 placeholder:text-gray-400' 
+            className='border border-gray-200 flex-8 rounded bg-white shadow-lg px-4 py-2 text-black caret-blue-500 outline-0 placeholder:text-gray-400' 
             placeholder='Search name, type, quantity, etc...'
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -82,7 +80,7 @@ const Members = () => {
         </div>
 
         {/* Table */}
-        <div className="overflow-y-auto overflow-x-auto custom-scrollbar rounded h-[90%] bg-white">
+        <div className="overflow-y-auto overflow-x-auto custom-scrollbar rounded flex-grow min-h-0 bg-white">
           <table className="w-full  text-sm text-left text-gray-300">
             <thead className="bg-blue-900 text-white uppercase text-xs">
               <tr>
@@ -96,7 +94,7 @@ const Members = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredMembers.map((member, index) => (
+              {members.map((member, index) => (
                 <tr 
                   key={index} 
                   className="border-b border-gray-700/20 text-black bg-white hover:bg-gray-700/50 "
@@ -147,6 +145,9 @@ const Members = () => {
             </tbody>
           </table>
         </div>
+        <Pagination 
+          count={totalPages} page={page} onChange={handlePage} color='primary'
+        />
       </div>
 
       {showModal && <MembershipModal onClose={setShowModal} member={memberToUpdate}/>}
