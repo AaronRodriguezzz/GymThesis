@@ -4,6 +4,7 @@ import { fetchData, updateData } from '../../api/apis';
 import { FaEdit, FaBan, FaEye, FaExchangeAlt, FaHandHolding } from "react-icons/fa";
 import NewEquipmentModal from '../../components/modals/NewEquipmentModal';
 import BorrowingModal from '../../components/modals/BorrowModal';
+import { useNavigate } from 'react-router-dom';
 
 const Equipments = () => {
 
@@ -12,6 +13,7 @@ const Equipments = () => {
   const [showBorrowModal, setShowBorrowModal] = useState(false);
   const [equipmentToBorrow, setEquipmentToBorrow] = useState(null);
   const [search, setSearch] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
 
@@ -58,7 +60,10 @@ const Equipments = () => {
             placeholder='Search name, type, quantity, etc...'
             onChange={(e) => setSearch(e.target.value)}
           />
-          <button className='flex-1 bg-blue-500 text-white px-4 py-2 rounded' onClick={() => setShowModal(true)}>
+          <button className='flex-1 bg-blue-500 text-white px-4 py-2 rounded cursor-pointer' onClick={() => navigate('/admin/forecast')}>
+            View Forecast
+          </button>
+          <button className='flex-1 bg-blue-500 text-white px-4 py-2 rounded cursor-pointer' onClick={() => setShowModal(true)}>
             + NEW EQUIPMENT
           </button>
         </div>

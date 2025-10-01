@@ -16,6 +16,7 @@ import Product from "./pages/Admin/Products";
 import Trainers from './pages/Admin/Trainers';
 import Sales from "./pages/Admin/Sales";
 import POS from "./pages/Admin/POS";
+import EquipmentsForecast from "./pages/Admin/EquipmentForecast";
 
 export default function App() {
   return (
@@ -34,6 +35,7 @@ export default function App() {
           <Route path='trainers' element={<Trainers/>} />
           <Route path='sales' element={<Sales/>} />
           <Route path='POS' element={<POS/>} />
+          <Route path="forecast" element={<EquipmentsForecast />} />
         </Route>
 
         <Route path='/login' element={<Login/>} />
