@@ -5,7 +5,7 @@ const ViewSales = ({ onClose, sale }) => {
   return (
     <div className="h-screen w-screen fixed top-0 left-0 bg-gray-900/70 flex items-center justify-center z-50">
       <div className="bg-gray-900 p-8 rounded-xl shadow-lg flex flex-col gap-6 text-white w-[400px]">
-        <h2 className="text-3xl font-semibold text-center text-red-500">
+        <h2 className="text-3xl font-semibold text-center text-blue-500">
           Sales View
         </h2>
 
@@ -34,7 +34,7 @@ const ViewSales = ({ onClose, sale }) => {
       </div>
 
       <button
-        className="fixed bottom-3 left-1/2 transform -translate-x-1/2 bg-red-500 hover:bg-red-700 text-white p-4 rounded-full"
+        className="fixed bottom-3 left-1/2 transform -translate-x-1/2 bg-blue-500 hover:bg-blue-700 text-white p-4 rounded-full"
         onClick={() => onClose(false)}
       >
         <MdClose />

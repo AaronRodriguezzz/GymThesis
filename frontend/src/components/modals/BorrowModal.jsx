@@ -111,19 +111,19 @@ const BorrowingModal = ({ onClose, equipment}) => {
     return (
         <div className='h-screen w-screen fixed top-0 left-0 bg-gray-900/70 flex items-center justify-center z-50'>
             <div className='bg-gray-900 p-8 rounded-xl shadow-lg flex flex-col gap-6 text-white w-[30%] min-w-[400px]'>
-                <h2 className="text-4xl font-semibold mb-8 tracking-tighter text-center text-red-500">
+                <h2 className="text-4xl font-semibold mb-8 tracking-tighter text-center text-blue-500">
                     Borrowing Form
                 </h2>
 
                 <div className='w-full flex justify-center mb-2'>
                     <button 
-                        className={`w-1/2 rounded bg-gray-50/2 py-2 ${borrowerType === 'Member' ? 'bg-red-500 text-white border-none' : ''}`}
+                        className={`w-1/2 rounded bg-gray-50/2 py-2 ${borrowerType === 'Member' ? 'bg-blue-500 text-white border-none' : ''}`}
                         onClick={() => setBorrowerType('Member')}
                     >
                         Member
                     </button>
                     <button 
-                        className={`w-1/2 rounded bg-gray-50/2 py-2 ${borrowerType === 'Non Member' ? 'bg-red-500 text-white border-none' : ''}`}
+                        className={`w-1/2 rounded bg-gray-50/2 py-2 ${borrowerType === 'Non Member' ? 'bg-blue-500 text-white border-none' : ''}`}
                         onClick={() => setBorrowerType('Non Member')}
                     >
                         Non Member
@@ -164,7 +164,7 @@ const BorrowingModal = ({ onClose, equipment}) => {
                                     <tr className="border-b border-gray-700 hover:bg-gray-700/50">
                                         <td className="px-6 py-3">{member.fullName}</td>
                                         <td className="px-6 py-3">
-                                            <button className='bg-green-500 rounded-full p-2' onClick={(e) => handleSubmit(e, member)}><FaArrowRight /> </button>
+                                            <button className='bg-blue-500 rounded-full p-2' onClick={(e) => handleSubmit(e, member)}><FaArrowRight /> </button>
                                         </td>
                                     </tr>
                                 ))) : (
@@ -183,7 +183,7 @@ const BorrowingModal = ({ onClose, equipment}) => {
                                 name="fullName"
                                 value={nonMemberFormData.fullName}
                                 onChange={handleChange}
-                                className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                                className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 placeholder="Enter Full Name"
                             />
                         </div>
@@ -199,7 +199,7 @@ const BorrowingModal = ({ onClose, equipment}) => {
                                     onChange={handleChange}
                                     maxLength={11}
                                     minLength={11}
-                                    className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                                    className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     placeholder="Enter Phone"
                                 />
 
@@ -208,7 +208,7 @@ const BorrowingModal = ({ onClose, equipment}) => {
                                     name="idPresented"
                                     value={nonMemberFormData.email}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                                    className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     placeholder="Enter Id Presented"
                                 />
                             </div>
@@ -221,19 +221,19 @@ const BorrowingModal = ({ onClose, equipment}) => {
                                 name="idPresented"
                                 value={nonMemberFormData.idPresented}
                                 onChange={handleChange}
-                                className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                                className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 placeholder="Enter Id Presented"
                             />
                         </div>
 
-                        <button type="submit" className="w-full bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg mt-4">
+                        <button type="submit" className="w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg mt-4">
                             Submit
                         </button>
                     </form>
                 )}
             </div>
 
-            <button className="fixed bottom-3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-500 hover:bg-red-700 text-white p-4 rounded-full" onClick={() => onClose(false)}>
+            <button className="fixed bottom-3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-500 hover:bg-blue-700 text-white p-4 rounded-full" onClick={() => onClose(false)}>
                 <MdClose />
             </button>            
         </div>

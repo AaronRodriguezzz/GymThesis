@@ -67,7 +67,7 @@ const AddEquipmentModal = ({ onClose }) => {
                 onSubmit={handleSubmit}
                 className="w-[40%] bg-gray-900 p-8 rounded-xl shadow-lg flex flex-col gap-6 text-white"
             >
-                <h2 className="text-3xl font-bold text-center text-red-500 mb-4">
+                <h2 className="text-3xl font-bold text-center text-blue-500 mb-4">
                     Add New Equipment
                 </h2>
 
@@ -79,7 +79,7 @@ const AddEquipmentModal = ({ onClose }) => {
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                        className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Enter equipment name"
                     />
                 </div>
@@ -92,7 +92,7 @@ const AddEquipmentModal = ({ onClose }) => {
                         name="sku"
                         value={formData.sku}
                         onChange={handleChange}
-                        className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                        className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Enter SKU"
                     />
                 </div>
@@ -105,7 +105,7 @@ const AddEquipmentModal = ({ onClose }) => {
                         name="stock"
                         value={formData.stock}
                         onChange={handleChange}
-                        className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                        className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Enter stock quantity"
                     />
                 </div>
@@ -118,7 +118,7 @@ const AddEquipmentModal = ({ onClose }) => {
                         name="category"
                         value={formData.category}
                         onChange={handleChange}
-                        className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                        className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Enter category"
                     />
                     </div>
@@ -127,7 +127,7 @@ const AddEquipmentModal = ({ onClose }) => {
                 <div>
                     <label className="block text-sm mb-2">Equipment Image</label>
                     <div
-                        className="border-2 border-dashed border-gray-600 rounded-lg p-6 text-center cursor-pointer hover:border-red-500 transition"
+                        className="border-2 border-dashed border-gray-600 rounded-lg p-6 text-center cursor-pointer hover:border-blue-500 transition"
                         onClick={handleImageClick}
                     >
                         {imagePreview ? (
@@ -154,14 +154,14 @@ const AddEquipmentModal = ({ onClose }) => {
                 <div className="flex justify-end gap-4 mt-4">
                     <button
                         type="button"
-                        className="px-4 py-2 border rounded-lg hover:bg-red-600 transition"
+                        className="px-4 py-2 border rounded-lg hover:bg-blue-600 transition"
                         onClick={() => onClose()}
                     >
                         Cancel
                     </button>
                     <button
                         type="submit"
-                        className="px-4 py-2 bg-red-500 rounded-lg hover:bg-red-700 transition"
+                        className="px-4 py-2 bg-blue-500 rounded-lg hover:bg-blue-700 transition"
                     >
                         Add Equipment
                     </button>

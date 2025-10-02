@@ -3,23 +3,28 @@ import { hashPassword } from "../utils/authHelpers.js";
 
 const AdminSchema = new Schema({
     email: {
-        type: Schema.Types.ObjectId,
-        ref: 'Equipment',
-        required: true,
-    },
-    firstname: {
         type: String,
         required: true,
     },
-    lastname: {
+    fullname: {
         type: String,
         required: true
     },
     password: {
         type: String,
         required: true
+    },
+    role: {
+        type: String,
+        required: true,
+        enum: ['Admin', 'Staff']
+    },
+    status: {
+        type: String,
+        required: true,
+        enum: ['Active', 'Disabled'],
+        default: 'Active'
     }
-
 }, { timestamps: true })
 
 // Hash password before saving if modified or new

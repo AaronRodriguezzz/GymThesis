@@ -23,7 +23,7 @@ export default function Sidebar() {
         { name: "POS", icon: <FaCashRegister />, path: '/admin/POS' },
         { name: "Equipments", icon: <FaDumbbell />, path: '/admin/equipments' },
         { name: "Products", icon: <FaBoxOpen />, path: '/admin/products' },
-        { name: "Trainers", icon: <FaUserTie />, path: '/admin/trainers' },
+        { name: "Accounts", icon: <FaUserTie />, path: '/admin/accounts' },
         { name: "Sales", icon: <FaMoneyBill />, path: '/admin/sales' },
     ];
 

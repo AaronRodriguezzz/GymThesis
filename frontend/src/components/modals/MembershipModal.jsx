@@ -78,7 +78,7 @@ const WalkInMembershipModal = ({ onClose, member }) => {
 
             <form className="w-[40%] bg-gray-900 p-8 rounded-xl shadow-lg flex flex-col gap-6 text-white" onSubmit={showTerms}>
 
-                <h2 className="text-4xl font-semibold mb-8 tracking-tighter text-center text-red-500">
+                <h2 className="text-4xl font-semibold mb-8 tracking-tighter text-center text-blue-500">
                     Membership Form
                 </h2>
 
@@ -89,7 +89,7 @@ const WalkInMembershipModal = ({ onClose, member }) => {
                     <input
                         type="text"
                         name="fullName"
-                        className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                        className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Enter your full name"
                         value={membershipForm.fullName}
                         onChange={handleChange}
@@ -103,7 +103,7 @@ const WalkInMembershipModal = ({ onClose, member }) => {
                     <input
                         type="email"
                         name="email"
-                        className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                        className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Enter your email"
                         value={membershipForm.email}
                         onChange={handleChange}
@@ -115,7 +115,7 @@ const WalkInMembershipModal = ({ onClose, member }) => {
                     <input
                         type="tel"
                         name="phone"
-                        className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                        className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Enter your phone number"
                         value={membershipForm.phone}
                         onChange={handleChange}
@@ -128,7 +128,7 @@ const WalkInMembershipModal = ({ onClose, member }) => {
                     </label>
                     <select 
                         name="plan"
-                        className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500" 
+                        className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500" 
                         value={membershipForm.plan}
                         onChange={handleChange}
                     >
@@ -145,7 +145,7 @@ const WalkInMembershipModal = ({ onClose, member }) => {
                     </label>
                     <select 
                         name="status"
-                        className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500" 
+                        className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500" 
                         value={membershipForm?.status}
                         onChange={handleChange}
                     >
@@ -162,7 +162,7 @@ const WalkInMembershipModal = ({ onClose, member }) => {
                     <textarea
                         rows="4"
                         name="fitnessGoal"
-                        className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                        className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Write your goal"
                         value={membershipForm.fitnessGoal}
                         onChange={handleChange}
@@ -172,7 +172,7 @@ const WalkInMembershipModal = ({ onClose, member }) => {
                 <div className='w-full flex justify-end gap-x-2'>
                     <button
                         type="button"
-                        className="w-fit py-2 px-4 bg-transparent border-1 rounded-lg font-semibold hover:bg-red-600 transition"
+                        className="w-fit py-2 px-4 bg-transparent border-1 rounded-lg font-semibold hover:bg-blue-600 transition"
                         onClick={() => onClose(false)}
                     >
                         Cancel
@@ -180,7 +180,7 @@ const WalkInMembershipModal = ({ onClose, member }) => {
                     
                     <button
                         type="submit"
-                        className="w-fit py-2 px-4 bg-red-500 rounded-lg font-semibold hover:bg-red-800 transition"
+                        className="w-fit py-2 px-4 bg-blue-500 rounded-lg font-semibold hover:bg-blue-800 transition"
                     >
                         Submit Application
                     </button>

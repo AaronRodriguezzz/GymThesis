@@ -6,12 +6,16 @@ import { fetchData } from '../../api/apis';
 import { updateData } from '../../api/apis';
 import { formatDate } from '../../utils/dateUtils';
 import { Pagination } from "@mui/material"
+import { ConfirmDialog } from '../../components/dialogs/CustomAlert';
+import { set } from 'mongoose';
 
 const BorrowHistory = () => {
   const [page, setPage] = useState(1);
   const [borrowHistory, setBorrowHistory] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState('');
+  const [selectedBorrowed, setSelectedBorrowed] = useState(null);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const fetchHistory = async () => {
     try{
@@ -34,22 +38,28 @@ const BorrowHistory = () => {
     return () => clearTimeout(delayDebounce);
   },[search, page])
 
-  const handleReturn = async (borrowed, status) => {
-
-    if(confirm(`Return this ${status === 'Damaged' ? status : ''} item?`)){
-      borrowed.status = status
-
-      try{
-        const response = await updateData(`/api/borrow-history/${borrowed._id}`, borrowed )
-
-        if(response){
-          window.location.reload();
-        }
-      }catch(err){
-        console.log(err)
-      }
-    }
+  const handleReturn = (item, status) => {
+    setSelectedBorrowed({ ...item, status });
+    setShowConfirm(true);
   }
+
+  const handleConfirm = async () => {
+
+    try {
+      const response = await updateData(`/api/borrow-history/${selectedBorrowed._id}`, {
+        ...selectedBorrowed,
+        status: selectedBorrowed.status,
+      });
+
+      if (response) {
+        window.location.reload();
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setShowConfirm(false);
+    }
+  };
 
   const handlePage = (_event, value) => {
     setPage(value)
@@ -91,7 +101,7 @@ const BorrowHistory = () => {
               </tr>
             </thead>
             <tbody>
-              {borrowHistory.sort((a, b) => a.status.localeCompare(b.status)).map((item) => (
+              {borrowHistory.sort((a, b) => b.status.localeCompare(a.status)).map((item) => (
                 <tr 
                   key={item?.id} 
                   className={`
@@ -138,6 +148,17 @@ const BorrowHistory = () => {
         />
       </div>
 
+      {showConfirm && (
+        <ConfirmDialog
+          title="Return Item"
+          message="Are you sure you want to return this item?"
+          onConfirm={() => {
+            handleConfirm();
+            setShowConfirm(false);
+          }}
+          onCancel={() => setShowConfirm(false)}
+        />
+      )}
     </div>
   )
 }

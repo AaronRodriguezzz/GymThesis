@@ -93,7 +93,7 @@ const Sales = () => {
                   <td className="px-6 py-3">₱{sales.change}</td>
                   <td className="px-6 py-3">
                     <button 
-                      className='bg-green-500 text-xl text-white rounded-full p-2' 
+                      className='bg-blue-500 text-xl text-white rounded-full p-2' 
                       onClick={() => {
                         setSaleToView(sales);
                         setSaleViewOpen(true);

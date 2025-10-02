@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import AdminHeader from '../../components/ui/AdminHeader'
 import { fetchData, updateData } from '../../api/apis';
-import { FaEdit, FaBan, FaEye, FaExchangeAlt, FaHandHolding } from "react-icons/fa";
+import { FaEdit, FaEye, FaExchangeAlt } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 import NewEquipmentModal from '../../components/modals/NewEquipmentModal';
 import BorrowingModal from '../../components/modals/BorrowModal';
-import { useNavigate } from 'react-router-dom';
+import EquipmentUpdateModal from '../../components/modals/EquipmentUpdateModal';
 
 const Equipments = () => {
 
@@ -12,6 +13,8 @@ const Equipments = () => {
   const [showModal, setShowModal] = useState(false);
   const [showBorrowModal, setShowBorrowModal] = useState(false);
   const [equipmentToBorrow, setEquipmentToBorrow] = useState(null);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [equipmentToUpdate, setEquipmentToUpdate] = useState(null);
   const [search, setSearch] = useState('');
   const navigate = useNavigate();
 
@@ -30,7 +33,6 @@ const Equipments = () => {
     }
 
     fetchEquipments();
-
   },[])
 
   const filteredEquipments = equipments.filter((eq) => {
@@ -100,7 +102,10 @@ const Equipments = () => {
                     <div className="flex">
                       <button 
                         className="p-2 text-blue-500 hover:text-blue-700" 
-                       
+                        onClick={() => {
+                          setShowUpdateModal(true);
+                          setEquipmentToUpdate(equipment);
+                        }}
                       >
                         <FaEdit size={20} />
                       </button>
@@ -129,6 +134,7 @@ const Equipments = () => {
 
       {showModal && <NewEquipmentModal onClose={setShowModal} />}
       {showBorrowModal && <BorrowingModal onClose={setShowBorrowModal} equipment={equipmentToBorrow} />}
+      {showUpdateModal && <EquipmentUpdateModal onClose={setShowUpdateModal} equipment={equipmentToUpdate} />}
     </div>
   )
 }

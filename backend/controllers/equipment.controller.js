@@ -22,25 +22,29 @@ export const createEquipment = async (req, res) => {
 }
 
 export const updateEquipment = async (req, res) => {
+    console.log(req.body);
     try{
         const equipment = await Equipment.findById(req.params.id);
+        console.log(equipment);
+
         if(!equipment){
             return res.status(404).json({ success: false, message: 'Equipment not found' })
         }
 
-        let image;
+        // let image;
 
-        if(typeof req.body.image === 'string'){
-            await deleteImage(equipment.image.imagePublicId);
-            image = await uploadImage(req.body.image)
-        }
+        // if(typeof req.body.image === 'string'){
+        //     await deleteImage(equipment.image.imagePublicId);
+        //     image = await uploadImage(req.body.image)
+        // }
 
-        equipment.set({ ...req.body, image })
+        equipment.set({ ...req.body })
         await equipment.save();
 
         res.status(200).json({ success: true, message: 'Equipment successfully updated' })
 
     }catch(err){
+        console.log(err);
         res.status(500).json({ success: false, message: err.message });
     }
 }

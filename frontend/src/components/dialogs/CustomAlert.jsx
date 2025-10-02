@@ -39,7 +39,7 @@ export const AlertPopup = ( type = "success", message, open, onClose ) => {
 }
 
 // ⚠️ Confirm Dialog
-export const ConfirmDialog = ( title, message, onConfirm, onCancel ) => {
+export const ConfirmDialog = ({ title, message, onConfirm, onCancel }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
       <motion.div
@@ -71,4 +71,5 @@ export const ConfirmDialog = ( title, message, onConfirm, onCancel ) => {
       </motion.div>
     </div>
   );
-}
+};
+

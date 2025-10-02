@@ -104,8 +104,8 @@ export default function Home() {
                 className="relative h-[300px] bg-white text-blue-900 p-6 rounded-xl shadow hover:shadow-xl hover:scale-105 transition bg-cover bg-center"
                 style={{ backgroundImage: `url(${cls.img})`}}
               >
-                <div className="absolute inset-0 bg-white/50 rounded-xl z-0"/>
-                <div className="relative z-10 p-6 text-blue-900">
+                <div className="absolute inset-0 bg-blue-500/30 rounded-xl z-0"/>
+                <div className="relative z-10 p-6 text-yellow-500">
                   <h3 className="text-3xl font-bold tracking-tight">{cls.title}</h3>
                 </div>              
               </div>
@@ -128,7 +128,7 @@ export default function Home() {
               >
                 <div className="flex flex-col items-center">
                   <img
-                    src="./11.jpg"
+                    src="./111.jpg"
                     alt="trainer"
                     className="h-40 w-40 rounded-full border-4 border-blue-900 mb-4"
                   />
@@ -160,17 +160,17 @@ export default function Home() {
               {
                 price: "₱1500",
                 title: "BASIC",
-                desc: "Equipment access, lockers, 1 consultation",
+                desc: "Access to all gym equipment, secure locker usage, and one complimentary fitness consultation to get you started.",
               },
               {
                 price: "₱2000",
                 title: "PRO",
-                desc: "Equipment, lockers, group classes, 2 PT sessions",
+                desc: "Full equipment access, personal locker, unlimited group workout classes, plus two personal training sessions for guided improvement.",
               },
               {
                 price: "₱3000",
                 title: "ELITE",
-                desc: "All-access, unlimited classes, weekly PT, nutrition",
+                desc: "Premium all-access membership with advanced equipment, unlimited classes, weekly 1-on-1 personal training, customized nutrition planning, and exclusive wellness perks.",
               },
             ].map((plan, i) => (
               <div
