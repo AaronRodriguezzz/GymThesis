@@ -49,9 +49,9 @@ const BMICalculator = () => {
 
     return (
 
-        <div className="fixed bottom-20 right-4 z-50">
+        <div className="fixed bottom-20 right-2 z-40">
             {isOpen && 
-                <div className="mb-4 w-[400px] h-[200px] md:h-[300px] bg-gray-900 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom-2 duration-300">
+                <div className="mb-4 w-[400px] h-[250px] md:h-[300px] bg-gray-900 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom-2 duration-300 z-60">
                     {/* Header */}
                     <div className="bg-gradient-to-r from-red-600 via-red-500 to-pink-600 p-4 flex items-center justify-between relative overflow-hidden">
                         {/* Background pattern */}
@@ -145,7 +145,7 @@ const BMICalculator = () => {
             {!isOpen && 
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className={`w-14 h-14 rounded-full shadow-xl flex items-center justify-center transition-all duration-300 transform hover:scale-110 ${
+                    className={`w-14 h-14 rounded-full shadow-xl flex items-center justify-center transition-all duration-300 transform hover:scale-110 z-40 ${
                 isOpen 
                     ? 'bg-gray-700 hover:bg-gray-600 shadow-gray-900/50' 
                     : 'bg-gradient-to-br from-blue-600 via-blue-500 to-black-600 hover:from-blue-700 hover:via-blue-600 hover:to-blue-700 shadow-blue-500/25'
