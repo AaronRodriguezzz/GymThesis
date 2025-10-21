@@ -1,5 +1,4 @@
 import BorrowHistory from "../models/BorrowHistory.js";
-import Equipment from "../models/Equipments.js";
 
 export const createBorrowHistory = async (req, res) => {
     
