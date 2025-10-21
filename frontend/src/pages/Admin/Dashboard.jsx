@@ -37,6 +37,13 @@ const Dashboard = () => {
     productSales: 0,
     equipments: 0
   })
+  const [graphData, setGraphData] = useState({
+    productSales: null,
+    membersStatus: null,
+    paidMembers: null,
+    borrowedEquipments: null,
+  })
+  const [loading, setLoading] = useState(false);
 
    const monthlySales = [
     { month: 'Jan', sales: 12000 },
@@ -47,45 +54,45 @@ const Dashboard = () => {
     { month: 'Jun', sales: 17000 },
   ];
 
-  const membershipStatus = [
-    { name: 'Active', value: 80 },
-    { name: 'Expired', value: 20 },
-  ];
-
-  const membershipPayments = [
-    { month: 'Jan', amount: 3000 },
-    { month: 'Feb', amount: 4200 },
-    { month: 'Mar', amount: 3100 },
-    { month: 'Apr', amount: 4800 },
-    { month: 'May', amount: 5300 },
-  ];
-
-  const equipmentBorrowed = [
-    { name: 'Dumbbells', count: 14 },
-    { name: 'Yoga Mats', count: 9 },
-    { name: 'Kettlebells', count: 7 },
-    { name: 'Resistance Bands', count: 5 },
-  ];
-
-  const COLORS = ['#4ade80', '#f87171']; // green, red for pie
+  const COLORS = ['#f87171', '#60a5fa', '#4ade80', '#facc15']; 
 
   useEffect(() => {
     const getData = async () => {
-      const response = await fetchData('/api/dashboard/cards')
 
-      if(response){
-        console.log(response);
-        setMetricCardData({
-          overallRevenue: response?.overallRevenue || 0,
-          productSales: response?.productSalesRevenue|| 0,
-          members: response?.paidMembers|| 0,
-          equipments: response?.availableEquipments|| 0
-        })
+      try{
+        setLoading(true)
+        const [cardData, graphData] = await Promise.all([
+          fetchData('/api/dashboard/cards'),
+          fetchData('/api/dashboard/graph'),
+        ])
+
+        if(cardData && graphData){
+          setMetricCardData({
+            overallRevenue: cardData?.overallRevenue || 0,
+            productSales: cardData?.productSalesRevenue|| 0,
+            members: cardData?.paidMembers|| 0,
+            equipments: cardData?.availableEquipments|| 0
+          })
+
+          setGraphData({
+            productSales: graphData?.formattedSales || [],
+            membersStatus: graphData?.membersStatus || [],
+            paidMembers: graphData?.paidMembersFormat || [],
+            borrowedEquipments: graphData?.equipment || [], 
+          })
+        }
+      }catch(err){
+        console.log(err)
+      }finally{
+        setLoading(false);
       }
+      
     }
 
     getData();
   },[])
+
+  if(loading) return <div>Loading..</div>
 
   return (
     <div className='h-screen w-full p-10'>
@@ -122,13 +129,13 @@ const Dashboard = () => {
               <ResponsiveContainer width="95%" height="90%">
                 <PieChart>
                   <Pie
-                    data={membershipStatus}
-                    dataKey="value"
-                    nameKey="name"
+                    data={graphData.membersStatus}
+                    dataKey="total"
+                    nameKey="status"
                     outerRadius={70}
                     label
                   >
-                    {membershipStatus.map((entry, index) => (
+                    {graphData.membersStatus && graphData.membersStatus.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
@@ -141,13 +148,13 @@ const Dashboard = () => {
             {/* Membership Payments */}
             <div className='flex-1 bg-white/50 shadow-md rounded flex items-center justify-center'>
               <ResponsiveContainer width="95%" height="90%">
-                <BarChart data={membershipPayments}>
+                <BarChart data={graphData.paidMembers}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="month" />
+                  <XAxis dataKey="sub" />
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="amount" fill="#60a5fa" />
+                  <Bar dataKey="total" fill="#60a5fa" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -155,13 +162,13 @@ const Dashboard = () => {
             {/* Equipment Borrowed */}
             <div className='flex-1 bg-white/50 shadow-md rounded flex items-center justify-center'>
               <ResponsiveContainer width="95%" height="90%">
-                <BarChart data={equipmentBorrowed}>
+                <BarChart data={graphData.borrowedEquipments}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
+                  <XAxis dataKey="equipment" />
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="count" fill="#facc15" />
+                  <Bar dataKey="total" fill="#facc15" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
