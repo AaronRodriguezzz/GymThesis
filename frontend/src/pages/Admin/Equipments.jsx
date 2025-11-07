@@ -6,8 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import NewEquipmentModal from '../../components/modals/NewEquipmentModal';
 import BorrowingModal from '../../components/modals/BorrowModal';
 import EquipmentUpdateModal from '../../components/modals/EquipmentUpdateModal';
+import EquipmentBorrowedModal from '../../components/modals/EquipmentBorrowedModal';
 
 const Equipments = () => {
+
+  const navigate = useNavigate();
 
   const [equipments, setEquipments] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -15,8 +18,9 @@ const Equipments = () => {
   const [equipmentToBorrow, setEquipmentToBorrow] = useState(null);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [equipmentToUpdate, setEquipmentToUpdate] = useState(null);
+  const [equipmentToView, setEquipmentToView] = useState(null);
+  const [showBorrowers, setShowBorrowers] = useState(false);
   const [search, setSearch] = useState('');
-  const navigate = useNavigate();
 
   useEffect(() => {
 
@@ -120,6 +124,10 @@ const Equipments = () => {
                       </button>
                       <button 
                         className="p-2 text-green-500 hover:text-green-700" 
+                        onClick={() => {
+                          setShowBorrowers(true);
+                          setEquipmentToView(equipment);
+                        }}
                       >
                         <FaEye size={20} />
                       </button>
@@ -135,6 +143,7 @@ const Equipments = () => {
       {showModal && <NewEquipmentModal onClose={setShowModal} />}
       {showBorrowModal && <BorrowingModal onClose={setShowBorrowModal} equipment={equipmentToBorrow} />}
       {showUpdateModal && <EquipmentUpdateModal onClose={setShowUpdateModal} equipment={equipmentToUpdate} />}
+      {showBorrowers && <EquipmentBorrowedModal equipment={equipmentToView} onClose={setShowBorrowers} />}
     </div>
   )
 }

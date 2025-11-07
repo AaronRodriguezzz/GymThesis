@@ -115,20 +115,30 @@ const BorrowingModal = ({ onClose, equipment}) => {
                     Borrowing Form
                 </h2>
 
-                <div className='w-full flex justify-center mb-2'>
+                <div className="w-full flex justify-center mb-2">
                     <button 
-                        className={`w-1/2 rounded bg-gray-50/2 py-2 ${borrowerType === 'Member' ? 'bg-blue-500 text-white border-none' : ''}`}
+                        className={`w-1/2 rounded py-2 transition ${
+                        borrowerType === 'Member' 
+                            ? 'bg-blue-500 text-white' 
+                            : 'bg-gray-200 text-black'
+                        }`}
                         onClick={() => setBorrowerType('Member')}
                     >
                         Member
                     </button>
+
                     <button 
-                        className={`w-1/2 rounded bg-gray-50/2 py-2 ${borrowerType === 'Non Member' ? 'bg-blue-500 text-white border-none' : ''}`}
+                        className={`w-1/2 rounded py-2 transition ${
+                        borrowerType === 'Non Member' 
+                            ? 'bg-blue-500 text-white' 
+                            : 'bg-gray-200 text-black'
+                        }`}
                         onClick={() => setBorrowerType('Non Member')}
                     >
                         Non Member
                     </button>
                 </div>
+
 
                 <div className='space-x-2'>
                     <label htmlFor="equipmentQuantity">Quantity:</label>
@@ -154,25 +164,39 @@ const BorrowingModal = ({ onClose, equipment}) => {
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
 
-                        <table className="w-full min-h-[250px] max-h-[300px] overflow-y-auto text-sm text-left text-gray-300">
-                            <thead className="bg-gray-800 text-gray-100 uppercase text-xs">
-                                <th className="w-full px-6 py-3">Member Name</th>
-                                <th className="px-6 py-3"></th>
-                            </thead>
-                            <tbody>
-                                {members.length > 0 ? (filteredMembers.filter(m => m.status === 'Paid').map(member => (
-                                    <tr className="border-b border-gray-700 hover:bg-gray-700/50">
-                                        <td className="px-6 py-3">{member.fullName}</td>
-                                        <td className="px-6 py-3">
-                                            <button className='bg-blue-500 rounded-full p-2' onClick={(e) => handleSubmit(e, member)}><FaArrowRight /> </button>
-                                        </td>
+                        <div className="w-full h-[300px] overflow-y-auto rounded">
+                            <table className="w-full text-sm text-left text-gray-300">
+                                <thead className="bg-gray-800 text-gray-100 uppercase text-xs">
+                                    <tr>
+                                        <th className="px-6 py-3">Member Name</th>
+                                        <th className="px-6 py-3"></th>
                                     </tr>
-                                ))) : (
-                                    <p className='w-full text-center text-gray-600/50 py-4'>Loading...</p>
-                                )}
-                                
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {filteredMembers.length > 0 ? (
+                                        filteredMembers.map((member) => (
+                                        <tr key={member._id} className="border-b border-gray-700 hover:bg-gray-700/50">
+                                            <td className="px-6 py-3">{member.fullName}</td>
+                                            <td className="px-6 py-3 text-right">
+                                            <button
+                                                className="bg-blue-500 rounded-full p-2 hover:bg-blue-600 transition"
+                                                onClick={(e) => handleSubmit(e, member)}
+                                            >
+                                                <FaArrowRight />
+                                            </button>
+                                            </td>
+                                        </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                        <td colSpan="2" className="text-center text-gray-600/50 py-4">
+                                            No members found.
+                                        </td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 ) : (   
                     <form className="flex flex-col gap-4" onSubmit={(e) => handleSubmit(e, null)}>

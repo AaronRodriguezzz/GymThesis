@@ -59,11 +59,15 @@ export const updateBorrowHistory = async (req, res) => {
 }
 
 export const getBorrowHistoryById = async (req, res) => {
+    console.log(req.params.id);
     try{
-        const borrowHistory = await BorrowHistory.findById(req.params.id);
+        const borrowHistory = await BorrowHistory.find({ equipment_id: req.params.id, status: 'Borrowed'});
+
         if(!borrowHistory){
             return res.status(404).json({ success: false, message: 'Borrow history not found'});
         }
+
+        console.log(borrowHistory)
 
         res.status(200).json({ success: true, borrowHistory })
 
