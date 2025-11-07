@@ -50,3 +50,24 @@ export const updateAdmin = async (req, res) => {
         res.status(500).json({ success: false, message: err.message });
     }
 }
+
+export const disableAdmin = async (req, res) => {
+
+    const adminId = req.params.id;
+
+    if(!adminId){
+        return res.status(400).json({ success: false, message: 'Invalid request.' });
+    }
+
+    try{
+        const updatedAdmin = await Admin.findByIdAndUpdate(adminId, { status: 'Disabled' }, { new: true }).select('-password');
+
+        if(!updatedAdmin){
+            return res.status(404).json({ success: false, message: 'Admin not found.' });
+        }
+
+        res.status(200).json({ success: true, admin: updatedAdmin });
+    }catch(err){
+        res.status(500).json({ success: false, message: err.message });
+    }
+}

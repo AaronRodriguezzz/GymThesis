@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { CheckCircle, XCircle, AlertTriangle } from "lucide-react"; // clean icons
-import { useState } from "react";
 
 export const AlertPopup = ( type = "success", message, open, onClose ) => {
 

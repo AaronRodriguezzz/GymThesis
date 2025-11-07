@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
+  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
-   const navClicked = (id) => {
+  const navClicked = (id, route) => {
+    navigate(route || '/')
     setTimeout(() => {
       const element = document.getElementById(id);
       if (element) {
@@ -27,6 +30,7 @@ export default function Header() {
           <a className="hover:text-blue-500 cursor-pointer" onClick={() => navClicked('Trainers')}>Trainers</a>
           <a className="hover:text-blue-500 cursor-pointer" onClick={() => navClicked('Pricing')}>Pricing</a>
           <a className="hover:text-blue-500 cursor-pointer" onClick={() => navClicked('Contact')}>Contact</a>
+          <a className="hover:text-blue-500 cursor-pointer" onClick={() => navClicked('BMI', '/bmi-calculator')}>BMI</a>
         </nav>
 
         <a href="#join" className="hidden text-white md:inline-block bg-blue-500 px-4 py-2 rounded-lg font-semibold hover:bg-blue-600">

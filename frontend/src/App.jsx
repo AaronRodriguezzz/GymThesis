@@ -7,6 +7,8 @@ import Home from './pages/User/Home';
 import Login from './pages/User/Login';
 import SignUp from './pages/User/SignUp';
 import AdminLogin from './pages/Admin/Login';
+import BMICalculator from "./pages/User/BMICalculator";
+
 //Admin
 import Dashboard from "./pages/Admin/Dashboard";
 import BorrowHistory from "./pages/Admin/BorrowHistory";
@@ -25,6 +27,7 @@ export default function App() {
       <Routes>
         <Route element={<UserLayout />}>
           <Route path='/' element={<Home/>} />
+          <Route path='/bmi-calculator' element={<BMICalculator/>} />
         </Route>
 
         <Route path="admin" element={<AdminLayout/>}>

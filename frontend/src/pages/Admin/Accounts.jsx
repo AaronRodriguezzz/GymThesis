@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import AdminHeader from "../../components/ui/AdminHeader";
 import { fetchData } from "../../api/apis";
+import { updateData } from "../../api/apis";
 import { FaEdit, FaUserSlash, FaUserPlus } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
+import { ConfirmDialog } from "../../components/dialogs/CustomAlert";
 // import NewAccountModal from "../../components/modals/NewAccountModal";
 // import UpdateAccountModal from "../../components/modals/UpdateAccountModal";
 // import DisableAccountModal from "../../components/modals/DisableAccountModal";
@@ -16,6 +18,7 @@ const Accounts = () => {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [accountToUpdate, setAccountToUpdate] = useState(null);
   const [accountToDisable, setAccountToDisable] = useState(null);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
     const fetchAccounts = async () => {
@@ -41,6 +44,21 @@ const Accounts = () => {
       acc.status?.toLowerCase().includes(searchLower)
     );
   });
+
+  const handleConfirm = async () => {
+    try{
+      const response = await updateData(`/api/admins/disable/${accountToDisable._id}`)
+
+      if(response){
+        setAccounts(prev => (
+          prev.map(acc => acc._id === accountToDisable._id ? response.admin : acc)
+        ))
+        setShowConfirm(false);
+      }
+    }catch(err){
+      console.log(err);
+    }
+  }
 
   return (
     <div className="h-screen w-full p-10">
@@ -106,10 +124,12 @@ const Accounts = () => {
                         <FaEdit size={18} />
                       </button>
                       <button
-                        className="p-2 text-red-500 hover:text-red-700"
+                        className="p-2 text-red-500 hover:text-red-700 disabled:opacity-50"
+                        disabled={acc.status === 'Disabled'}
                         onClick={() => {
-                          setShowDisableModal(true);
+                          setShowConfirm(true);
                           setAccountToDisable(acc);
+                          console.log(acc);
                         }}
                       >
                         <FaUserSlash size={18} />
@@ -129,7 +149,16 @@ const Accounts = () => {
       {showUpdateModal && (
         <AdminUpdateModal
           admin={accountToUpdate}
-          onClose={setShowNewModal}
+          onClose={setShowUpdateModal}
+        />
+      )}
+
+      {showConfirm && (
+        <ConfirmDialog
+          title="Confirm Deletion"
+          message={`Are you sure you want to delete ${accountToDisable?.fullname}?`}
+          onConfirm={handleConfirm}
+          onCancel={() => setShowConfirm(false)}
         />
       )}
     </div>

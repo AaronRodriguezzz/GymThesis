@@ -181,7 +181,7 @@ const Sales = () => {
 
                         <div className='flex gap-1'>
                             <button 
-                              className='text-lg font-semibold text-white disabled:text-white/50' 
+                              className='text-xl font-semibold text-black disabled:text-white/50' 
                               disabled={prod.quantity === 1} 
                               onClick={() => quantityChange(prod.product._id, prod.quantity - 1)}
                             >
@@ -189,7 +189,7 @@ const Sales = () => {
                             </button>
                             <p className='px-2 rounded-full bg-gray-300 text-gray-900'>{prod.quantity}</p>
                             <button 
-                              className='text-lg font-semibold text-white disabled:text-white/50' 
+                              className='text-xl font-semibold text-black disabled:text-white/50' 
                               disabled={prod.quantity === prod.product.stock}
                               onClick={() => quantityChange(prod.product._id, prod.quantity + 1)}
                             >
