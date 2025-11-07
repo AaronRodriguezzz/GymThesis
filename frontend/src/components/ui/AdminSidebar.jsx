@@ -11,9 +11,11 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/adminContext";
 
 export default function Sidebar() {
     const navigate = useNavigate();
+    const { logout } = useAuth();
     const [isActive, setIsActive] = useState("Dashboard");
 
     const menuItems = [
@@ -56,7 +58,10 @@ export default function Sidebar() {
         </nav>
 
         {/* Logout */}
-        <button className="absolute bottom-0 left-0 w-full flex items-center gap-3 px-4 text-white text-lg hover:bg-red-500 py-2 rounded-md transition-colors">
+        <button 
+            className="absolute bottom-0 left-0 w-full flex items-center gap-3 px-4 text-white text-lg hover:bg-red-500 py-2 rounded-md transition-colors"
+            onClick={logout}
+        >
             <FaSignOutAlt /> Logout
         </button>
         </div>

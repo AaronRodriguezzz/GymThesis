@@ -8,6 +8,7 @@ import borrowHistoryRoutes from "./routes/borrowHistory.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 import productRoutes from "./routes/products.route.js";
 import dashboardRoutes from "./routes/dashboard.route.js";
+import authRoutes from "./routes/auth.route.js";
 import { chatAIagent } from "./controllers/ai.controller.js";
 
 const app = express();
@@ -32,5 +33,6 @@ app.use('/api/members', memberRoutes);
 app.use('/api/equipments', equipmentsRoutes);
 app.use('/api/borrow-history', borrowHistoryRoutes);
 app.use('/api/admins', adminRoutes)
+app.use('/api/auth', authRoutes)
 
 export default app;

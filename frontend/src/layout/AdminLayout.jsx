@@ -1,7 +1,10 @@
 import SideBar from '../components/ui/AdminSidebar';
 import { Outlet } from 'react-router-dom';
+import { usePageProtection } from '../hooks/pagePRotection';
 
 const AdminLayout = () => {
+    usePageProtection();
+
     return(
         <div>
             <SideBar />

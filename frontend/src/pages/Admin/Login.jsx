@@ -1,27 +1,39 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { postData } from "../../api/apis";
+import { useLocation } from "react-router-dom";
+import { usePageProtection } from "../../hooks/pagePRotection";
+import { useAuth } from "../../context/adminContext";
 
 export default function AdminLoginPage() {
+  // usePageProtection();
+  const { setAdmin } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  const [error, setError] = useState("");
   const [credentials, setCredentials] = useState({
-    username: "",
+    email: "",
     password: "",
   });
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
+
+  const from = location.state?.from?.pathname || "/admin/dashboard";
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
-      const res = await postData("/api/admin/login", credentials);
+      const res = await postData("/api/auth/login", credentials);
 
       if (res.success) {
-        navigate("/admin/dashboard", { replace: true });
+        console.log('hello');
+        setAdmin(res.admin);
+        navigate(from, { replace: true });
       } else {
         setError("Invalid admin credentials");
       }
+
     } catch (err) {
       console.error(err);
       setError("Something went wrong. Please try again.");
@@ -57,11 +69,11 @@ export default function AdminLoginPage() {
             </label>
             <input
               type="text"
-              placeholder="Username"
-              value={credentials.username}
+              placeholder="Email"
+              value={credentials.email}
               className="w-full px-4 py-3 rounded-lg text-white bg-gray-500 focus:outline-none focus:ring-3 focus:ring-blue-500"
               onChange={(e) =>
-                setCredentials((prev) => ({ ...prev, username: e.target.value }))
+                setCredentials((prev) => ({ ...prev, email: e.target.value }))
               }
             />
           </div>
