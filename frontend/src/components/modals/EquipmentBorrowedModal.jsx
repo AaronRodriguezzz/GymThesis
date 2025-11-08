@@ -3,7 +3,6 @@ import { X } from "lucide-react";
 import { fetchData } from "../../api/apis";
 
 const EquipmentBorrowedModal = ({ equipment, onClose }) => {
-    console.log(equipment);
     const [borrowers, setBorrowers] = useState([]);
     
     useEffect(() => {

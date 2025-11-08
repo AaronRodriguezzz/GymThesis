@@ -2,23 +2,23 @@ import React, { useState, useEffect } from 'react'
 import { postData, fetchData } from '../../api/apis';
 import { FaArrowRight } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
+import { useDebounce } from '../../hooks/useDebounce';
+import useFetch from '../../hooks/useFetch';
+import { Pagination } from '@mui/material';
 
 const BorrowingModal = ({ onClose, equipment}) => {
-    const [members, setMembers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [borrowerType, setBorrowerType] = useState('Member');
     const [borrowQuantity, setBorrowQuantity] = useState(1);
+    const searchDebounce = useDebounce(searchTerm, 500);
+    const [page, setPage] = useState(1);
+    const { data } = useFetch(`/api/members?limit=30&searchTerm=${searchDebounce}&page=${page}`) 
     const [nonMemberFormData, setNonMemberFormData] = useState({
         fullName: '',
         phone: '',
         email: '',
         idPresented: ''
     })
-
-
-    const filteredMembers = members && members.filter(m =>
-        m.fullName.toLowerCase().includes(searchTerm.toLowerCase())
-    );
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -88,25 +88,9 @@ const BorrowingModal = ({ onClose, equipment}) => {
         }
     }
 
-    useEffect(() => {
-    
-        const fetchMembers = async () => {
-          try{
-            const response = await fetchData('/api/members');
-    
-            if(response){
-              setMembers(response?.members || []);
-            }
-    
-          }catch(error){
-    
-          }
-        }
-        fetchMembers();
-    
-    }, []);
-
-
+    const handlePage = (_event, value) => {
+        setPage(value)
+    };
 
     return (
         <div className='h-screen w-screen fixed top-0 left-0 bg-gray-900/70 flex items-center justify-center z-50'>
@@ -163,7 +147,15 @@ const BorrowingModal = ({ onClose, equipment}) => {
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
-
+                        <div className='w-full'>
+                            <Pagination 
+                                sx={{     
+                                    "& .MuiPaginationItem-root": {
+                                    color: "white",
+                                },}}
+                                count={data?.totalPages} page={page} onChange={handlePage} color='primary'
+                            />
+                        </div>
                         <div className="w-full h-[300px] overflow-y-auto rounded">
                             <table className="w-full text-sm text-left text-gray-300">
                                 <thead className="bg-gray-800 text-gray-100 uppercase text-xs">
@@ -173,8 +165,8 @@ const BorrowingModal = ({ onClose, equipment}) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {filteredMembers.length > 0 ? (
-                                        filteredMembers.map((member) => (
+                                    {data?.members.length > 0 ? (
+                                        data?.members.map((member) => (
                                         <tr key={member._id} className="border-b border-gray-700 hover:bg-gray-700/50">
                                             <td className="px-6 py-3">{member.fullName}</td>
                                             <td className="px-6 py-3 text-right">
