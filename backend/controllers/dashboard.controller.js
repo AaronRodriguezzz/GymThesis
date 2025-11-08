@@ -165,12 +165,44 @@ export const getDashboardGraphData = async (req,res) => {
             }
         ]);
 
+        // Fetch all members with status Paid or Expired for the current year
+        const members = await Members.find({
+            status: { $in: ["Paid", "Expired"] },
+            createdAt: {
+            $gte: new Date(`${currentYear}-01-01`),
+            $lte: new Date(`${currentYear}-12-31`)
+            }
+        });
+
+        // Initialize revenue array for all 12 months
+        const revenueByMonth = Array.from({ length: 12 }, (_, i) => ({
+            month: i + 1,
+            total: 0
+        }));
+
+        members.forEach((member) => {
+            const month = member.createdAt.getMonth(); 
+            let planRevenue = 0;
+
+            if (member.plan === "Basic") planRevenue = 1500;
+            if (member.plan === "Pro") planRevenue = 2000;
+            if (member.plan === "Elite") planRevenue = 3000;
+
+            revenueByMonth[month].total += planRevenue;
+        });
+        const membershipSalesArray = monthNames.map(name => ({ month: name, total: 0 }));
+
+        revenueByMonth.forEach(sale => {
+            membershipSalesArray[sale.month - 1].total = sale.total;
+        });
+
         return res.status(200).json({ 
             formattedSales,
             membersStatus,
             membershipPerCategory,
             equipment,
-            monthlySales: salesArray
+            monthlySales: salesArray,
+            membershipRevenues:  membershipSalesArray,
         })
 
     }catch(err){

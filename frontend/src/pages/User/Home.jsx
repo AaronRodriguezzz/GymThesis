@@ -43,9 +43,9 @@ export default function Home() {
       {/* Hero */}
       <section
         id="Home"
-        className="bg-gradient-to-r from-blue-900 to-blue-700 text-white h-[90vh] flex items-center"
+        className="bg-gradient-to-r from-blue-900 to-blue-700 text-white h-[90vh] flex gap-5 items-center justify-center"
       >
-        <div className="container mx-auto px-6">
+        <div className="px-6">
           <h1 className="text-5xl md:text-6xl font-bold leading-tight tracking-tight">
             Transform Your Body <br /> Join Our{" "}
             <span className="text-yellow-400">Membership</span>
@@ -61,6 +61,7 @@ export default function Home() {
             View Plans
           </a>
         </div>
+        <img className="md:flex hidden" src="/logo.png"/>
       </section>
 
       {/* About Us */}

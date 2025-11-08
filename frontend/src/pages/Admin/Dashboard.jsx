@@ -41,18 +41,10 @@ const Dashboard = () => {
     membersStatus: null,
     membershipPerCategory: null,
     borrowedEquipments: null,
-    productsMonthlySales: null
+    productsMonthlySales: null,
+    membershipRevenues: null
   })
   const [loading, setLoading] = useState(false);
-
-   const monthlySales = [
-    { month: 'Jan', sales: 12000 },
-    { month: 'Feb', sales: 15000 },
-    { month: 'Mar', sales: 11000 },
-    { month: 'Apr', sales: 18000 },
-    { month: 'May', sales: 20000 },
-    { month: 'Jun', sales: 17000 },
-  ];
 
   const COLORS = ['#f87171', '#60a5fa', '#4ade80', '#facc15']; 
 
@@ -74,14 +66,13 @@ const Dashboard = () => {
             equipments: cardData?.availableEquipments|| 0,
           })
 
-          console.log(graphData?.monthlySales)
-
           setGraphData({
             productSales: graphData?.formattedSales || [],
             membersStatus: graphData?.membersStatus || [],
             membershipPerCategory: graphData?.membershipPerCategory || [],
             borrowedEquipments: graphData?.equipment || [], 
-            productsMonthlySales: graphData?.monthlySales
+            productsMonthlySales: graphData?.monthlySales,
+            membershipRevenues: graphData?.membershipRevenues
           })
         }
       }catch(err){
@@ -180,10 +171,24 @@ const Dashboard = () => {
             </div>
 
           {/* Bottom Large Chart - Monthly Sales */}
-          <div className='h-[65vh] bg-white/50 border border-gray-300 shadow-md rounded p-4'>
+          <div className='mb-4 h-[65vh] bg-white/50 border border-gray-300 shadow-md rounded p-4'>
             <h1 className='text-blue-500 font-semibold text-lg mb-4'>POS Monthly Sales</h1>
             <ResponsiveContainer width="95%" height="90%">
               <LineChart data={graphData?.productsMonthlySales}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey="total" stroke="#22c55e" strokeWidth={3} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+
+          <div className='h-[65vh] bg-white/50 border border-gray-300 shadow-md rounded p-4'>
+            <h1 className='text-blue-500 font-semibold text-lg mb-4'>Membership Monthly Revenues</h1>
+            <ResponsiveContainer width="95%" height="90%">
+              <LineChart data={graphData?.membershipRevenues}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
                 <YAxis />
