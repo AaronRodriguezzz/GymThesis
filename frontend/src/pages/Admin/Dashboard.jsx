@@ -28,7 +28,6 @@ const MetricCard = ({ title, value, icon }) => {
   )
 } 
 
-
 const Dashboard = () => {
 
   const [metricCardsData, setMetricCardData] = useState({
@@ -40,8 +39,9 @@ const Dashboard = () => {
   const [graphData, setGraphData] = useState({
     productSales: null,
     membersStatus: null,
-    paidMembers: null,
+    membershipPerCategory: null,
     borrowedEquipments: null,
+    productsMonthlySales: null
   })
   const [loading, setLoading] = useState(false);
 
@@ -71,14 +71,17 @@ const Dashboard = () => {
             overallRevenue: cardData?.overallRevenue || 0,
             productSales: cardData?.productSalesRevenue|| 0,
             members: cardData?.paidMembers|| 0,
-            equipments: cardData?.availableEquipments|| 0
+            equipments: cardData?.availableEquipments|| 0,
           })
+
+          console.log(graphData?.monthlySales)
 
           setGraphData({
             productSales: graphData?.formattedSales || [],
             membersStatus: graphData?.membersStatus || [],
-            paidMembers: graphData?.paidMembersFormat || [],
+            membershipPerCategory: graphData?.membershipPerCategory || [],
             borrowedEquipments: graphData?.equipment || [], 
+            productsMonthlySales: graphData?.monthlySales
           })
         }
       }catch(err){
@@ -95,7 +98,7 @@ const Dashboard = () => {
   if(loading) return <div>Loading..</div>
 
   return (
-    <div className='h-screen w-full p-10'>
+    <div className='w-full p-10'>
         <AdminHeader title={'Dashboard'} description={'Graphs of your business summary'} />
 
         <div className="flex flex-wrap gap-4 w-full my-4">
@@ -121,11 +124,12 @@ const Dashboard = () => {
           />
         </div>
 
-        <div className='h-[80%] mt-8'>
+        <div className='h-full mt-8'>
           {/* Top Row */}
-          <div className='flex gap-x-4 h-[30%] mb-4'>
+          <div className='flex gap-x-4 h-[350px] mb-4'>
             {/* Membership Status */}
-            <div className='flex-1 bg-white/50 shadow-md rounded flex items-center justify-center'>
+            <div className='flex-1 bg-white/50 border border-gray-300 shadow-md rounded p-2'>
+              <h1 className='text-blue-500 font-semibold'>Membership Status</h1>
               <ResponsiveContainer width="95%" height="90%">
                 <PieChart>
                   <Pie
@@ -146,9 +150,10 @@ const Dashboard = () => {
             </div>
 
             {/* Membership Payments */}
-            <div className='flex-1 bg-white/50 shadow-md rounded flex items-center justify-center'>
+            <div className='flex-1 bg-white/50 border border-gray-300 shadow-md rounded p-2'>
+              <h1 className='text-blue-500 font-semibold'>Membership Per Category</h1>
               <ResponsiveContainer width="95%" height="90%">
-                <BarChart data={graphData.paidMembers}>
+                <BarChart data={graphData.membershipPerCategory}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="sub" />
                   <YAxis />
@@ -158,9 +163,10 @@ const Dashboard = () => {
                 </BarChart>
               </ResponsiveContainer>
             </div>
+          </div>
 
-            {/* Equipment Borrowed */}
-            <div className='flex-1 bg-white/50 shadow-md rounded flex items-center justify-center'>
+          <div className='mb-4 h-[65vh] bg-white/50 border border-gray-300 shadow-md rounded p-4'>
+              <h1 className='text-blue-500 font-semibold text-lg mb-4'>Equipment Borrowed</h1>
               <ResponsiveContainer width="95%" height="90%">
                 <BarChart data={graphData.borrowedEquipments}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -172,18 +178,18 @@ const Dashboard = () => {
                 </BarChart>
               </ResponsiveContainer>
             </div>
-          </div>
 
           {/* Bottom Large Chart - Monthly Sales */}
-          <div className='h-[65%] bg-white/50 shadow-md rounded flex items-center justify-center'>
+          <div className='h-[65vh] bg-white/50 border border-gray-300 shadow-md rounded p-4'>
+            <h1 className='text-blue-500 font-semibold text-lg mb-4'>POS Monthly Sales</h1>
             <ResponsiveContainer width="95%" height="90%">
-              <LineChart data={monthlySales}>
+              <LineChart data={graphData?.productsMonthlySales}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dataKey="sales" stroke="#22c55e" strokeWidth={3} />
+                <Line type="monotone" dataKey="total" stroke="#22c55e" strokeWidth={3} />
               </LineChart>
             </ResponsiveContainer>
           </div>

@@ -1,42 +1,24 @@
-import React, { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import AdminHeader from "../../components/ui/AdminHeader";
-import { fetchData } from "../../api/apis";
 import { updateData } from "../../api/apis";
 import { FaEdit, FaUserSlash, FaUserPlus } from "react-icons/fa";
-import { MdClose } from "react-icons/md";
 import { ConfirmDialog } from "../../components/dialogs/CustomAlert";
-// import NewAccountModal from "../../components/modals/NewAccountModal";
-// import UpdateAccountModal from "../../components/modals/UpdateAccountModal";
-// import DisableAccountModal from "../../components/modals/DisableAccountModal";
 import NewAdminModal from "../../components/modals/NewAdminModal";
 import AdminUpdateModal from "../../components/modals/AdminUpdateModal";
+import useFetch from "../../hooks/useFetch";
 
 const Accounts = () => {
-  const [accounts, setAccounts] = useState([]);
   const [search, setSearch] = useState("");
   const [showNewModal, setShowNewModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [accountToUpdate, setAccountToUpdate] = useState(null);
   const [accountToDisable, setAccountToDisable] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
+  const { data } = useFetch('/api/admins')
 
-  useEffect(() => {
-    const fetchAccounts = async () => {
-      try {
-        const res = await fetchData("/api/admins");
-
-        if (res.success) {
-          setAccounts(res.admins);
-        }
-
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchAccounts();
-  }, []);
-
-  const filteredAccounts = accounts.filter((acc) => {
+  const filteredAccounts = useMemo(() => {
+    if(!data?.admins) return [];
+    return data?.admins.filter((acc) => {
     const searchLower = search.toLowerCase();
     return (
       acc.username?.toLowerCase().includes(searchLower) ||
@@ -44,6 +26,7 @@ const Accounts = () => {
       acc.status?.toLowerCase().includes(searchLower)
     );
   });
+  })
 
   const handleConfirm = async () => {
     try{

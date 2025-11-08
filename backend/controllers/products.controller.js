@@ -32,8 +32,6 @@ export const soldProduct = async (req, res) => {
         paymentAmount, 
         change 
     } = req.body;
-    
-    console.log(req.body);
 
     if(!req.body){
         return res.status(409).json({ success: false, message: 'Payload did not receive'});

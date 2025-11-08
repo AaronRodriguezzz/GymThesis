@@ -5,7 +5,7 @@ import BorrowHistory from "../models/BorrowHistory.js";
 
 export const getDashboardCardsData = async (req, res) => {
     try{
-
+        
         const members = await Members.find();
         const equipments = await Equipment.find();
         const productSales = await ProductSales.find();
@@ -43,30 +43,46 @@ export const getDashboardGraphData = async (req,res) => {
         const currentYear = new Date().getFullYear();
 
         const monthlySales = await ProductSales.aggregate([
-            {
-                $match: {
-                    $expr: {
-                        $eq: [{ $year: { $toDate: "$createdAt" } }, currentYear]
-                    }
-                }
-            },
-            {
-                $group: {
-                _id: { 
-                    year: { $year: { $toDate: "$createdAt" } },
-                    month: { $month: { $toDate: "$createdAt" } }
-                },
-                totalSales: { $sum: "$totalPrice" },
-                count: { $sum: 1 }
-                }
-            },
-            {
-                $sort: { "_id.year": 1, "_id.month": 1 }
+        {
+            $match: {
+            $expr: {
+                $eq: [{ $year: { $toDate: "$createdAt" } }, currentYear]
             }
+            }
+        },
+        {
+            $group: {
+            _id: { 
+                year: { $year: { $toDate: "$createdAt" } },
+                month: { $month: { $toDate: "$createdAt" } }
+            },
+            totalSales: { $sum: "$totalPrice" },
+            count: { $sum: 1 }
+            }
+        },
+        {
+            $project: {
+            _id: 0,
+            month: "$_id.month",
+            year: "$_id.year",
+            totalSales: 1,
+            count: 1
+            }
+        },
+        {
+            $sort: { month: 1 }
+        }
         ]);
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+
+        const salesArray = monthNames.map(name => ({ month: name, total: 0 }));
+
+        monthlySales.forEach(sale => {
+            salesArray[sale.month - 1].total = sale.totalSales;
+        });
 
         const formattedSales = monthlySales.map(item => ({
-            month: new Date(item._id.year, item._id.month - 1).toLocaleString('default', { month: 'long' }),
+            month: new Date(item.year, item.month - 1).toLocaleString('default', { month: 'long' }),
             sales: item.totalSales
         }));
 
@@ -86,25 +102,43 @@ export const getDashboardGraphData = async (req,res) => {
             }
         ])
         
-        const membershipRevenue = await Members.find();
-        const paidMembers = membershipRevenue.filter(member => member.status === 'Paid')
-
-        let paidMembersFormat = [
-            {sub: 'Basic', total: 0},
-            {sub: 'Pro', total: 0},
-            {sub: 'Elite', total: 0},
-        ]
-
-        paidMembers.map(member => {
-            if(member.plan === 'Basic') paidMembersFormat[0].total += 1;
-            if(member.plan === 'Pro') paidMembersFormat[1].total += 1;
-            if(member.plan === 'Elite') paidMembersFormat[2].total += 1;
-
-            return paidMembersFormat
-        })
-
+        const membershipPerCategory = await Members.aggregate([
+            {
+                $match: {
+                status: 'Paid'
+                }
+            },
+            {
+                $group: {
+                _id: "$plan",
+                total: { $sum: 1 },
+                },
+            },
+            {
+                $addFields: {
+                order: {
+                    $indexOfArray: [["Basic", "Elite", "Pro"], "$_id"]
+                }
+                }
+            },
+            {
+                $sort: { order: 1 } // sort by the custom order
+            },
+            {
+                $project: {
+                _id: 0,
+                sub: "$_id",
+                total: 1
+                }
+            }
+        ]);
 
         const equipment = await BorrowHistory.aggregate([
+            {
+                $match: {
+                    status: 'Borrowed' 
+                }
+            },
             {
                 $group: {
                     _id: "$equipment_id",
@@ -131,15 +165,13 @@ export const getDashboardGraphData = async (req,res) => {
             }
         ]);
 
-
         return res.status(200).json({ 
             formattedSales,
             membersStatus,
-            paidMembersFormat,
-            equipment
+            membershipPerCategory,
+            equipment,
+            monthlySales: salesArray
         })
-
-
 
     }catch(err){
         console.log(err)

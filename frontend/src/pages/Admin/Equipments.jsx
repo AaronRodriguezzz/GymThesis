@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import { useState } from 'react'
 import AdminHeader from '../../components/ui/AdminHeader'
-import { fetchData, updateData } from '../../api/apis';
 import { FaEdit, FaEye, FaExchangeAlt } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import NewEquipmentModal from '../../components/modals/NewEquipmentModal';
 import BorrowingModal from '../../components/modals/BorrowModal';
 import EquipmentUpdateModal from '../../components/modals/EquipmentUpdateModal';
 import EquipmentBorrowedModal from '../../components/modals/EquipmentBorrowedModal';
+import useFetch from '../../hooks/useFetch';
+import { useDebounce } from '../../hooks/useDebounce';
+import { Pagination } from '@mui/material';
 
 const Equipments = () => {
-
   const navigate = useNavigate();
-
-  const [equipments, setEquipments] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showBorrowModal, setShowBorrowModal] = useState(false);
   const [equipmentToBorrow, setEquipmentToBorrow] = useState(null);
@@ -21,34 +20,13 @@ const Equipments = () => {
   const [equipmentToView, setEquipmentToView] = useState(null);
   const [showBorrowers, setShowBorrowers] = useState(false);
   const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
+  const searchDebounce = useDebounce(search, 500);
+  const { data } = useFetch(`/api/equipments?searchTerm=${searchDebounce}`)
 
-  useEffect(() => {
-
-    const fetchEquipments = async () => {
-      try{
-        const res = await fetchData('/api/equipments')
-
-        if(res.success){
-          setEquipments(res.equipments);
-        }
-      }catch(err){
-        console.log(err);
-      }
-    }
-
-    fetchEquipments();
-  },[])
-
-  const filteredEquipments = equipments.filter((eq) => {
-    const searchLower = search.toLowerCase();
-    return (
-      eq.sku?.toLowerCase().includes(searchLower) ||
-      eq.name?.toLowerCase().includes(searchLower) ||
-      eq.category?.toLowerCase().includes(searchLower) ||
-      String(eq.stock).includes(searchLower) ||
-      String(eq.available).includes(searchLower)
-    );
-  });
+  const handlePage = (_event, value) => {
+    setPage(value)
+  };
 
   return (
     <div className='h-screen w-full p-10'>
@@ -57,7 +35,7 @@ const Equipments = () => {
         description={'Manages gym equipment inventory, availability, and maintenance.'} 
       />
       
-      <div className='h-[85%] rounded bg-white/50 shadow-md mt-4 p-4'>
+      <div className='h-[85%] rounded bg-white/50 mt-4 p-4 shadow-md flex flex-col gap-5 border border-gray-200'>
         {/* Search + Button */}
         <div className='flex w-full space-x-2 mb-4'>
           <input 
@@ -75,7 +53,7 @@ const Equipments = () => {
         </div>
 
         {/* Table */}
-        <div className="overflow-y-auto overflow-x-auto custom-scrollbar rounded h-[90%] bg-white-800">
+        <div className="overflow-y-auto overflow-x-auto custom-scrollbar rounded bg-white flex-grow min-h-0">
           <table className="w-full  text-sm text-left text-gray-300">
             <thead className="bg-blue-900 text-gray-100 uppercase text-xs">
               <tr>
@@ -89,7 +67,7 @@ const Equipments = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredEquipments.map((equipment) => (
+              {data?.equipments.map((equipment) => (
                 <tr 
                   key={equipment._id} 
                   className="border-b border-gray-700/20 hover:bg-gray-200/50 text-black"
@@ -138,6 +116,9 @@ const Equipments = () => {
             </tbody>
           </table>
         </div>
+        <Pagination 
+            count={data?.totalPages} page={page} onChange={handlePage} color='primary'
+        />
       </div>
 
       {showModal && <NewEquipmentModal onClose={setShowModal} />}

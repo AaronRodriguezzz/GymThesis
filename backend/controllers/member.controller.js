@@ -25,7 +25,6 @@ export const createMembership = async (req, res) => {
 
 
 export const updateMembership = async (req, res) => {
-    console.log(req.body, req.params.id);
 
     try{
         const member = await Member.findById(req.params.id)
@@ -46,8 +45,6 @@ export const updateMembership = async (req, res) => {
 }
 
 export const updateMember = async (req, res) => {
-    console.log(req.body, req.params.id);
-
 
     if(!req.params.id || !req.body){
         res.status(400).json({ success: false, message: 'ID mismatch.'})

@@ -2,33 +2,20 @@ import React, { useEffect, useState } from 'react'
 import AdminHeader from '../../components/ui/AdminHeader'
 import { FaArrowLeft } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
-import { fetchData } from '../../api/apis';
 import { updateData } from '../../api/apis';
 import { formatDate } from '../../utils/dateUtils';
 import { Pagination } from "@mui/material"
 import { ConfirmDialog } from '../../components/dialogs/CustomAlert';
-import { set } from 'mongoose';
+import useFetch from '../../hooks/useFetch';
+import { useDebounce } from '../../hooks/useDebounce';
 
 const BorrowHistory = () => {
   const [page, setPage] = useState(1);
-  const [borrowHistory, setBorrowHistory] = useState([]);
-  const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState('');
+  const searchDebounce = useDebounce(search, 500);
   const [selectedBorrowed, setSelectedBorrowed] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
-
-  const fetchHistory = async () => {
-    try{
-      const response = await fetchData(`/api/borrow-history?searchTerm=${search}&limit=20&page=${page}`);
-      if(response) {
-        setBorrowHistory(response.histories);
-        setTotalPages(response.totalPages);
-      }
-
-    }catch(err){
-      console.log(err);
-    }
-  }
+  const { data } = useFetch(`/api/borrow-history?searchTerm=${searchDebounce}&limit=20&page=${page}`)
 
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
@@ -101,7 +88,7 @@ const BorrowHistory = () => {
               </tr>
             </thead>
             <tbody>
-              {borrowHistory.sort((a, b) => b.status.localeCompare(a.status)).map((item) => (
+              {data?.histories.sort((a, b) => b.status.localeCompare(a.status)).map((item) => (
                 <tr 
                   key={item?.id} 
                   className={`
@@ -144,7 +131,7 @@ const BorrowHistory = () => {
           </table>
         </div>
         <Pagination 
-            count={totalPages} page={page} onChange={handlePage} color='primary'
+            count={data?.totalPages} page={page} onChange={handlePage} color='primary'
         />
       </div>
 

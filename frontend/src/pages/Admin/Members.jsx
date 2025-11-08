@@ -5,44 +5,22 @@ import MemberGoalModal from '../../components/modals/MemberGoalModal';
 import { FaEdit, FaBan, FaEye } from "react-icons/fa";
 import { fetchData, updateData } from '../../api/apis';
 import { Pagination } from '@mui/material';
+import useFetch from '../../hooks/useFetch';
+import { useDebounce } from '../../hooks/useDebounce';
 
 const Members = () => {
-  const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [showModal, setShowModal] = useState(false);
-  const [members, setMembers] = useState([]);
   const [memberToUpdate, setMemberToUpdate] = useState(null); 
   const [goalModalOpen, setGoalModalOpen] = useState(false);
   const [memberToView, setMemberToView] = useState(null);
+  const searchDebounce = useDebounce(search, 500);
+  const { data } = useFetch(`/api/members?searchTerm=${searchDebounce}&limit=20&page=${page}`)
 
   const handlePage = (_event, value) => {
     setPage(value)
   };
-
-  useEffect(() => {
-
-    const fetchMembers = async () => {
-      try{
-        const response = await fetchData(`/api/members?searchTerm=${search}&limit=20&page=${page}`);
-
-        if(response){
-          setMembers(response?.members || []);
-          setTotalPages(response?.totalPages || 1)
-        }
-
-      }catch(error){
-        console.error(err)
-      }
-    }
-
-    const delayDebounce = setTimeout(() => {
-      fetchMembers()
-    }, 300); 
-        
-    return () => clearTimeout(delayDebounce);
-
-  }, [page, search]);
 
   const updateMemberStatus = async (memberId, newStatus) => {
     try{
@@ -80,7 +58,7 @@ const Members = () => {
         </div>
 
         {/* Table */}
-        <div className="overflow-y-auto overflow-x-auto custom-scrollbar rounded flex-grow min-h-0 bg-white">
+        <div className="overflow-auto custom-scrollbar rounded flex-grow min-h-0 bg-white">
           <table className="w-full  text-sm text-left text-gray-300">
             <thead className="bg-blue-900 text-white uppercase text-xs">
               <tr>
@@ -94,7 +72,7 @@ const Members = () => {
               </tr>
             </thead>
             <tbody>
-              {members.map((member, index) => (
+              {data?.members.map((member, index) => (
                 <tr 
                   key={index} 
                   className="border-b border-gray-700/20 text-black bg-white hover:bg-gray-700/50 "
@@ -146,7 +124,7 @@ const Members = () => {
           </table>
         </div>
         <Pagination 
-          count={totalPages} page={page} onChange={handlePage} color='primary'
+          count={data?.totalPages} page={page} onChange={handlePage} color='primary'
         />
       </div>
 

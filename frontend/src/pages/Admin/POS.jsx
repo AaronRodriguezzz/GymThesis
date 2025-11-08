@@ -1,38 +1,28 @@
-import React, { useState, useEffect, use } from 'react'
+import { useState, useEffect } from 'react'
 import AdminHeader from '../../components/ui/AdminHeader'
-import { fetchData } from '../../api/apis';
 import CheckoutModal from '../../components/modals/CheckoutModal';
+import useFetch from '../../hooks/useFetch';
+import { useDebounce } from '../../hooks/useDebounce';
+import { Pagination } from '@mui/material';
 
 const Sales = () => {
-  const [products, setProducts] = useState([]);
   const [checkoutProducts, setCheckoutProducts] = useState([])
   const [totalPrice, setTotalPrice] = useState(0);
   const [showCheckoutModal, setShowCheckoutModal] = useState(false);
+  const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
-
-  useEffect(() => {
-  
-    const fetchProducts = async () => {
-      try{
-        const res = await fetchData('/api/products')
-  
-        if(res.success){
-          console.log(res.products);
-          setProducts(res.products);
-        }
-      }catch(err){
-        console.log(err);
-      }
-    }
-  
-    fetchProducts();
-  },[])
+  const searchDebounce = useDebounce(search, 500);
+  const { data } = useFetch(`/api/products?searchTerm=${searchDebounce}&page=${page}`)
 
   const removeItem = (index) => {
     const updatedList = checkoutProducts.filter((_, i) => i !== index);
 
     setCheckoutProducts(updatedList);
   }
+
+  const handlePage = (_event, value) => {
+    setPage(value)
+  };
 
 
   const handleAdd = (product) => {
@@ -82,18 +72,6 @@ const Sales = () => {
     setCheckoutProducts(updatedList);
   };
 
-  const filteredProducts = products.filter((product) => {
-    const searchLower = search.toLowerCase();
-    return (
-      product?.sku?.toLowerCase().includes(searchLower) ||
-      product?.name?.toLowerCase().includes(searchLower) ||
-      product?.category?.toLowerCase().includes(searchLower) ||
-      product?.stock?.toString().includes(searchLower) ||
-      product?.price?.toString().includes(searchLower)
-    );
-  });
-
-
   useEffect(() => {
     let totalAmount = 0;
 
@@ -104,10 +82,6 @@ const Sales = () => {
     setTotalPrice(totalAmount);
   },[checkoutProducts])
 
-
-  useEffect(() => {
-    console.log(checkoutProducts);
-  },)
 
   return (
     <div className='h-screen w-full p-10'>
@@ -127,7 +101,9 @@ const Sales = () => {
         />
 
         <div className='w-full h-full flex gap-x-4'>
-            <div className="w-[75%] overflow-y-auto overflow-x-auto custom-scrollbar rounded h-[90%] bg-white shadow-md">
+            <div className='flex-1 h-full'>
+
+            <div className="mb-5 overflow-y-auto overflow-x-auto custom-scrollbar rounded h-[90%] bg-white shadow-md">
                 <table className="w-full text-sm text-left bg-white/50  text-gray-300">
                   <thead className="bg-blue-900 text-white uppercase text-xs">
                     <tr>
@@ -141,7 +117,7 @@ const Sales = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {filteredProducts.map((product) => (
+                    {data?.products.map((product) => (
                         <tr 
                           key={product.id} 
                           className="border-b border-gray-700/20 text-black bg-white hover:bg-gray-200/50 "
@@ -165,6 +141,10 @@ const Sales = () => {
                     ))}
                     </tbody>
                 </table>
+            </div>
+            <Pagination 
+                count={data?.totalPages} page={page} onChange={handlePage} color='primary'
+              />
             </div>
 
             <div className='w-[30%] h-[90%] rounded bg-white/50 shadow-md p-4'>
@@ -202,7 +182,6 @@ const Sales = () => {
                     
                 </div>
                   
-              
                 <p className='space-x-2 text-black text-xl font-semibold'>Total: <span>₱{totalPrice}</span></p>
                 <button 
                   className='w-full py-2 rounded text-white bg-green-500 my-2 cursor-pointer disabled:cursor-not-allowed disabled:bg-green-800' 

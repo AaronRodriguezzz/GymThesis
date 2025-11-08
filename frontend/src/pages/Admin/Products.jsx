@@ -1,47 +1,21 @@
-import React, { useState, useEffect } from 'react'
+import { useState } from 'react'
 import AdminHeader from '../../components/ui/AdminHeader'
-import { fetchData, updateData } from '../../api/apis';
-import { FaEdit, FaBan, FaEye, FaExchangeAlt, FaHandHolding } from "react-icons/fa";
-import NewEquipmentModal from '../../components/modals/NewEquipmentModal';
+import { FaEdit,FaEye, FaExchangeAlt, } from "react-icons/fa";
 import NewProductModal from '../../components/modals/NewProductModal';
+import useFetch from '../../hooks/useFetch';
+import { useDebounce } from '../../hooks/useDebounce';
+import { Pagination } from '@mui/material';
 
 const Equipments = () => {
-
-  const [products, setProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [showBorrowModal, setShowBorrowModal] = useState(false);
-  const [equipmentToBorrow, setEquipmentToBorrow] = useState(null);
+  const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+  const searchDebounce = useDebounce(search, 500);
+  const { data } = useFetch(`/api/products?page=${page}&searchTerm=${searchDebounce}`)
 
-  useEffect(() => {
-
-    const fetchProducts = async () => {
-      try{
-        const res = await fetchData('/api/products')
-
-        if(res.success){
-          console.log(res.products);
-          setProducts(res.products);
-        }
-      }catch(err){
-        console.log(err);
-      }
-    }
-
-    fetchProducts();
-
-  },[])
-
-  const filteredProducts = products.filter((product) => {
-    const searchLower = search.toLowerCase();
-    return (
-      product?.sku?.toLowerCase().includes(searchLower) ||
-      product?.name?.toLowerCase().includes(searchLower) ||
-      product?.category?.toLowerCase().includes(searchLower) ||
-      product?.stock?.toString().includes(searchLower) ||
-      product?.price?.toString().includes(searchLower)
-    );
-  });
+  const handlePage = (_event, value) => {
+    setPage(value)
+  };
 
   return (
     <div className='h-screen w-full p-10'>
@@ -65,7 +39,7 @@ const Equipments = () => {
         </div>
 
         {/* Table */}
-        <div className="overflow-y-auto overflow-x-auto custom-scrollbar rounded h-[90%] bg-white">
+        <div className="mb-4 overflow-y-auto overflow-x-auto custom-scrollbar rounded h-[90%] bg-white">
           <table className="w-full  text-sm text-left text-gray-300">
             <thead className="bg-blue-900 text-gray-100 uppercase text-xs">
               <tr>
@@ -79,7 +53,7 @@ const Equipments = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredProducts.map((product) => (
+              {data?.products.map((product) => (
                 <tr 
                   key={product._id} 
                   className="border-b border-gray-700/20 hover:bg-gray-200/50 text-black"
@@ -125,6 +99,9 @@ const Equipments = () => {
             </tbody>
           </table>
         </div>
+        <Pagination 
+            count={data?.totalPages} page={page} onChange={handlePage} color='primary'
+        />
       </div>
 
       {showModal && <NewProductModal onClose={setShowModal} />}

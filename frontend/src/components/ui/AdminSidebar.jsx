@@ -10,13 +10,14 @@ import {
   FaMoneyBill,
   FaSignOutAlt,
 } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/adminContext";
 
 export default function Sidebar() {
     const navigate = useNavigate();
     const { logout } = useAuth();
-    const [isActive, setIsActive] = useState("Dashboard");
+    const location = useLocation();
+    const pathname = location.pathname;
 
     const menuItems = [
         { name: "Dashboard", icon: <FaTachometerAlt/>, path: '/admin/dashboard' },
@@ -33,7 +34,7 @@ export default function Sidebar() {
         <div className="fixed w-[220px] h-full bg-blue-800 p-4">
         {/* Logo */}
         <h1 className="font-bold text-4xl my-8 text-white">
-            Dan's <br/> <span className="text-blue-500">Fitness</span>
+            Don's <br/> <span className="text-blue-500">Fitness</span>
         </h1>
 
         {/* Nav Menu */}
@@ -41,13 +42,10 @@ export default function Sidebar() {
             {menuItems.map((item) => (
             <a
                 key={item.name}
-                onClick={() => {
-                    setIsActive(item.name);
-                    navigate(item.path);
-                }}
-                className={`flex items-center gap-3 px-4 py-2 rounded-md transition-colors
+                onClick={() => navigate(item.path)}
+                className={`cursor-pointer flex items-center gap-3 px-4 py-2 rounded-md transition-colors
                 ${
-                    isActive === item.name
+                    pathname === item.path
                     ? "bg-blue-900 text-white"
                     : "hover:text-blue-500 hover:bg-white hover:text-black"
                 }`}
