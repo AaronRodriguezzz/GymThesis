@@ -12,7 +12,7 @@ const BorrowingModal = ({ onClose, equipment}) => {
     const [borrowQuantity, setBorrowQuantity] = useState(1);
     const searchDebounce = useDebounce(searchTerm, 500);
     const [page, setPage] = useState(1);
-    const { data } = useFetch(`/api/members?limit=30&searchTerm=${searchDebounce}&page=${page}`) 
+    const { data } = useFetch(`/api/members?status=Paid&limit=30&searchTerm=${searchDebounce}&page=${page}`) 
     const [nonMemberFormData, setNonMemberFormData] = useState({
         fullName: '',
         phone: '',
