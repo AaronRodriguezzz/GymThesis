@@ -26,11 +26,12 @@ export const fetchData = async (endpoint) => {
 export const postData = async (endpoint, data) => {
   try {
     const response = await axios.post(endpoint, data);
-
+    
     return response.data;
 
   } catch (error) {
     console.log(error);
+    alert(error.response.data.message || 'Failed')
     // AlertPopup('error', error.response.data.message || 'Error Posting Data', true);
   }
 };
@@ -40,13 +41,11 @@ export const updateData = async (endpoint, data) => {
     const response = await axios.put(endpoint, data);
 
     if (response.status === 200) {
-        AlertPopup(response.data.message || 'Error Updating Data', true);
         return response.data;
     }  
 
   } catch (error) {
-    console.error('Error updating data:', error);
-    AlertPopup('error', error.response.data.message || 'Error Updating Data', true);
+    alert(error.data.message || 'Failed')
   }
 };
 

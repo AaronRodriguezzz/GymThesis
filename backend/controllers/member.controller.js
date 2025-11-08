@@ -37,7 +37,7 @@ export const updateMembership = async (req, res) => {
 
         await member.save();
 
-        res.status(201).json({ success: true, message: 'Membership successfully updated'})
+        res.status(200).json({ success: true, message: 'Membership successfully updated'})
 
     }catch(err){
         res.status(500).json({ success: false, message: err.message });
@@ -62,7 +62,7 @@ export const updateMember = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Membership not found.'})
         }
 
-        res.status(201).json({ success: true, message: 'Membership successfully updated'})
+        res.status(200).json({ success: true, message: 'Membership successfully updated'})
 
     }catch(err){
         res.status(500).json({ success: false, message: err.message });

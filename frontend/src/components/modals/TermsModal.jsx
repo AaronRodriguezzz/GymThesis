@@ -44,8 +44,6 @@ export default function TermsModal({
 
     const expirationMonth =  thisMonth + addedMonths;
 
-    console.log(thisDay);
-
     if(!member){
 
       if(expirationMonth > 12) {
@@ -62,9 +60,8 @@ export default function TermsModal({
 
 
     try{    
-      const res = await !member ? postData('/api/members', membershipForm) : updateData(`/api/members/data/${member._id}`, membershipForm);
-
-      if(res){
+      const res = !member ? await postData('/api/members', membershipForm) : await updateData(`/api/members/data/${member._id}`, membershipForm);
+      if(res.success){
         alert(member ? 'Member Updated' : 'Membership Form Submitted')
         setPopUp({
           visible: true,
@@ -72,16 +69,6 @@ export default function TermsModal({
           message: res.message || ''
         })
         window.location.reload();
-
-        // setMembershipForm({
-        //   fullName: '',
-        //   email: '',
-        //   phone: '',
-        //   selectedPlan: '',
-        //   fitnessGoal: ''
-        // })
-        // onClose();
-
       }
     }catch(err){
       setPopUp({
