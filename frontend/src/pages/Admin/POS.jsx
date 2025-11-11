@@ -96,7 +96,7 @@ const Sales = () => {
         <input 
           type="text" 
           className='w-full mb-4 rounded bg-white shadow-md px-4 py-2 text-black caret-blue-500 outline-0 placeholder:text-gray-400' 
-          placeholder='Search name, type, quantity, etc...'
+          placeholder='Search by name, category or sku...'
           onChange={(e) => {
             setSearch(e.target.value)
             setPage(1)

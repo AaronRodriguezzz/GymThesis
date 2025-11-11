@@ -124,11 +124,8 @@ export const getProducts = async (req, res) => {
             query.$or = [
                 { name: { $regex: searchTerm, $options: "i" } },
                 { sku: { $regex: searchTerm, $options: "i" } },
+                { category: { $regex: searchTerm, $options: "i" } }
             ]
-        }
-
-        if(category && category !== 'All'){
-            query.category = category
         }
 
         const products = await Product.find(query).skip(skip).limit(limit)
@@ -153,20 +150,25 @@ export const getProductSales = async (req, res) => {
         const page = req.query.page || 1;
         const limit = req.query.limit || 20;
         const skip = (page - 1) * limit;
-        const category = req.query.category || '';
 
-        let query = {};
+        const startDate = req.query.startDate;
+        const endDate = req.query.endDate;
 
-        if(category && category !== 'All'){
-            query.category = category
-        }
+        let filter = {}
 
-        const sales = await ProductSales.find(query)
+        if (startDate && endDate) {
+            filter.createdAt = {
+                $gte: new Date(startDate),
+                $lte: new Date(new Date(new Date(endDate).getTime() + 24 * 60 * 60 * 1000))
+            };
+        } 
+
+        const sales = await ProductSales.find(filter)
         .skip(skip)
         .limit(limit)
         .populate('products.product');      
 
-        const totalSalesCount = await ProductSales.countDocuments(query);
+        const totalSalesCount = await ProductSales.countDocuments(filter);
 
         res.status(200).json({
             success: true,

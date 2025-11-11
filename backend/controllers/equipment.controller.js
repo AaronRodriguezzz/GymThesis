@@ -69,7 +69,6 @@ export const getEquipments = async (req, res) => {
         const limit = req.query.limit || 20;
         const skip = (page - 1) * limit;
         const searchTerm = req.query.searchTerm || '';
-        const category = req.query.category || '';
 
         let query = {};
 
@@ -77,11 +76,8 @@ export const getEquipments = async (req, res) => {
             query.$or = [
                 { name: { $regex: searchTerm, $options: "i" } },
                 { sku: { $regex: searchTerm, $options: "i" } },
+                { category: { $regex: searchTerm, $options: "i" } },
             ]
-        }
-
-        if(category && category !== 'All'){
-            query.category = category
         }
 
         const equipments = await Equipment.find(query).skip(skip).limit(limit)

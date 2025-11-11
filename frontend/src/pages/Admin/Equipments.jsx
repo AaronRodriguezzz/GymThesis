@@ -41,7 +41,7 @@ const Equipments = () => {
           <input 
             type="text" 
             className='flex-8 rounded bg-white shadow-lg px-4 py-2 text-black caret-blue-500 outline-0 placeholder:text-gray-400' 
-            placeholder='Search name, type, quantity, etc...'
+            placeholder='Search name, category or sku...'
             onChange={(e) => {
               setSearch(e.target.value)
               setPage(1)
