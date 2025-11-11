@@ -92,6 +92,7 @@ const Members = () => {
                 <th className="px-6 py-3">Full Name</th>
                 <th className="px-6 py-3">Phone</th>
                 <th className="px-6 py-3">Plan</th>
+                <th className="px-6 py-3">Request Date</th>
                 <th className="px-6 py-3">Expiration</th>
                 <th className="px-6 py-3">Status</th>
                 <th className="px-6 py-3">Action</th>
@@ -107,6 +108,7 @@ const Members = () => {
                   <td className="px-6 py-3">{member?.fullName}</td>
                   <td className="px-6 py-3">{member?.phone}</td>
                   <td className="px-6 py-3">{member?.plan}</td>
+                  <td className="px-6 py-3">{member.createdAt.toString().split('T')[0]}</td>
                   <td className="px-6 py-3">{member?.expirationDate.toString().split('T')[0]}</td>
                   <td 
                     className="px-6 py-3 font-semibold rounded"

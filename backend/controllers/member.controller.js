@@ -96,7 +96,7 @@ export const getMemberships = async (req, res) => {
             query.plan = plan
         }
 
-        const members = await Member.find(query).skip(skip).limit(limit)
+        const members = await Member.find(query).skip(skip).limit(limit).sort({ createdAt: -1 })
         
         const totalMembers = await Member.countDocuments(query);
 
