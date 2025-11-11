@@ -17,18 +17,12 @@ const BorrowHistory = () => {
   const [showConfirm, setShowConfirm] = useState(false);
   const { data } = useFetch(`/api/borrow-history?searchTerm=${searchDebounce}&limit=20&page=${page}`)
 
-  useEffect(() => {
-    const delayDebounce = setTimeout(() => {
-      fetchHistory()
-    }, 300); 
-        
-    return () => clearTimeout(delayDebounce);
-  },[search, page])
-
   const handleReturn = (item, status) => {
     setSelectedBorrowed({ ...item, status });
     setShowConfirm(true);
   }
+
+  console.log(data)
 
   const handleConfirm = async () => {
 
@@ -65,8 +59,11 @@ const BorrowHistory = () => {
           <input 
             type="text" 
             className='border border-gray-200 flex-8 rounded-lg bg-white shadow-lg px-4 py-2 text-black caret-blue-500 outline-0 placeholder:text-gray-400' 
-            placeholder='Search name, type, quantity, etc...'
-            onChange={(e) => setSearch(e.target.value)}
+            placeholder={"Search by member's fullname, email or phone"}
+            onChange={(e) => {
+              setSearch(e.target.value)
+              setPage(1)
+            }}
           />
         </div>
 

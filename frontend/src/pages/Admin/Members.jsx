@@ -16,7 +16,9 @@ const Members = () => {
   const [goalModalOpen, setGoalModalOpen] = useState(false);
   const [memberToView, setMemberToView] = useState(null);
   const searchDebounce = useDebounce(search, 500);
-  const { data } = useFetch(`/api/members?searchTerm=${searchDebounce}&limit=20&page=${page}`)
+  const [plan, setPlan] = useState('');       // New plan filter
+  const [status, setStatus] = useState(''); 
+  const { data } = useFetch(`/api/members?plan=${plan}&status=${status}&searchTerm=${searchDebounce}&limit=20&page=${page}`)
 
   const handlePage = (_event, value) => {
     setPage(value)
@@ -49,10 +51,34 @@ const Members = () => {
           <input 
             type="text" 
             className='border border-gray-200 flex-8 rounded bg-white shadow-lg px-4 py-2 text-black caret-blue-500 outline-0 placeholder:text-gray-400' 
-            placeholder='Search name, type, quantity, etc...'
-            onChange={(e) => setSearch(e.target.value)}
+            placeholder='Search by fullname, email or phone'
+            onChange={(e) => {
+              setSearch(e.target.value)
+              setPage(1)
+            }}
           />
-          <button className='flex-1 bg-blue-500 text-white px-4 py-2 rounded' onClick={() => setShowModal(true)}>
+          <select 
+            value={plan} 
+            onChange={(e) => { setPlan(e.target.value); setPage(1) }} 
+            className='border border-gray-200 rounded px-3 py-2'
+          >
+            <option value=''>All Plans</option>
+            <option value='Basic'>Basic</option>
+            <option value='Pro'>Pro</option>
+            <option value='Elite'>Elite</option>
+          </select>
+          <select 
+            value={status} 
+            onChange={(e) => { setStatus(e.target.value); setPage(1) }} 
+            className='border border-gray-200 rounded px-3 py-2'
+          >
+            <option value=''>All Status</option>
+            <option value='Paid'>Paid</option>
+            <option value='Pending'>Pending</option>
+            <option value='Expired'>Expired</option>
+          </select>
+          
+          <button className='w-[200px] bg-blue-500 text-white px-4 py-2 rounded' onClick={() => setShowModal(true)}>
             + NEW MEMBER
           </button>
         </div>

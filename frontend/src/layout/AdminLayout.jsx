@@ -1,11 +1,17 @@
 import SideBar from '../components/ui/AdminSidebar';
-import { Outlet } from 'react-router-dom';
-import { usePageProtection } from '../hooks/pagePRotection';
+import { Outlet, Navigate } from 'react-router-dom';
+import { useAuth } from '../context/adminContext';
 
 const AdminLayout = () => {
-    usePageProtection();
+    const { admin, loading } = useAuth();
+    
+    if(loading) return;
+    
+    if(!admin){
+        return <Navigate to="/admin/login"/>
+    }
 
-    return(
+    return( 
         <div>
             <SideBar />
             <main className="bg-white/10 overflow-x-hidden pl-50">

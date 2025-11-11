@@ -1,11 +1,7 @@
 import axios from 'axios';
 import { AlertPopup } from '../components/dialogs/CustomAlert';
-// Set Authorization header if token exists
-const token = localStorage.getItem('token');
 
-if (token) {
-  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-}
+axios.defaults.withCredentials = true;
 
 export const fetchData = async (endpoint) => {
   try {

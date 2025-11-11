@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react'
 import AdminHeader from '../../components/ui/AdminHeader'
 import { fetchData } from '../../api/apis';
+import { CircularProgress } from '@mui/material';
 
-const url =
-  process.env.NODE_ENV === "production"
-    ? "https://gym-forecast-api.onrender.com"
-    : "http://localhost:5000";
+const url = "https://gym-forecast-api.onrender.com"
 
 function getMonthName(monthNumber) {
   const date = new Date(2025, monthNumber - 1); // month is 0-based
@@ -15,9 +13,11 @@ function getMonthName(monthNumber) {
 const EquipmentsForecast = () => {
   const [equipments, setEquipments] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchEquipments = async () => {
+      setLoading(true)
       try {
         const res = await fetchData(`${url}/api/predict/items`);
         if (res.success) {
@@ -29,6 +29,8 @@ const EquipmentsForecast = () => {
         }
       } catch (err) {
         console.log(err);
+      }finally{
+        setLoading(false);
       }
     };
 
@@ -73,6 +75,11 @@ const EquipmentsForecast = () => {
         </div>
 
         {/* Table */}
+        {loading ? ( 
+            <div className="flex justify-center items-center p-4">
+              <CircularProgress />
+            </div>
+        ) : 
         <div className="overflow-y-auto overflow-x-auto custom-scrollbar rounded h-[90%]">
           <table className="w-full text-sm text-left text-gray-600">
             <thead className="bg-blue-900 text-gray-100 uppercase text-xs">
@@ -107,6 +114,7 @@ const EquipmentsForecast = () => {
             </tbody>
           </table>
         </div>
+}
       </div>
     </div>
   );

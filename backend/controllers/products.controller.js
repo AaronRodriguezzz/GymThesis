@@ -153,17 +153,9 @@ export const getProductSales = async (req, res) => {
         const page = req.query.page || 1;
         const limit = req.query.limit || 20;
         const skip = (page - 1) * limit;
-        const searchTerm = req.query.searchTerm || '';
         const category = req.query.category || '';
 
         let query = {};
-
-        if(searchTerm){
-            query.$or = [
-                { name: { $regex: searchTerm, $options: "i" } },
-                { sku: { $regex: searchTerm, $options: "i" } },
-            ]
-        }
 
         if(category && category !== 'All'){
             query.category = category

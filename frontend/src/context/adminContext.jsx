@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useContext } from 'react';
-import axios from 'axios';
+import { fetchData, postData } from '../api/apis';
 
 const AdminAuthContext = createContext();
 
@@ -11,8 +11,10 @@ export const AuthProvider = ({children}) => {
         const checkAuth = async () => {
             try {
                 setLoading(true)
-                const res = await axios.get('/api/auth', { withCredentials: true });
-                setAdmin(res.data.admin);
+                const res = await fetchData('/api/auth');
+                if(res.success){
+                    setAdmin(res.admin);
+                }
             } catch (err) {
                 setAdmin(null);
             } finally {
@@ -25,11 +27,9 @@ export const AuthProvider = ({children}) => {
     
 
     const logout = async () => {
-        const response = await axios.post('/api/auth/logout', {}, { withCredentials: true });
-        
-        if(response.status === 200){
-            setAdmin(null);
-        }
+        await postData('/api/auth/logout');
+        setAdmin(null);
+        window.location.reload()
     };
 
     return (

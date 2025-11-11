@@ -91,7 +91,6 @@ export const getBorrowHistory = async (req, res) => {
                 { 'borrower.fullname': { $regex: searchTerm, $options: "i" } },
                 { 'borrower.email': { $regex: searchTerm, $options: "i" } },
                 { 'borrower.phone': { $regex: searchTerm, $options: "i" } },
-                { 'equipment.name': { $regex: searchTerm, $options: "i" } },
             ]
         }
 

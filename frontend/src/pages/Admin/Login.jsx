@@ -1,15 +1,19 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { postData } from "../../api/apis";
 import { useLocation } from "react-router-dom";
-import { usePageProtection } from "../../hooks/pagePRotection";
 import { useAuth } from "../../context/adminContext";
 
 export default function AdminLoginPage() {
-  // usePageProtection();
-  const { setAdmin } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const { admin, loading, setAdmin } = useAuth();
+
+  if(loading) return;
+    
+  if(admin){
+      return <Navigate to="/admin/dashboard"/>
+  }
   
   const [error, setError] = useState("");
   const [credentials, setCredentials] = useState({
@@ -27,7 +31,6 @@ export default function AdminLoginPage() {
       const res = await postData("/api/auth/login", credentials);
 
       if (res.success) {
-        console.log('hello');
         setAdmin(res.admin);
         navigate(from, { replace: true });
       } else {

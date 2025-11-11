@@ -64,7 +64,7 @@ export const verifyToken = async (req, res) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        res.json({ message: 'Access granted', admin: decoded });
+        res.json({ success: true, message: 'Access granted', admin: decoded });
     } catch (err) {
         res.status(403).json({ message: err.message });
     }
