@@ -8,10 +8,8 @@ export default function AdminLoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const { admin, loading, setAdmin } = useAuth();
-
-  if(loading) return;
     
-  if(admin){
+  if(admin && !loading){
       return <Navigate to="/admin/dashboard"/>
   }
   
