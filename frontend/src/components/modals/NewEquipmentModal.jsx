@@ -1,14 +1,15 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
 import { postData } from "../../api/apis";
+import { updateData } from "../../api/apis";
 
-const AddEquipmentModal = ({ onClose }) => {
+const AddEquipmentModal = ({ onClose, equipment }) => {
     const [formData, setFormData] = useState({
-        name: "",
-        sku: "",
-        stock: "",
-        category: "",
-        image: null
+        name: equipment.name || "",
+        sku: equipment.sku || "",
+        stock: equipment.stock || "",
+        category: equipment.category || "",
+        image: ""
     });
 
     const fileInputRef = useRef(null);
@@ -39,18 +40,19 @@ const AddEquipmentModal = ({ onClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!formData.name || !formData.sku || !formData.stock || !formData.image) {
+        if (!formData.name || !formData.sku || !formData.stock || (!formData.image && !equipment)) {
             alert("Please complete all required fields.");
             return;
         }
+
         
         try{
 
-            const res = await postData("/api/equipments", formData);
+            const res = await equipment ? updateData(`/api/equipments/${equipment._id}`, formData) : postData("/api/equipments", formData);
 
-            if(res.success){
+            if(res){
                 alert("Equipment added successfully!");
-                // window.location.reload();
+                window.location.reload();
             }
 
         }catch(err){

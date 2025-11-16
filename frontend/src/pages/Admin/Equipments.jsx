@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import AdminHeader from '../../components/ui/AdminHeader'
-import { FaEdit, FaEye, FaExchangeAlt } from "react-icons/fa";
+import { FaEdit, FaEye, FaPlus, FaExchangeAlt } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import NewEquipmentModal from '../../components/modals/NewEquipmentModal';
 import BorrowingModal from '../../components/modals/BorrowModal';
@@ -22,6 +22,7 @@ const Equipments = () => {
   const [showBorrowers, setShowBorrowers] = useState(false);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
+
   const searchDebounce = useDebounce(search, 500);
   const { data } = useFetch(`/api/equipments?searchTerm=${searchDebounce}`)
   const { admin, loading } = useAuth();
@@ -94,6 +95,15 @@ const Equipments = () => {
                           setEquipmentToUpdate(equipment);
                         }}
                       >
+                        <FaPlus size={20} />
+                      </button>
+                       <button 
+                        className="p-2 text-blue-500 hover:text-blue-700" 
+                        onClick={() => {
+                          setShowModal(true);
+                          setEquipmentToUpdate(equipment);
+                        }}
+                      >
                         <FaEdit size={20} />
                       </button>
                       <button 
@@ -126,7 +136,7 @@ const Equipments = () => {
         />
       </div>
 
-      {showModal && <NewEquipmentModal onClose={setShowModal} />}
+      {showModal && <NewEquipmentModal onClose={setShowModal} equipment={equipmentToUpdate}/>}
       {showBorrowModal && <BorrowingModal onClose={setShowBorrowModal} equipment={equipmentToBorrow} />}
       {showUpdateModal && <EquipmentUpdateModal onClose={setShowUpdateModal} equipment={equipmentToUpdate} />}
       {showBorrowers && <EquipmentBorrowedModal equipment={equipmentToView} onClose={setShowBorrowers} />}
