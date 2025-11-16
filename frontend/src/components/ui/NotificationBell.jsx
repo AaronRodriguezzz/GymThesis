@@ -105,8 +105,8 @@ const NotificationBell = () => {
                         <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></div>
                         )}
                         <div className="flex-1">
-                        <h3 className="font-semibold text-gray-800 text-sm">{notification.title}</h3>
-                        <p className="text-gray-600 text-xs mt-0.5">{notification.message}</p>
+                        <h3 className="font-semibold text-gray-800">{notification.title}</h3>
+                        <p className="text-gray-600 mt-0.5">{notification.message}</p>
                         <span className="text-gray-400 text-[10px] mt-1 inline-block">
                             {formatDate(new Date(notification.createdAt))}
                         </span>
@@ -119,7 +119,7 @@ const NotificationBell = () => {
             {page < totalPages && (
                 <button
                 onClick={handleNext}
-                className="w-full py-2 text-sm text-blue-500 border-t border-gray-200 hover:bg-gray-100"
+                className="w-full py-2 text-blue-500 border-t border-gray-200 hover:bg-gray-100"
                 >
                 Load More
                 </button>
