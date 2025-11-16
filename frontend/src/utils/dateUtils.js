@@ -1,6 +1,6 @@
-
 export const formatDate = (date) => {
   const formatted = date.toLocaleString("en-US", {
+    timeZone: "Asia/Manila",
     year: "numeric",
     month: "short",
     day: "2-digit",

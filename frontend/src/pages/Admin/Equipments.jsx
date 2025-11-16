@@ -9,6 +9,7 @@ import EquipmentBorrowedModal from '../../components/modals/EquipmentBorrowedMod
 import useFetch from '../../hooks/useFetch';
 import { useDebounce } from '../../hooks/useDebounce';
 import { Pagination } from '@mui/material';
+import { useAuth } from '../../context/adminContext';
 
 const Equipments = () => {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ const Equipments = () => {
   const [page, setPage] = useState(1);
   const searchDebounce = useDebounce(search, 500);
   const { data } = useFetch(`/api/equipments?searchTerm=${searchDebounce}`)
+  const { admin, loading } = useAuth();
 
   const handlePage = (_event, value) => {
     setPage(value)
@@ -47,9 +49,9 @@ const Equipments = () => {
               setPage(1)
             }}
           />
-          <button className='flex-1 bg-blue-500 text-white px-4 py-2 rounded cursor-pointer' onClick={() => navigate('/admin/forecast')}>
+          {admin?.role === 'Admin' && !loading && <button className='flex-1 bg-blue-500 text-white px-4 py-2 rounded cursor-pointer' onClick={() => navigate('/admin/forecast')}>
             View Forecast
-          </button>
+          </button>}
           <button className='flex-1 bg-blue-500 text-white px-4 py-2 rounded cursor-pointer' onClick={() => setShowModal(true)}>
             + NEW EQUIPMENT
           </button>

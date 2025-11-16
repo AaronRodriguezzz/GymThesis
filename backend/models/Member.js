@@ -18,6 +18,9 @@ const MemberSchema = new Schema({
         enum: ['Basic', 'Pro', 'Elite'],
         required: true,
     },
+    datePaid: {
+        type: Date,
+    },
     expirationDate: {
         type: Date,
     },

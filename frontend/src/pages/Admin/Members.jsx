@@ -7,6 +7,7 @@ import { fetchData, updateData } from '../../api/apis';
 import { Pagination } from '@mui/material';
 import useFetch from '../../hooks/useFetch';
 import { useDebounce } from '../../hooks/useDebounce';
+import { formatDate } from '../../utils/dateUtils';
 
 const Members = () => {
   const [search, setSearch] = useState('');
@@ -93,6 +94,7 @@ const Members = () => {
                 <th className="px-6 py-3">Phone</th>
                 <th className="px-6 py-3">Plan</th>
                 <th className="px-6 py-3">Request Date</th>
+                <th className="px-6 py-3">Date Paid</th>
                 <th className="px-6 py-3">Expiration</th>
                 <th className="px-6 py-3">Status</th>
                 <th className="px-6 py-3">Action</th>
@@ -108,8 +110,9 @@ const Members = () => {
                   <td className="px-6 py-3">{member?.fullName}</td>
                   <td className="px-6 py-3">{member?.phone}</td>
                   <td className="px-6 py-3">{member?.plan}</td>
-                  <td className="px-6 py-3">{member.createdAt.toString().split('T')[0]}</td>
-                  <td className="px-6 py-3">{member.expirationDate ? member?.expirationDate.toString().split('T')[0] : 'N/A'}</td>
+                  <td className="px-6 py-3">{formatDate(new Date(member.createdAt))}</td>
+                  <td className="px-6 py-3">{member.datePaid ? formatDate(new Date(member.datePaid)) : 'unpaid'}</td>
+                  <td className="px-6 py-3">{member.expirationDate ? formatDate(new Date(member?.expirationDate)) : 'N/A'}</td>
                   <td 
                     className="px-6 py-3 font-semibold rounded"
                     style={{color: member?.status === 'Paid' ? 'green' : member?.status === 'Pending' ? 'orange' : 'red'}}

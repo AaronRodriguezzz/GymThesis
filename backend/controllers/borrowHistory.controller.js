@@ -102,6 +102,7 @@ export const getBorrowHistory = async (req, res) => {
             .find(query)
             .populate('equipment_id')
             .skip(skip)
+            .sort({ createdAt: -1 })
             .limit(limit)
         
         const totalHistories = await BorrowHistory.countDocuments(query);

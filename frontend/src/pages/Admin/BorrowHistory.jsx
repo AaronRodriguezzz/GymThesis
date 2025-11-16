@@ -85,7 +85,7 @@ const BorrowHistory = () => {
               </tr>
             </thead>
             <tbody>
-              {data?.histories.sort((a, b) => b.status.localeCompare(a.status)).map((item) => (
+              {data?.histories.map((item) => (
                 <tr 
                   key={item?.id} 
                   className={`

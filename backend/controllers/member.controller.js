@@ -44,7 +44,7 @@ export const updateMembership = async (req, res) => {
     }
 }
 
-const plans = { Basic: 3, Elite: 6, Pro: 12 }
+const plans = { Basic: 3, Pro: 6, Elite: 12 }
 
 export const updateMember = async (req, res) => {
 
@@ -64,9 +64,11 @@ export const updateMember = async (req, res) => {
             expirationDate .setMonth(now.getMonth() + plans[req.body.plan]);
 
             req.body.expirationDate = expirationDate;
+            member.datePaid = now;
         }
 
         member.set(req.body);
+
         await member.save();
 
         res.status(200).json({ success: true, message: 'Membership successfully updated'})
