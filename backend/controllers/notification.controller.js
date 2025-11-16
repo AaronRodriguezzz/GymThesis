@@ -30,3 +30,23 @@ export const getAllNotifications = async (req, res) => {
         res.status(500).json({ success: false, message: err.message || "Server Error." });
     }
 };
+
+export const readNotification = async (req, res) => {
+    try{
+
+        const notification = await AdminNotification.findById(req.params.id);
+
+        if(!notification){
+            return res.status(404).json({ success: false, message: 'Notification not found.'})
+        }
+
+        notification.isRead = true;
+
+        await notification.save();
+
+        res.status(200).json({ success: true, message: 'Notification successfully updated.'})
+
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message || "Server Error." });
+    }
+}

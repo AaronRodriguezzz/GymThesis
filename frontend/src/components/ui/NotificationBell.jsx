@@ -3,7 +3,7 @@ import { useSocket } from "../../context/socketContext";
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { formatDate } from "../../utils/dateUtils";
-import { fetchData } from "../../api/apis";
+import { fetchData, updateData } from "../../api/apis";
 
 const NotificationBell = () => {
     const { socket } = useSocket();
@@ -13,7 +13,7 @@ const NotificationBell = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [unread, setUnread] = useState(0);
     const dropdownRef = useRef();
-    const limit = 1;
+    const limit = 30;
 
     const fetchNotifications = async (pageNumber = 1) => {
         try {
@@ -31,6 +31,14 @@ const NotificationBell = () => {
         console.error("Error fetching notifications:", err);
         }
     };
+
+    const handleRead = async (notification) => {
+        const path = notification.member_id ? '/admin/members' : '/admin/equipments'
+        
+        await updateData(`/api/notifications/${notification._id}`, {})
+
+        window.location.href = path;
+    }
 
     useEffect(() => {
         fetchNotifications();
@@ -89,6 +97,7 @@ const NotificationBell = () => {
                 notifications.map((notification) => (
                     <div
                     key={notification._id}
+                    onClick={() => handleRead(notification)}
                     className="px-4 py-3 border-b border-gray-100 last:border-b-0 hover:bg-gray-50 cursor-pointer"
                     >
                     <div className="flex items-start gap-2">
