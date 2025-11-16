@@ -48,7 +48,7 @@ export default function Home() {
         <div className="px-6">
           <h1 className="text-5xl md:text-6xl font-bold leading-tight tracking-tight">
             Transform Your Body <br /> Join Our{" "}
-            <span className="text-yellow-400">Membership</span>
+            <span className="text-black">Membership</span>
           </h1>
           <p className="mt-4 text-lg max-w-md text-gray-200">
             Affordable plans tailored to your goals. Whether you’re just starting
@@ -56,7 +56,7 @@ export default function Home() {
           </p>
           <a
             href="#pricing"
-            className="inline-block mt-6 bg-white text-blue-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition"
+            className="inline-block mt-6 bg-white text-blue-900 px-6 py-3 rounded-lg font-semibold hover:bg-black hover:text-white transition"
           >
             View Plans
           </a>
@@ -105,8 +105,8 @@ export default function Home() {
                 className="relative h-[300px] bg-white text-blue-900 p-6 rounded-xl shadow hover:shadow-xl hover:scale-105 transition bg-cover bg-center"
                 style={{ backgroundImage: `url(${cls.img})`}}
               >
-                <div className="absolute inset-0 bg-blue-500/30 rounded-xl z-0"/>
-                <div className="relative z-10 p-6 text-yellow-500">
+                <div className="absolute inset-0 bg-blue-500/50 rounded-xl z-0"/>
+                <div className="relative z-10 p-6 text-black">
                   <h3 className="text-3xl font-bold tracking-tight">{cls.title}</h3>
                 </div>              
               </div>
