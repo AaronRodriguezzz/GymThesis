@@ -35,9 +35,12 @@ export const updateEquipment = async (req, res) => {
         if(req.body.image !== '' && ("image" in req.body)){
             await deleteImage(equipment.image.imagePublicId);
             image = await uploadImage(req.body.image)
-        }else delete req.body.image
-
-        equipment.set({ ...req.body })
+            equipment.set({ ...req.body, image })
+        }else {
+            delete req.body.image
+            equipment.set({ ...req.body })
+        }
+        
         await equipment.save();
 
         res.status(200).json({ success: true, message: 'Equipment successfully updated' })
