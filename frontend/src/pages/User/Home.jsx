@@ -102,11 +102,11 @@ export default function Home() {
             ].map((cls, i) => (
               <div
                 key={i}
-                className="relative h-[300px] bg-white text-blue-900 p-6 rounded-xl shadow hover:shadow-xl hover:scale-105 transition bg-cover bg-center"
+                className="relative h-[300px] flex items-center justify-center bg-white text-blue-900 p-6 rounded-xl shadow hover:shadow-xl hover:scale-105 transition bg-cover bg-center"
                 style={{ backgroundImage: `url(${cls.img})`}}
               >
                 <div className="absolute inset-0 bg-blue-500/50 rounded-xl z-0"/>
-                <div className="relative z-10 p-6 text-black">
+                <div className="relative z-10 p-6 text-white">
                   <h3 className="text-3xl font-bold tracking-tight">{cls.title}</h3>
                 </div>              
               </div>
