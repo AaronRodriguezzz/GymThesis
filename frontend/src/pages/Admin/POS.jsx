@@ -138,7 +138,13 @@ const Sales = () => {
                           </td>
                           <td className="px-6 py-3">{product.category}</td>
                           <td className="px-6 py-3">
-                            <button className='bg-green-500 text-xl px-4 py-2 rounded-full text-white font-bold' onClick={() => handleAdd(product)}>+</button>
+                            <button 
+                              className='bg-green-500 text-xl px-4 py-2 rounded-full text-white font-bold disabled:bg-green-500/50 disabled:cursor-not-allowed'
+                              disabled={product.stock === 0}
+                              onClick={() => handleAdd(product)}
+                            >
+                              +
+                            </button>
                           </td>
                         </tr>
                     ))}
