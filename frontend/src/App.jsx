@@ -21,9 +21,11 @@ import POS from "./pages/Admin/POS";
 import EquipmentsForecast from "./pages/Admin/EquipmentForecast";
 import Accounts from './pages/Admin/Accounts';
 import { Navigate } from "react-router-dom";
+import { SocketProvider } from "./context/socketContext";
 
 export default function App() {
   return (
+    <SocketProvider>
     <Router>
       <Routes>
         <Route element={<UserLayout />}>
@@ -51,5 +53,6 @@ export default function App() {
         <Route path="*" element={<Navigate to="/" />}/>
       </Routes>
     </Router>
+    </SocketProvider>
   );
 }

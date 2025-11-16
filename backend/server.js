@@ -4,8 +4,25 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from "mongoose";
 import path from 'path';
+import { Server } from "socket.io";
+import { createServer } from 'http';
+import registerSockets from './sockets/index.js';
 
 const dirname = path.resolve();
+
+const server = createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: ['https://donsfitness.onrender.com', 'http://localhost:5173'],
+    methods: ["GET", "POST"],
+    allowedHeaders: ['Authorization'],
+    credentials: true,
+  },
+});
+
+registerSockets(io);
+
 
 if (process.env.NODE_ENV === "production") {
    app.use(express.static(path.join(dirname, "/frontend/dist")));
@@ -17,7 +34,7 @@ if (process.env.NODE_ENV === "production") {
 mongoose.connect(process.env.DB_URI)
   .then(() => {
     console.log('Connected to the Database');
-    app.listen(process.env.PORT || 4001, () => {
+    server.listen(process.env.PORT || 4001, () => {
       console.log(`Listening on ${process.env.CLIENT_URL || 4001}`);
     });
   })

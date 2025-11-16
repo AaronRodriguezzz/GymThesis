@@ -100,7 +100,7 @@ const Equipments = () => {
                         className="p-2 text-red-500 hover:text-red-700 disabled:cursor-not-allowed disabled:opacity-50" 
                         onClick={() => {
                           setShowBorrowModal(true);
-                          setEquipmentToBorrow(equipment._id);
+                          setEquipmentToBorrow(equipment);
                         }}
                       >
                         <FaExchangeAlt size={20} />

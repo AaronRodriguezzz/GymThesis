@@ -1,4 +1,6 @@
 import BorrowHistory from "../models/BorrowHistory.js";
+import Equipment from "../models/Equipments.js";
+import { sendAdminNotifications } from "../services/notificationService.js";
 
 export const createBorrowHistory = async (req, res) => {
     
@@ -13,6 +15,12 @@ export const createBorrowHistory = async (req, res) => {
     } = req.body;
 
     try{
+        const equipment = await Equipment.findById(equipment_id);
+
+        if(!equipment){
+            return res.status(404).json({ success: false, message: 'Equipment not found.'})
+        }
+
         const borrowHistory = new BorrowHistory({
             borrower: {
                 fullName, 
@@ -26,7 +34,17 @@ export const createBorrowHistory = async (req, res) => {
         });
 
         await borrowHistory.save();
+        
+        const availableStock = equipment.stock - await equipment.getBorrowed();
+        const threshold = equipment.stock * (30 / 100);
 
+        if (availableStock <= threshold) {
+            await sendAdminNotifications({
+                title: 'Low Equipment Stock Alert',
+                message: `The equipment "${equipment.name}" has reached a critical stock level. Only ${availableStock} remaining out of ${equipment.stock}.`,
+                equipment_id: equipment._id,
+            });
+        }    
         res.status(201).json({ success: true, borrowHistory });
         
     }catch(err){
@@ -59,15 +77,12 @@ export const updateBorrowHistory = async (req, res) => {
 }
 
 export const getBorrowHistoryById = async (req, res) => {
-    console.log(req.params.id);
     try{
         const borrowHistory = await BorrowHistory.find({ equipment_id: req.params.id, status: 'Borrowed'});
 
         if(!borrowHistory){
             return res.status(404).json({ success: false, message: 'Borrow history not found'});
         }
-
-        console.log(borrowHistory)
 
         res.status(200).json({ success: true, borrowHistory })
 

@@ -14,6 +14,7 @@ export const createEquipment = async (req, res) => {
         const equipment = new Equipment({ ...req.body, image });
         await equipment.save();
 
+
         res.status(201).json({ success: true, equipment });
     }catch(err){
         console.log(err);

@@ -1,12 +1,13 @@
 import { Router } from "express";
 import { createEquipment, getEquipmentById, getEquipments, updateEquipment } from "../controllers/equipment.controller.js";
+import { userRequireAuth } from "../middlewares/authMiddleware.js";
 
 const router = Router();
 
-router.post('/', createEquipment);
-router.get('/', getEquipments);
-router.get('/:id', getEquipmentById);
-router.put('/:id', updateEquipment);
+router.post('/', userRequireAuth, createEquipment);
+router.get('/', userRequireAuth, getEquipments);
+router.get('/:id', userRequireAuth, getEquipmentById);
+router.put('/:id', userRequireAuth, updateEquipment);
 
 const equipmentsRoutes = router
 

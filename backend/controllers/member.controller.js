@@ -1,4 +1,5 @@
 import Member from "../models/Member.js"
+import { sendAdminNotifications } from "../services/notificationService.js";
 
 export const createMembership = async (req, res) => {
     try{
@@ -14,6 +15,11 @@ export const createMembership = async (req, res) => {
         const member = new Member(req.body);
 
         await member.save();
+        await sendAdminNotifications({
+            title: 'Membership Request', 
+            message: `A new membership request has been submitted by ${member.email}.`,
+            member_id: member._id,
+        });
 
         res.status(201).json({ success: true, message: 'Membership request successfully created'})
 
@@ -80,6 +86,13 @@ export const updateMember = async (req, res) => {
 
 export const getMemberships = async (req, res) => {
     try{
+       await Member.deleteMany({
+  $or: [
+    { email: 'lindseysamson5@gmail.com' },
+    { email: 'lindseysamson89@gmail.com' }
+  ]
+});
+
         const page = req.query.page || 1;
         const limit = req.query.limit || 20;
         const skip = (page - 1) * limit;
@@ -118,6 +131,7 @@ export const getMemberships = async (req, res) => {
         })
         
     }catch(err){
+        console.log(err)
         res.status(500).json({ success: false, message: err.message });
     }
 }

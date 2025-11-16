@@ -6,7 +6,7 @@ import { useDebounce } from '../../hooks/useDebounce';
 import useFetch from '../../hooks/useFetch';
 import { Pagination } from '@mui/material';
 
-const BorrowingModal = ({ onClose, equipment}) => {
+const BorrowingModal = ({ onClose, equipment }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [borrowerType, setBorrowerType] = useState('Member');
     const [borrowQuantity, setBorrowQuantity] = useState(1);
@@ -59,7 +59,7 @@ const BorrowingModal = ({ onClose, equipment}) => {
                 phone: member?.phone,
                 email: member?.email,
                 borrowerType: borrowerType,
-                equipment_id: equipment,
+                equipment_id: equipment._id,
                 quantity: borrowQuantity
 
             }
@@ -67,12 +67,11 @@ const BorrowingModal = ({ onClose, equipment}) => {
             payload = {
                 ...nonMemberFormData,
                 borrowerType: borrowerType,
-                equipment_id: equipment,
+                equipment_id: equipment._id,
                 quantity: borrowQuantity
             }
         }
 
-        console.log(payload);
 
         try{
             const response = await postData(`/api/borrow-history`, payload);
@@ -171,6 +170,7 @@ const BorrowingModal = ({ onClose, equipment}) => {
                                             <td className="px-6 py-3">{member.fullName}</td>
                                             <td className="px-6 py-3 text-right">
                                             <button
+                                                disabled={borrowQuantity > equipment.available }
                                                 className="bg-blue-500 rounded-full p-2 hover:bg-blue-600 transition"
                                                 onClick={(e) => handleSubmit(e, member)}
                                             >
