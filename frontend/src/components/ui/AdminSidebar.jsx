@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   FaTachometerAlt,
   FaHistory,
@@ -18,16 +18,17 @@ export default function Sidebar() {
     const { logout } = useAuth();
     const location = useLocation();
     const pathname = location.pathname;
+    const { admin, loading } = useAuth();
 
     const menuItems = [
-        { name: "Dashboard", icon: <FaTachometerAlt/>, path: '/admin/dashboard' },
+        ...(admin.role === 'Admin' ? [{ name: "Dashboard", icon: <FaTachometerAlt/>, path: '/admin/dashboard' }] : []),
         { name: "Borrow History", icon: <FaHistory />, path: '/admin/borrow' },
         { name: "Members", icon: <FaUsers />, path: '/admin/members' },
         { name: "POS", icon: <FaCashRegister />, path: '/admin/POS' },
         { name: "Equipments", icon: <FaDumbbell />, path: '/admin/equipments' },
         { name: "Products", icon: <FaBoxOpen />, path: '/admin/products' },
-        { name: "Accounts", icon: <FaUserTie />, path: '/admin/accounts' },
-        { name: "Sales", icon: <FaMoneyBill />, path: '/admin/sales' },
+        ...(admin.role === 'Admin' && !loading ? [{ name: "Accounts", icon: <FaUserTie />, path: '/admin/accounts' }] : []),
+        ...(admin.role === 'Admin' ? [{ name: "Sales", icon: <FaMoneyBill />, path: '/admin/sales' }] : [])
     ];
 
     return (

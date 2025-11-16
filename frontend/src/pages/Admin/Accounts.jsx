@@ -6,6 +6,8 @@ import { ConfirmDialog } from "../../components/dialogs/CustomAlert";
 import NewAdminModal from "../../components/modals/NewAdminModal";
 import AdminUpdateModal from "../../components/modals/AdminUpdateModal";
 import useFetch from "../../hooks/useFetch";
+import { useAuth } from "../../context/adminContext";
+import { Navigate } from "react-router-dom";
 
 const Accounts = () => {
   const [search, setSearch] = useState("");
@@ -15,6 +17,11 @@ const Accounts = () => {
   const [accountToDisable, setAccountToDisable] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
   const { data } = useFetch('/api/admins')
+  const { admin, loading } = useAuth();
+
+  if(admin && !loading && admin.role === 'Staff'){
+    return <Navigate to="/admin/borrow" />
+  }
 
   const filteredAccounts = useMemo(() => {
     if(!data?.admins) return [];

@@ -5,6 +5,8 @@ import { Pagination } from '@mui/material';
 import ViewSales from '../../components/modals/ViewSalesModal';
 import useFetch from '../../hooks/useFetch';
 import { formatDate } from '../../utils/dateUtils';
+import { useAuth } from '../../context/adminContext';
+import { Navigate } from 'react-router-dom';
 
 const Sales = () => {
   const [saleViewOpen, setSaleViewOpen] = useState(false);
@@ -12,12 +14,16 @@ const Sales = () => {
   const [page, setPage] = useState(1);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const { admin, loading } = useAuth();
 
   const { data } = useFetch(
     `/api/products/sales?limit=50&page=${page}&startDate=${startDate}&endDate=${endDate}`
   );
 
   const handlePage = (_event, value) => setPage(value);
+  if (admin && !loading && admin.role === 'Staff') {
+    return <Navigate to="/admin/borrow" />;
+  }
 
   return (
     <div className='h-screen w-full p-10'>
