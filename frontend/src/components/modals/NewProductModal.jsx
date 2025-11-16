@@ -1,17 +1,17 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
-import { postData } from "../../api/apis";
+import { postData, updateData } from "../../api/apis";
 
-const NewProductModal = ({ onClose }) => {
+const NewProductModal = ({ onClose, product }) => {
 
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
-        name: "",
-        sku: "",
-        stock: "",
-        category: "",
-        price: 0,
-        image: null
+        name: product.name || "",
+        sku: product.sku || "",
+        stock: product.stock || "",
+        category: product.category || "",
+        price: product.price || 0,
+        image: ''
     });
 
     const fileInputRef = useRef(null);
@@ -42,7 +42,7 @@ const NewProductModal = ({ onClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!formData.name || !formData.sku || !formData.stock || !formData.image) {
+        if (!formData.name || !formData.sku || !formData.stock || (!formData.image && !product)) {
             alert("Please complete all required fields.");
             return;
         }
@@ -50,10 +50,10 @@ const NewProductModal = ({ onClose }) => {
         try{    
 
             setLoading(true)
-            const res = await postData("/api/products", formData);
+            const res = await product ? updateData(`/api/products/${product._id}`, formData) : postData("/api/products", formData);
 
-            if(res.success){
-                alert("Product added successfully!");
+            if(res){
+                alert("Process successfully!");
                 window.location.reload();
             }
 

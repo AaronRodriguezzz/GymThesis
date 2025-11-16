@@ -7,6 +7,8 @@ import { useDebounce } from '../../hooks/useDebounce';
 import { Pagination } from '@mui/material';
 
 const Equipments = () => {
+
+  const [productToUpdate, setProductToUpdate] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
@@ -77,24 +79,14 @@ const Equipments = () => {
                     <div className="flex">
                       <button 
                         className="p-2 text-blue-500 hover:text-blue-700" 
-                       
+                        onClick={() => {
+                          setShowModal(true);
+                          setProductToUpdate(product);
+                        }}
                       >
                         <FaEdit size={20} />
                       </button>
-                      <button 
-                        className="p-2 text-red-500 hover:text-red-700 disabled:cursor-not-allowed disabled:opacity-50" 
-                        onClick={() => {
-                          setShowBorrowModal(true);
-                          setEquipmentToBorrow(product._id);
-                        }}
-                      >
-                        <FaExchangeAlt size={20} />
-                      </button>
-                      <button 
-                        className="p-2 text-green-500 hover:text-green-700" 
-                      >
-                        <FaEye size={20} />
-                      </button>
+                    
                     </div>
                   </td>                
                 </tr>
@@ -107,7 +99,7 @@ const Equipments = () => {
         />
       </div>
 
-      {showModal && <NewProductModal onClose={setShowModal} />}
+      {showModal && <NewProductModal onClose={setShowModal} product={productToUpdate}/>}
     </div>
   )
 }
