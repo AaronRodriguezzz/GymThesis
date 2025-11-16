@@ -14,7 +14,6 @@ const UpdateQuantityModal = ({ onClose, equipment }) => {
     }
 
     const payload = {
-      ...equipment,
       stock: newQuantity,
     };
 
