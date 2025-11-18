@@ -1,4 +1,5 @@
 import Admin from "../models/Admin.js";
+import { verifyPassword, hashPassword } from "../utils/authHelpers.js";
 
 export const createNewAdmin = async (req, res) => {
     try{
@@ -8,7 +9,12 @@ export const createNewAdmin = async (req, res) => {
             return res.status(409).json({ success: false, message: 'Email already exists.'})
         }
 
-        const admin = new Admin(req.body);
+        const hashedPassword = hashPassword(req.body.password)
+
+        const admin = new Admin({
+            ...req.body,
+            password: hashedPassword
+        });
         await admin.save();
 
         res.status(201).json({ success: true, admin });
@@ -29,7 +35,6 @@ export const getAdmins = async (req, res) => {
 }
 
 export const updateAdmin = async (req, res) => {
-
     const adminId = req.params.id;
     const updateData = req.body;
 
@@ -38,7 +43,6 @@ export const updateAdmin = async (req, res) => {
     }
 
     try{
-        
         const updatedAdmin = await Admin.findByIdAndUpdate(adminId, updateData, { new: true }).select('-password');
 
         if(!updatedAdmin){
@@ -47,6 +51,41 @@ export const updateAdmin = async (req, res) => {
 
         res.status(200).json({ success: true, admin: updatedAdmin });
     }catch(err){
+        res.status(500).json({ success: false, message: err.message });
+    }
+}
+
+
+export const changePassword = async (req, res) => {
+    const adminId = req.params.id;
+
+    if(!adminId){
+        return res.status(400).json({ success: false, message: 'Invalid request.' });
+    }
+
+    const { oldPassword, newPassword } = req.body;
+
+    try {
+        const admin = await Admin.findById(adminId);
+
+        if(!admin){
+            return res.status(404).json({ success: false, message: 'Admin not found.' });
+        }
+
+        const passwordMatched = await bcrypt.compare(oldPassword, admin.password)
+                
+        if (!passwordMatched) {
+            return res.status(400).json({ success: false, message: 'Current password is incorrect' });
+        }
+        
+        admin.password = await hashPassword(newPassword);
+
+        await admin.save();
+
+        res.status(200).json({ success: true, message: 'Password updated successfully.' });
+
+    } catch(err) {
+        console.log(err);
         res.status(500).json({ success: false, message: err.message });
     }
 }

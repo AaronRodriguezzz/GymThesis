@@ -20,6 +20,8 @@ import Sales from "./pages/Admin/Sales";
 import POS from "./pages/Admin/POS";
 import EquipmentsForecast from "./pages/Admin/EquipmentForecast";
 import Accounts from './pages/Admin/Accounts';
+import AdminProfilePage from './pages/Admin/Profile';
+
 import { Navigate } from "react-router-dom";
 import { SocketProvider } from "./context/socketContext";
 
@@ -43,6 +45,7 @@ export default function App() {
           <Route path='sales' element={<Sales/>} />
           <Route path='POS' element={<POS/>} />
           <Route path='accounts' element={<Accounts/>} />
+          <Route path='profile' element={<AdminProfilePage/>} />
           <Route path="forecast" element={<EquipmentsForecast />} />
         </Route>
 
