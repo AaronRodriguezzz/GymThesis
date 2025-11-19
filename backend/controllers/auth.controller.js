@@ -11,8 +11,7 @@ export const login = async (req, res) => {
         if (!admin) {
             return res.status(404).json({ message: "Account does not exist" });
         }
-
-        if (!verifyPassword(password, admin.password)) {
+        if (!await verifyPassword(password, admin.password)) {
             return res.status(401).json({ message: "Invalid password" });
         }
 

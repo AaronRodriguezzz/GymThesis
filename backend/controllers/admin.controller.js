@@ -21,7 +21,7 @@ export const createNewAdmin = async (req, res) => {
 
 export const getAdmins = async (req, res) => {
     try{
-        const admins = await Admin.find().select('-password'); // exclude password field
+        const admins = await Admin.find({ _id: { $ne: req.user_id }}).select('-password'); // exclude password field
         res.status(200).json({ success: true, admins });
     }catch(err){
         res.status(500).json({ success: false, message: err.message });
@@ -46,6 +46,17 @@ export const updateAdmin = async (req, res) => {
         }
 
         res.status(200).json({ success: true, admin: updatedAdmin });
+    }catch(err){
+        res.status(500).json({ success: false, message: err.message });
+    }
+}
+
+export const getAdmin = async (req, res) => {
+    try{
+        const admin = await Admin.findById(req.user_id);
+
+        res.status(200).json({ success: true, admin });
+
     }catch(err){
         res.status(500).json({ success: false, message: err.message });
     }

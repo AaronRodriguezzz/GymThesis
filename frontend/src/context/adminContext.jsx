@@ -11,8 +11,9 @@ export const AuthProvider = ({children}) => {
         const checkAuth = async () => {
             try {
                 setLoading(true)
-                const res = await fetchData('/api/auth');
+                const res = await fetchData('/api/admins/me');
                 if(res.success){
+                    console.log(res.admin)
                     setAdmin(res.admin);
                 }
             } catch (err) {
@@ -31,7 +32,7 @@ export const AuthProvider = ({children}) => {
         setAdmin(null);
         window.location.reload()
     };
-
+    console.log(admin)
     return (
         <AdminAuthContext.Provider value={{ admin, setAdmin, loading, logout }}>
             {children}

@@ -1,38 +1,85 @@
-import { useState, useEffect } from 'react';
-import AdminHeader from '../../components/ui/AdminHeader';
-import { fetchData } from '../../api/apis';
-import { CircularProgress } from '@mui/material';
+import { useState, useEffect } from "react";
+import AdminHeader from "../../components/ui/AdminHeader";
+import { fetchData } from "../../api/apis";
+import { CircularProgress } from "@mui/material";
 
-const url = process.env.NODE_ENV === 'production' ? 'https://gym-forecast-api.onrender.com' : 'http://127.0.0.1:5000';
+// API URL
+const url =
+  process.env.NODE_ENV === "production"
+    ? "https://gym-forecast-api.onrender.com"
+    : "http://127.0.0.1:5000";
 
-// Convert month number to month name
-function getMonthName(monthNumber) {
-  const date = new Date(2025, monthNumber - 1); // month is 0-based
-  return date.toLocaleString("en-US", { month: "long" });
+// ------------------------------------------------------
+//  ISO Week + ISO Year Calculations (Correct & Standard)
+// ------------------------------------------------------
+function getISOWeek(date) {
+  const t = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  const dayNum = t.getUTCDay() || 7;
+  t.setUTCDate(t.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(t.getUTCFullYear(), 0, 1));
+  return Math.ceil((((t - yearStart) / 86400000) + 1) / 7);
 }
 
+function getISOYear(date) {
+  const t = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  const dayNum = t.getUTCDay() || 7;
+  t.setUTCDate(t.getUTCDate() + 4 - dayNum);
+  return t.getUTCFullYear();
+}
+
+// ------------------------------------------------------
+//  Get Monday–Sunday Range of a Week
+// ------------------------------------------------------
+function getWeekRange(year, week) {
+  const simple = new Date(year, 0, 1 + (week - 1) * 7);
+  const dayOfWeek = simple.getDay();
+  const isoWeekStart = new Date(simple);
+
+  if (dayOfWeek <= 4) isoWeekStart.setDate(simple.getDate() - dayOfWeek + 1);
+  else isoWeekStart.setDate(simple.getDate() + 8 - dayOfWeek);
+
+  const isoWeekEnd = new Date(isoWeekStart);
+  isoWeekEnd.setDate(isoWeekStart.getDate() + 6);
+
+  return { start: isoWeekStart, end: isoWeekEnd };
+}
+
+// ------------------------------------------------------
+//  MAIN COMPONENT
+// ------------------------------------------------------
 const EquipmentsForecast = () => {
-  const [equipments, setEquipments] = useState([]);
-  const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(false);
+  const now = new Date();
 
-  const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Manila" }));
-  const currentMonth = now.getMonth() + 1; // JS months are 0-based
-  const currentYear = now.getFullYear();
-  const nextMonth = currentMonth === 12 ? 1 : currentMonth + 1;
-  const nextMonthYear = currentMonth === 12 ? currentYear + 1 : currentYear;
+  // ISO Week and Year
+  const currentWeek = getISOWeek(now);
+  const currentYear = getISOYear(now);
 
-  // State for selected month
-  const [selectedMonth, setSelectedMonth] = useState(currentMonth);
+  // Next Week rollover
+  const nextWeek = currentWeek === 52 ? 1 : currentWeek + 1;
+  const nextWeekYear = currentWeek === 52 ? currentYear + 1 : currentYear;
+
+  const [selectedWeek, setSelectedWeek] = useState(currentWeek);
   const [selectedYear, setSelectedYear] = useState(currentYear);
 
+  const [equipments, setEquipments] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
+
+  // ------------------------------------------------------
+  // Fetch Forecast
+  // ------------------------------------------------------
   useEffect(() => {
     const fetchEquipments = async () => {
       setLoading(true);
       try {
-        const res = await fetchData(`${url}/api/predict/items?month=${selectedMonth}&year=${selectedYear}`);
+        const res = await fetchData(
+          `${url}/api/predict/items?week=${selectedWeek}&year=${selectedYear}`
+        );
+
         if (res.success) {
-          const sorted = res.forecast.sort((a, b) => b.predicted_qty - a.predicted_qty);
+          const sorted = res.forecast.sort(
+            (a, b) => b.predicted_qty - a.predicted_qty
+          );
           setEquipments(sorted);
         }
       } catch (err) {
@@ -43,15 +90,12 @@ const EquipmentsForecast = () => {
     };
 
     fetchEquipments();
-  }, [selectedMonth, selectedYear]);
+  }, [selectedWeek, selectedYear]);
 
-  const filteredEquipments = equipments.filter((eq) =>
-    eq.item?.toLowerCase().includes(search.toLowerCase())
-  );
-
-  // Header date range
-  const start = new Date(selectedYear, selectedMonth - 1, 1);
-  const end = new Date(selectedYear, selectedMonth, 0);
+  // ------------------------------------------------------
+  // Week Range for Header Display
+  // ------------------------------------------------------
+  const { start, end } = getWeekRange(selectedYear, selectedWeek);
   const formatDate = (d) =>
     d.toLocaleDateString("en-PH", {
       month: "long",
@@ -60,58 +104,71 @@ const EquipmentsForecast = () => {
       timeZone: "Asia/Manila",
     });
 
+  const filteredEquipments = equipments.filter((e) =>
+    e.item.toLowerCase().includes(search.toLowerCase())
+  );
+
+  // ------------------------------------------------------
+  // Render
+  // ------------------------------------------------------
   return (
     <div className="h-screen w-full p-10">
       <AdminHeader
         title="Equipments Forecast"
-        description={`Equipment forecast from ${formatDate(start)} to ${formatDate(end)}`}
+        description={`Equipment forecast for Week ${selectedWeek}, ${selectedYear} (${formatDate(
+          start
+        )} - ${formatDate(end)})`}
       />
 
       <div className="h-[85%] rounded bg-white/50 shadow-md mt-4 p-4">
-        {/* Controls */}
+        {/* SEARCH + WEEK SELECTOR */}
         <div className="flex w-full space-x-2 mb-4 items-center">
           <input
             type="text"
-            className="flex-1 rounded bg-white shadow-lg px-4 py-2 text-black caret-blue-500 outline-0 placeholder:text-gray-400"
+            className="flex-1 rounded bg-white shadow-lg px-4 py-2 text-black outline-none"
             placeholder="Search equipment..."
             onChange={(e) => setSearch(e.target.value)}
           />
 
-          {/* Month selector */}
           <select
             className="rounded bg-white shadow-lg px-4 py-2"
-            value={selectedMonth}
+            value={selectedWeek}
             onChange={(e) => {
-              const month = parseInt(e.target.value);
-              setSelectedMonth(month);
-              setSelectedYear(month === 1 && currentMonth === 12 ? currentYear + 1 : currentYear);
+              const week = parseInt(e.target.value);
+              setSelectedWeek(week);
+
+              // Handle rollover when week becomes 1
+              setSelectedYear(
+                week === 1 && selectedWeek === 52 ? selectedYear + 1 : selectedYear
+              );
             }}
           >
-            <option value={currentMonth}>{getMonthName(currentMonth)} (Current)</option>
-            <option value={nextMonth}>{getMonthName(nextMonth)} (Next)</option>
+            <option value={currentWeek}>Week {currentWeek} (Current)</option>
+            <option value={nextWeek}>Week {nextWeek} (Next)</option>
           </select>
         </div>
 
-        {/* Table or Loading */}
+        {/* TABLE */}
         {loading ? (
           <div className="flex justify-center items-center h-full">
             <CircularProgress />
           </div>
         ) : (
-          <div className="overflow-y-auto overflow-x-auto custom-scrollbar rounded h-[90%]">
+          <div className="overflow-y-auto custom-scrollbar rounded h-[90%]">
             <table className="w-full text-sm text-left text-gray-600">
               <thead className="bg-blue-900 text-gray-100 uppercase text-xs">
                 <tr>
                   <th className="px-6 py-3">Equipment</th>
                   <th className="px-6 py-3">Predicted Demand</th>
-                  <th className="px-6 py-3">Predicted Month</th>
+                  <th className="px-6 py-3">Predicted Week</th>
                 </tr>
               </thead>
+
               <tbody>
                 {filteredEquipments.map((equipment, index) => (
                   <tr
-                    key={equipment._id}
-                    className={`border-b border-gray-200 hover:bg-gray-100 ${
+                    key={equipment.item}
+                    className={`border-b hover:bg-gray-100 ${
                       index === 0 ? "bg-yellow-100 font-semibold" : ""
                     }`}
                   >
@@ -123,8 +180,10 @@ const EquipmentsForecast = () => {
                         </span>
                       )}
                     </td>
+
                     <td className="px-6 py-3">{equipment.predicted_qty}</td>
-                    <td className="px-6 py-3">{getMonthName(equipment.predicted_month)}</td>
+
+                    <td className="px-6 py-3">Week {equipment.predicted_week}</td>
                   </tr>
                 ))}
               </tbody>

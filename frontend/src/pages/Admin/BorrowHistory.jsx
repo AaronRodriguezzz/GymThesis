@@ -22,8 +22,6 @@ const BorrowHistory = () => {
     setShowConfirm(true);
   }
 
-  console.log(data)
-
   const handleConfirm = async () => {
 
     try {
