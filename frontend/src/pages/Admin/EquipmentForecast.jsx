@@ -150,9 +150,10 @@ const EquipmentsForecast = () => {
 
         {/* TABLE */}
         {loading ? (
-          <div className="flex justify-center items-center h-full">
-            <CircularProgress />
-          </div>
+        <div className="flex flex-col justify-center items-center h-full space-y-4">
+          <p className="text-gray-700 font-medium">This takes time, please wait...</p>
+          <CircularProgress />
+        </div>
         ) : (
           <div className="overflow-y-auto custom-scrollbar rounded h-[90%]">
             <table className="w-full text-sm text-left text-gray-600">
