@@ -136,7 +136,7 @@ const Equipments = () => {
         />
       </div>
 
-      {showModal && <NewEquipmentModal onClose={setShowModal} equipment={equipmentToUpdate}/>}
+      {showModal && <NewEquipmentModal onClose={() => { setShowModal(false); setEquipmentToUpdate(undefined)}} equipment={equipmentToUpdate}/>}
       {showBorrowModal && <BorrowingModal onClose={setShowBorrowModal} equipment={equipmentToBorrow} />}
       {showUpdateModal && <EquipmentUpdateModal onClose={setShowUpdateModal} equipment={equipmentToUpdate} />}
       {showBorrowers && <EquipmentBorrowedModal equipment={equipmentToView} onClose={setShowBorrowers} />}

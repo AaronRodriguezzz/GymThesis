@@ -157,7 +157,7 @@ const AddEquipmentModal = ({ onClose, equipment }) => {
                     <button
                         type="button"
                         className="px-4 py-2 border rounded-lg hover:bg-blue-600 transition"
-                        onClick={() => onClose()}
+                        onClick={onClose}
                     >
                         Cancel
                     </button>
@@ -165,7 +165,7 @@ const AddEquipmentModal = ({ onClose, equipment }) => {
                         type="submit"
                         className="px-4 py-2 bg-blue-500 rounded-lg hover:bg-blue-700 transition"
                     >
-                        Add Equipment
+                        {equipment ? 'Save changes' : 'Add Equipment'}
                     </button>
                 </div>
             </form>
