@@ -5,10 +5,10 @@ import { updateData } from "../../api/apis";
 
 const AddEquipmentModal = ({ onClose, equipment }) => {
     const [formData, setFormData] = useState({
-        name: equipment.name || "",
-        sku: equipment.sku || "",
-        stock: equipment.stock || "",
-        category: equipment.category || "",
+        name: equipment?.name || "",
+        sku: equipment?.sku || "",
+        stock: equipment?.stock || "",
+        category: equipment?.category || "",
         image: ""
     });
 

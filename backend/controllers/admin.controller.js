@@ -62,6 +62,40 @@ export const getAdmin = async (req, res) => {
     }
 }
 
+export const changePassword = async (req, res) => {
+    const adminId = req.params.id;
+
+    if(!adminId){
+        return res.status(400).json({ success: false, message: 'Invalid request.' });
+    }
+
+    const { oldPassword, newPassword } = req.body;
+
+    try {
+        const admin = await Admin.findById(adminId);
+
+        if(!admin){
+            return res.status(404).json({ success: false, message: 'Admin not found.' });
+        }
+
+        const passwordMatched = await bcrypt.compare(oldPassword, admin.password)
+                
+        if (!passwordMatched) {
+            return res.status(400).json({ success: false, message: 'Current password is incorrect' });
+        }
+        
+        admin.password = await hashPassword(newPassword);
+
+        await admin.save();
+
+        res.status(200).json({ success: true, message: 'Password updated successfully.' });
+
+    } catch(err) {
+        console.log(err);
+        res.status(500).json({ success: false, message: err.message });
+    }
+}
+
 export const disableAdmin = async (req, res) => {
 
     const adminId = req.params.id;

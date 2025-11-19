@@ -11,10 +11,39 @@ export default function BMICalculator() {
     activity: "1.2",
   });
 
-  const [results, setResults] = useState({ bmi: null, bmr: null, tdee: null });
+  const [results, setResults] = useState({ bmi: null, bmr: null, tdee: null, category: '' });
 
   const handleChange = (field) => (e) => {
     setForm({ ...form, [field]: e.target.value });
+  };
+
+  const getBMICategory = (bmi) => {
+    const val = Number(bmi);
+    if (val < 18.5) return "Underweight";
+    if (val < 25) return "Normal weight";
+    if (val < 30) return "Overweight";
+    if (val < 35) return "Obesity Class I";
+    if (val < 40) return "Obesity Class II";
+    return "Obesity Class III";
+  };
+
+  const getBMIColor = (category) => {
+    switch (category) {
+      case "Underweight":
+        return "text-yellow-500";
+      case "Normal weight":
+        return "text-green-500";
+      case "Overweight":
+        return "text-orange-500";
+      case "Obesity Class I":
+        return "text-red-500";
+      case "Obesity Class II":
+        return "text-red-600";
+      case "Obesity Class III":
+        return "text-red-700";
+      default:
+        return "text-gray-500";
+    }
   };
 
   useEffect(() => {
@@ -35,8 +64,10 @@ export default function BMICalculator() {
     const sVal = gender === "male" ? 5 : -161;
     const bmr = (10 * wkg + 6.25 * hcm - 5 * Number(age) + sVal).toFixed(0);
     const tdee = (bmr * Number(activity)).toFixed(0);
-    console.log(tdee);
-    setResults({ bmi, bmr, tdee });
+
+    const bmiCategory = getBMICategory(bmi);
+
+    setResults({ bmi, bmr, tdee, category: bmiCategory });
   }, [form, unit]);
 
   return (
@@ -180,7 +211,11 @@ export default function BMICalculator() {
               </div>
             </div>
 
-            <p className="mt-6 text-sm text-gray-600">
+            <p className={`py-6 text-xl font-semibold ${getBMIColor(results.category)}`}>
+              {results.category}
+            </p>
+
+            <p className="text-sm text-gray-600">
               *Your BMI helps estimate body fat based on height and weight, while
               your TDEE shows daily calorie needs.
             </p>

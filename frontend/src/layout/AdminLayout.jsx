@@ -2,6 +2,7 @@ import SideBar from '../components/ui/AdminSidebar';
 import { Outlet, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/adminContext';
 import NotificationBell from '../components/ui/NotificationBell';
+import ProfileBtn from '../components/ui/ProfileBtn';
 
 const AdminLayout = () => {
     const { admin, loading } = useAuth();
@@ -14,8 +15,9 @@ const AdminLayout = () => {
 
     return( 
         <div>
-            <div className='fixed top-5 right-5 z-100'>
+            <div className='fixed top-5 right-5 flex gap-2 z-100'>
                 <NotificationBell />
+                <ProfileBtn />
             </div>
             <SideBar />
             <main className="bg-white/10 overflow-x-hidden pl-50">

@@ -1,7 +1,6 @@
 import { MdNotifications } from "react-icons/md";
 import { useSocket } from "../../context/socketContext";
 import { useEffect, useState, useRef } from "react";
-import axios from "axios";
 import { formatDate } from "../../utils/dateUtils";
 import { fetchData, updateData } from "../../api/apis";
 
