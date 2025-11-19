@@ -5,12 +5,13 @@ import { postData, updateData } from "../../api/apis";
 const NewProductModal = ({ onClose, product }) => {
 
     const [loading, setLoading] = useState(false);
+    console.log(product);
     const [formData, setFormData] = useState({
-        name: product.name || "",
-        sku: product.sku || "",
-        stock: product.stock || "",
-        category: product.category || "",
-        price: product.price || 0,
+        name: product?.name || "",
+        sku: product?.sku || "",
+        stock: product?.stock || "",
+        category: product?.category || "",
+        price: product?.price || 0,
         image: ''
     });
 
