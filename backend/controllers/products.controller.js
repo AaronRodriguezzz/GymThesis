@@ -1,6 +1,7 @@
 import Products from "../models/Products.js";
 import Product from "../models/Products.js";
 import ProductSales from "../models/Sales.js";
+import { sendAdminNotifications } from "../services/notificationService.js";
 import { deleteImage, uploadImage } from "../services/cloudinary.service.js";
 
 export const createProduct = async (req, res) => {
@@ -40,12 +41,21 @@ export const soldProduct = async (req, res) => {
     try{
 
         await Promise.all(
-            products.map(product => 
-                Product.findByIdAndUpdate(
-                    product.id,
-                    { stock: product.stock - product.quantity},
-                    { new: true }
-                ),
+            products.map(async (product) => {
+                const updatedProduct = await Product.findById(product.id);
+                if(!updatedProduct) return;
+
+                updatedProduct.stock -=  product.quantity
+                await updatedProduct.save();
+                
+                if(updatedProduct.stock <= 10){
+                await sendAdminNotifications({
+                    title: 'POS Product Low Stock Alert',
+                    message: `The product "${updatedProduct.name}" has reached a critical stock level. Drop from ${product.stock} to ${updatedProduct.stock}.`,
+                    product_id: product.id
+                });
+                }
+            }   
             )
         )
 
@@ -117,7 +127,6 @@ export const getProducts = async (req, res) => {
         const limit = req.query.limit || 20;
         const skip = (page - 1) * limit;
         const searchTerm = req.query.searchTerm || '';
-        const category = req.query.category || '';
 
         let query = {};
 

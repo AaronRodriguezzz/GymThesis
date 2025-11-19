@@ -7,8 +7,8 @@ const router = Router();
 router.post('/', adminRequireAuth, createNewAdmin);
 router.get('/', adminRequireAuth, getAdmins);
 router.get('/me', adminRequireAuth, getAdmin);
+router.put('/password', adminRequireAuth, changePassword);
 router.put('/:id', updateAdmin);
-router.put('/password/:id',adminRequireAuth, changePassword );
 router.put('/disable/:id', adminRequireAuth, disableAdmin);
 
 const adminRoutes = router

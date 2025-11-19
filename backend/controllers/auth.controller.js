@@ -52,19 +52,3 @@ export const logout = async (req, res) => {
 
     res.status(200).json({ message: "Logged out successfully" });
 }
-
-export const verifyToken = async (req, res) => {
-    const token = req.cookies.admin; 
-    
-    if (!token) {
-      return res.status(401).json({ message: 'No token found' });
-    }
-    
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-        res.json({ success: true, message: 'Access granted', admin: decoded });
-    } catch (err) {
-        res.status(403).json({ message: err.message });
-    }
-}

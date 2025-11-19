@@ -35,7 +35,7 @@ export default function AdminProfilePage() {
             const res = await updateData(`/api/admins/${admin._id}`, formData)
 
             if(res.success){
-                alert('Relogin to see changes')
+                alert('Profile successfully updated.')
                 setEditMode(false)  
             }
         }catch(err){
@@ -51,7 +51,7 @@ export default function AdminProfilePage() {
         }
         
         try{
-            const res = await updateData(`/api/admins/password/${admin._id}`, passwordData)
+            const res = await updateData(`/api/admins/password`, passwordData)
 
             if(res.success){
                 alert('Password Updated')

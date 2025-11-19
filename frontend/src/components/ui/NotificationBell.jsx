@@ -32,7 +32,9 @@ const NotificationBell = () => {
     };
 
     const handleRead = async (notification) => {
-        const path = notification.member_id ? '/admin/members' : '/admin/equipments'
+        const path = notification.member_id ? '/admin/members' : 
+        notification.product_id ? '/admin/products' : 
+        '/admin/equipments'
         
         await updateData(`/api/notifications/${notification._id}`, {})
 

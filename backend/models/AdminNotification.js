@@ -25,6 +25,10 @@ const AdminNotificationSchema = new Schema({
     member_id: {
         type: Schema.Types.ObjectId,
         ref: 'Member'
+    },
+    product_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'Product'
     }
 }, { timestamps: true }); 
 

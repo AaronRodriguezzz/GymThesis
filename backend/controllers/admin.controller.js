@@ -1,4 +1,6 @@
 import Admin from "../models/Admin.js";
+import { verifyPassword } from "../utils/authHelpers.js";
+import { hashPassword } from "../utils/authHelpers.js";
 
 export const createNewAdmin = async (req, res) => {
     try{
@@ -63,7 +65,7 @@ export const getAdmin = async (req, res) => {
 }
 
 export const changePassword = async (req, res) => {
-    const adminId = req.params.id;
+    const adminId = req.user_id;
 
     if(!adminId){
         return res.status(400).json({ success: false, message: 'Invalid request.' });
@@ -78,7 +80,7 @@ export const changePassword = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Admin not found.' });
         }
 
-        const passwordMatched = await bcrypt.compare(oldPassword, admin.password)
+        const passwordMatched = await verifyPassword(oldPassword, admin.password)
                 
         if (!passwordMatched) {
             return res.status(400).json({ success: false, message: 'Current password is incorrect' });
