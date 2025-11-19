@@ -99,7 +99,10 @@ const Equipments = () => {
         />
       </div>
 
-      {showModal && <NewProductModal onClose={setShowModal} product={productToUpdate}/>}
+      {showModal && <NewProductModal onClose={() => {
+        setShowModal(false)
+        setProductToUpdate(undefined)
+      }} product={productToUpdate}/>}
     </div>
   )
 }

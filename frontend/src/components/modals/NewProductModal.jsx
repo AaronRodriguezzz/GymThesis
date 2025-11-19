@@ -5,7 +5,6 @@ import { postData, updateData } from "../../api/apis";
 const NewProductModal = ({ onClose, product }) => {
 
     const [loading, setLoading] = useState(false);
-    console.log(product);
     const [formData, setFormData] = useState({
         name: product?.name || "",
         sku: product?.sku || "",
@@ -184,7 +183,7 @@ const NewProductModal = ({ onClose, product }) => {
                         className="px-4 py-2 bg-blue-500 rounded-lg hover:bg-blue-700 transition disabled:bg-blue-500/50 disabled:cursor-not-allowed"
                         disabled={loading}
                     >
-                        Add Product
+                        {product ? 'Save changes' : 'Add Product'}
                     </button>
                 </div>
             </form>
