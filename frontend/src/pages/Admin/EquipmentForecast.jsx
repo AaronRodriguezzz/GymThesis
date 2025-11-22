@@ -9,9 +9,6 @@ const url =
     ? "https://gym-forecast-api.onrender.com"
     : "http://127.0.0.1:5000";
 
-// ------------------------------------------------------
-//  ISO Week + ISO Year Calculations (Correct & Standard)
-// ------------------------------------------------------
 function getISOWeek(date) {
   const t = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
   const dayNum = t.getUTCDay() || 7;
@@ -27,9 +24,6 @@ function getISOYear(date) {
   return t.getUTCFullYear();
 }
 
-// ------------------------------------------------------
-//  Get Monday–Sunday Range of a Week
-// ------------------------------------------------------
 function getWeekRange(year, week) {
   const simple = new Date(year, 0, 1 + (week - 1) * 7);
   const dayOfWeek = simple.getDay();
@@ -44,9 +38,6 @@ function getWeekRange(year, week) {
   return { start: isoWeekStart, end: isoWeekEnd };
 }
 
-// ------------------------------------------------------
-//  MAIN COMPONENT
-// ------------------------------------------------------
 const EquipmentsForecast = () => {
   const now = new Date();
 
@@ -65,9 +56,6 @@ const EquipmentsForecast = () => {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
 
-  // ------------------------------------------------------
-  // Fetch Forecast
-  // ------------------------------------------------------
   useEffect(() => {
     const fetchEquipments = async () => {
       setLoading(true);
@@ -92,9 +80,6 @@ const EquipmentsForecast = () => {
     fetchEquipments();
   }, [selectedWeek, selectedYear]);
 
-  // ------------------------------------------------------
-  // Week Range for Header Display
-  // ------------------------------------------------------
   const { start, end } = getWeekRange(selectedYear, selectedWeek);
   const formatDate = (d) =>
     d.toLocaleDateString("en-PH", {
@@ -108,9 +93,6 @@ const EquipmentsForecast = () => {
     e.item.toLowerCase().includes(search.toLowerCase())
   );
 
-  // ------------------------------------------------------
-  // Render
-  // ------------------------------------------------------
   return (
     <div className="h-screen w-full p-10">
       <AdminHeader
