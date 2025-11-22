@@ -6,7 +6,7 @@ import BorrowHistory from "../models/BorrowHistory.js";
 export const getDashboardCardsData = async (req, res) => {
     try{
         
-        const members = await Members.find();
+        const members = await Members.find({ status: { $in: ['Paid', 'Expired'] } });
         const equipments = await Equipment.find();
         const productSales = await ProductSales.find();
 
@@ -16,18 +16,22 @@ export const getDashboardCardsData = async (req, res) => {
 
         let membershipRevenue = 0;
         members.map(member => {
-            if(member.plan === 'Basic') membershipRevenue + 1500;
-            if(member.plan === 'Pro') membershipRevenue + 2000;
-            if(member.plan === 'Elite') membershipRevenue + 3000;
+            let membershipPrice = 0;
+            if(member.plan === 'Basic') membershipPrice = 1500;
+            if(member.plan === 'Pro') membershipPrice= 2000;
+            if(member.plan === 'Elite') membershipPrice= 3000;
 
-            return membershipRevenue
+            return membershipRevenue += membershipPrice;
         })
+
+        console.log("Membership Revenue: ", membershipRevenue);
 
         const overallRevenue = productSalesRevenue + membershipRevenue
 
         return res.status(200).json({ 
             overallRevenue, 
             productSalesRevenue, 
+            membershipRevenue,
             paidMembers: paidMembers.length, 
             availableEquipments: availableEquipments.length 
         })
