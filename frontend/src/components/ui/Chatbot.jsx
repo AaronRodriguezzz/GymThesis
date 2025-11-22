@@ -39,17 +39,15 @@ export default function ChatbotComponent() {
     setInputMessage('');
     setIsTyping(true);
 
-    // Simulate bot response
-    setTimeout(() => {
+    const response = await getBotResponse(inputMessage)
       const botMessage = {
         id: messages.length + 2,
-        text: getBotResponse(inputMessage),
+        text: response,
         sender: 'bot',
         timestamp: new Date()
       };
       setMessages(prev => [...prev, botMessage]);
       setIsTyping(false);
-    }, 800 + Math.random() * 1200);
   };
 
   const getBotResponse = async (userInput) => {

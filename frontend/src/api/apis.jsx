@@ -14,7 +14,6 @@ export const fetchData = async (endpoint) => {
 
   } catch (error) {
     console.error('Error fetching data:', error);
-    AlertPopup('error', error.response.data.message || 'Error Getting Data', true);
 
   }
 };
@@ -27,7 +26,6 @@ export const postData = async (endpoint, data) => {
 
   } catch (error) {
     console.log(error);
-    alert(error.response.data.message || 'Failed')
     // AlertPopup('error', error.response.data.message || 'Error Posting Data', true);
   }
 };
