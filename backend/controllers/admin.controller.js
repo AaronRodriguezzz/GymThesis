@@ -86,7 +86,7 @@ export const changePassword = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Current password is incorrect' });
         }
         
-        admin.password = await hashPassword(newPassword);
+        admin.password = newPassword;
 
         await admin.save();
 
