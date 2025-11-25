@@ -12,7 +12,106 @@ export const promptTemplate = ChatPromptTemplate.fromMessages([
         Your goal is to provide accurate, concise, and helpful answers to customer questions using the following resources:
         1. QA information from the internal QA file.
     Always respond clearly, and if you cannot find an answer in the resources, politely indicate that the information is not available. 
-    Format your responses for readability and avoid unnecessary details.`
+    Format your responses for readability and avoid unnecessary details.
+    1. How do I sign up for a membership?
+You can sign up directly on our website by clicking the “Join Now” button and
+filling out the registration form. You may also register at the front desk. Our gym is located at
+19-a Mabolo St, Manila, Metro Manila.
+2. What are the membership options and pricing?
+We offer monthly, quarterly, and annual membership packages. Prices vary
+depending on the plan you choose. Would you like me to show you the current rates?
+3. How do I cancel my membership? Can I pause my membership?
+Memberships can be canceled or placed on hold by visiting the front desk.
+4. What are your opening hours?
+Our gym is open Monday to Friday from 6:00 AM to 10:00 PM, and weekends
+from 8:00 AM to 8:00 PM.
+5. Is parking available?
+Yes, we provide parking spaces exclusively for motorcycles. At the moment, we
+do not offer car parking facilities.
+6. What are your rules on proper gym attire?
+Members are required to wear proper workout clothes, such as athletic tops,
+bottoms, and rubber shoes. For safety, slippers and sandals are not allowed.
+7. Do you have programs for weight loss, or strength training?
+Yes, we provide specialized programs for weight loss, strength training, and
+overall fitness.
+8. What is Bulking?
+bulking is to intentionally consume a calorie surplus to promote significant muscle 
+and strength gains, often combined with intense resistance training. This extra energy 
+is used to build new muscle tissue, which is most effective when the body has more fuel 
+than it needs for basic functions and daily activities.
+9. What is Cutting?
+A cut is a period of eating at a calorie deficit as a means to lose body fat while 
+maintaining as much muscle mass as possible. While resistance training continues to 
+play a role during a cutting phase, you may not be able to lift weights with the same 
+intensity as you can during a bulk. This is due to a number of factors, though the main 
+one is that you have less energy available.
+10. What are your workout tips for me?
+FOCUS ON FORM, NOT WEIGHT. Align your body correctly and move smoothly through each exercise. 
+Poor form can prompt injuries. Many experts suggest starting with no weight, or very light 
+weight, when learning a strength training routine. Concentrate on slow, smooth lifts and equally 
+controlled descents while isolating a muscle group.
+BREATHE. Blood pressure increases during a work- out, but it rises even more if you hold 
+your breath while performing strength exercises. To avoid steep increases, exhale as you lift, push, 
+or pull; inhale as you release.
+KEEP CHALLENGING MUSCLES. The right weight differs depending on the exercise. Choose a 
+weight that tires the targeted muscle or muscles by the last two repetitions (reps) while still 
+allowing you to maintain good form.
+11. How to start a bulk?
+To start bulking, add a given number of calories to your typical daily calorie intake. You can 
+determine how much to add with a quick calculation. The goal is to promote a weight gain of 
+0.25–0.5% of your body weight per week.
+12. How to start a cut?
+You can start cutting by subtracting a specific number of calories from your maintenance calorie 
+level to promote a weight loss of 0.5–1.0% of body weight per week while maintaining as much muscle 
+as possible.
+13. What foods to eat during bulk or bulking?
+During a bulk, it’s best to focus on foods that are high in nutrients and calorie content to promote 
+rapid muscle and strength gains. In general, steer clear of high calorie processed foods. Some people 
+may include these foods in a dirty bulk, in which excess fat gain isn’t a concern. However, this is 
+not recommended.
+14. What foods to eat during cut or cutting?
+When you’re cutting, your focus should be on eating foods that are high in nutrients and lower in calories. 
+These will support gradual weight loss and muscle maintenance. You’ll see that some of the foods for a 
+cutting diet are similar to those for a bulk. The difference is largely in the quantity of these foods 
+consumed.
+15. What are your goal recommendations for me?
+When deciding whether a bulk or cut is right for you, consider your starting point and long-term goals.
+If you’re new to exercising and following a structured diet, it may be best to start by improving your 
+food choices and slowly increasing your exercise intensity before bulking or cutting. Once you’ve 
+developed good practices surrounding food and exercise, you can consider whether a bulk or cut is 
+right for you. If your goal is to gain muscle and strength and you aren’t concerned with gaining a 
+bit of fat in the process, a bulk may be a good choice. On the other hand, if you’re looking to lose 
+fat and maintain muscle, a cut may be more in line with your goals.
+FOR INDIIDUALIZED GUIDANCE, CONSULT A REGISTERED DIETITIAN.
+16. Foods to eat during bulk or bulking goal?
+Lean proteins: beef, chicken, fish, turkey, pork, Greek yogurt, cottage cheese, reduced fat cheese, 
+protein powders, bars, and mass gainers, as well as tofu, tempeh, and eggs
+Healthy fats: olive oil, avocado, nuts, nut butters, fatty fish, and seeds like chia, hemp, and 
+flax seeds
+Legumes: all beans, including chickpeas and kidney, navy, black, and Great Northern beans
+High quality carbs: oats, quinoa, whole grain pasta, rice cakes, breakfast cereals, white and sweet 
+potatoes, and white and brown rice
+Fruit: apples, oranges, bananas, pineapple, grapefruit, and all types of berries
+Non-starchy vegetables: peppers, asparagus, green beans, mushrooms, onions, tomatoes, zucchini, 
+carrots, and celery
+Cruciferous veggies: broccoli, cauliflower, Brussels sprouts, and cabbage
+Dark leafy greens: spinach, Swiss chard, collard greens, and kale
+Beverages: water, seltzer, diet soda, tea, coffee, kombucha, and 100% fruit juice
+Occasional foods: pizza, regular pasta, baked goods, full fat cheese, high sugar breakfast cereals, 
+and pan-fried meats
+17. Foods to eat during cut or cutting goal?
+Lean proteins: chicken breast, lean ground turkey, lean cuts of beef or pork, fish, extra firm tofu, 
+high protein plant-based meat substitutes, low fat cottage cheese, low fat cheese, and eggs and egg 
+whites
+Limited healthy fats: olive oil, avocado, nuts, nut butters, and seeds
+Legumes: all beans, including chickpeas and kidney, navy, black, and Great Northern beans
+Fibrous carbs: brown rice, quinoa, sweet potatoes, whole grain pasta, oats, low sugar cereals, rice 
+cakes, and quinoa
+Lower sugar fruits: apples, pears, peaches, berries, melon, grapefruit, oranges, figs, kiwi, and plums
+Non-starchy vegetables: asparagus, broccoli, Brussels sprouts, green beans, cauliflower, mushrooms, 
+onions, tomatoes, cabbage, zucchini, carrots, peppers, and celery
+Dark leafy greens: spinach, Swiss chard, collard greens, and kale
+Beverages: water, sugar-free flavored seltzer, mineral water, and unsweetened coffee and tea`
   ],
   ["user", "{query}"],
 ]);
