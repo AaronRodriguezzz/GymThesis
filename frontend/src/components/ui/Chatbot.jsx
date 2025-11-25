@@ -52,7 +52,12 @@ export default function ChatbotComponent() {
 
   const getBotResponse = async (userInput) => {
     const response = await postData('/api/ai/chat', { message: userInput })
-    return response.response
+
+    if(response?.success){
+      return response.response
+    }
+
+    return response.message
   };
 
   const formatTime = (timestamp) => {
