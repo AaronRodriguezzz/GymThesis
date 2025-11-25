@@ -24,20 +24,14 @@ export default function AdminLoginPage() {
     e.preventDefault();
     setError("");
 
-    try {
       const res = await postData("/api/auth/login", credentials);
-
-      if (res.success) {
+      console.log(res)
+      if (res?.success) {
         setAdmin(res.admin);
         navigate(from, { replace: true });
       } else {
-        setError("Invalid admin credentials");
+        setError(res?.message || "Invalid admin credentials");
       }
-
-    } catch (err) {
-      console.error(err);
-      setError("Something went wrong. Please try again.");
-    }
   };
 
   return (

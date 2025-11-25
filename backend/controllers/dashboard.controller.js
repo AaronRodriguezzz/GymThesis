@@ -2,70 +2,92 @@ import Members from "../models/Member.js"
 import Equipment from "../models/Equipments.js";
 import ProductSales from "../models/Sales.js";
 import BorrowHistory from "../models/BorrowHistory.js";
+import Products from '../models/Products.js';
+import Member from "../models/Member.js";
+import Admin from "../models/Admin.js";
 
 export const getDashboardCardsData = async (req, res) => {
   try {
-    // 1️⃣ Paid members count and membership revenue
-    const membershipData = await Members.aggregate([
-      { $match: { status: { $in: ['Paid', 'Expired'] } } },
-      {
-        $group: {
-          _id: null,
-          totalPaidMembers: {
-            $sum: {
-              $cond: [{ $eq: ['$status', 'Paid'] }, 1, 0]
-            }
+    const now = new Date();
+    const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const startOfWeek = new Date(now);
+    startOfWeek.setDate(now.getDate() - now.getDay());
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const startOfYear = new Date(now.getFullYear(), 0, 1);
+
+    // Helper to calculate membership revenue for a period
+    const calculateMembershipRevenue = async (startDate) => {
+      const data = await Members.aggregate([
+        { $match: { status: "Paid", datePaid: { $gte: startDate } } },
+        {
+          $group: {
+            _id: null,
+            totalRevenue: {
+              $sum: {
+                $switch: {
+                  branches: [
+                    { case: { $eq: ["$plan", "Basic"] }, then: 1500 },
+                    { case: { $eq: ["$plan", "Pro"] }, then: 2000 },
+                    { case: { $eq: ["$plan", "Elite"] }, then: 3000 },
+                  ],
+                  default: 0,
+                },
+              },
+            },
           },
-          membershipRevenue: {
-            $sum: {
-              $switch: {
-                branches: [
-                  { case: { $eq: ['$plan', 'Basic'] }, then: 1500 },
-                  { case: { $eq: ['$plan', 'Pro'] }, then: 2000 },
-                  { case: { $eq: ['$plan', 'Elite'] }, then: 3000 },
-                ],
-                default: 0
-              }
-            }
-          }
-        }
-      }
-    ]);
+        },
+      ]);
+      return data[0]?.totalRevenue || 0;
+    };
 
-    const totalPaidMembers = membershipData[0]?.totalPaidMembers || 0;
-    const membershipRevenue = membershipData[0]?.membershipRevenue || 0;
+    // Helper to calculate product sales revenue for a period
+    const calculateProductRevenue = async (startDate) => {
+      const data = await ProductSales.aggregate([
+        { $match: { createdAt: { $gte: startDate } } },
+        {
+          $group: {
+            _id: null,
+            totalRevenue: { $sum: "$totalPrice" },
+          },
+        },
+      ]);
+      return data[0]?.totalRevenue || 0;
+    };
 
-    // 2️⃣ Available equipment count
-    const availableEquipmentsData = await Equipment.aggregate([
+    const membershipRevenue = {
+      today: await calculateMembershipRevenue(startOfToday),
+      week: await calculateMembershipRevenue(startOfWeek),
+      month: await calculateMembershipRevenue(startOfMonth),
+      year: await calculateMembershipRevenue(startOfYear),
+    };
+
+    const productSalesRevenue = {
+      today: await calculateProductRevenue(startOfToday),
+      week: await calculateProductRevenue(startOfWeek),
+      month: await calculateProductRevenue(startOfMonth),
+      year: await calculateProductRevenue(startOfYear),
+    };
+    const totalStaffs = await Admin.countDocuments({ role: 'Staff' });
+    const totalMembers = await Member.countDocuments({ status: 'Paid' });
+    const totalEquipmentsData = await Equipment.aggregate([
       { $match: { stock: { $gt: 0 } } },
-      { $count: 'availableEquipments' }
+      { $count: "availableEquipments" },
     ]);
-    const availableEquipments = availableEquipmentsData[0]?.availableEquipments || 0;
-
-    // 3️⃣ Product sales revenue
-    const productSalesData = await ProductSales.aggregate([
-      {
-        $group: {
-          _id: null,
-          totalRevenue: { $sum: '$totalPrice' }
-        }
-      }
-    ]);
-    const productSalesRevenue = productSalesData[0]?.totalRevenue || 0;
-
-    // 4️⃣ Overall revenue
-    const overallRevenue = membershipRevenue + productSalesRevenue;
+    const totalEquipments = totalEquipmentsData[0]?.availableEquipments || 0;
+    const totalProducts = await Products.countDocuments();
 
     return res.status(200).json({
-      overallRevenue,
-      productSalesRevenue,
-      membershipRevenue,
-      paidMembers: totalPaidMembers,
-      availableEquipments
+        success: true,
+        membershipRevenue,
+        productSalesRevenue,
+        totalMembers,
+        totalEquipments,
+        totalProducts,
+        totalStaffs
     });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ message: err });
+    return res.status(500).json({ message: err.message || "Server error" });
   }
 };
 
@@ -228,6 +250,7 @@ export const getDashboardGraphData = async (req,res) => {
         });
 
         return res.status(200).json({ 
+            success: true,
             formattedSales,
             membersStatus,
             membershipPerCategory,

@@ -1,6 +1,5 @@
 import Admin from "../models/Admin.js";
 import { verifyPassword } from "../utils/authHelpers.js";
-import { hashPassword } from "../utils/authHelpers.js";
 
 export const createNewAdmin = async (req, res) => {
     try{

@@ -1,5 +1,6 @@
 import Equipment from "../models/Equipments.js";
 import { uploadImage, deleteImage } from "../services/cloudinary.service.js";
+import BorrowHistory from "../models/BorrowHistory.js";
 
 export const createEquipment = async (req, res) => {
 
@@ -99,6 +100,53 @@ export const getEquipments = async (req, res) => {
             totalEquipments
         })
         
+    }catch(err){
+        console.log(err);
+        res.status(500).json({ success: false, message: err.message });
+    }
+}
+
+export const getTopBorrowedEquipment = async (req, res) => {
+    try{
+        const limit = req.query.limit || 10;
+        const topBorrowed = await BorrowHistory.aggregate([
+            { $match: { status: 'Borrowed' } },
+
+            {
+                $group: {
+                _id: '$equipment_id',
+                totalBorrowed: { $sum: '$quantity' }
+                }
+            },
+
+            { $sort: { totalBorrowed: -1 } },
+
+            { $limit: limit },
+
+            {
+                $lookup: {
+                from: 'equipment',
+                localField: '_id',
+                foreignField: '_id',
+                as: 'equipment'
+                }
+            },
+
+            { $unwind: '$equipment' },
+
+            {
+                $project: {
+                _id: 0,
+                equipmentId: '$_id',
+                name: '$equipment.name',
+                sku: '$equipment.sku',
+                totalBorrowed: 1
+                }
+            }
+            ]);
+
+        res.status(200).json({ success: true, topBorrowed});
+
     }catch(err){
         console.log(err);
         res.status(500).json({ success: false, message: err.message });

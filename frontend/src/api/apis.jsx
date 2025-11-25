@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { AlertPopup } from '../components/dialogs/CustomAlert';
 
 axios.defaults.withCredentials = true;
 
@@ -7,14 +6,10 @@ export const fetchData = async (endpoint) => {
   try {
     const response = await axios.get(endpoint);
 
-    if (response.status === 200) {
-      // AlertPopup(response.data.message || 'Error Updating Data', true);
-      return response.data;
-    }
+    return response.data;
 
   } catch (error) {
-    console.error('Error fetching data:', error);
-
+    return error.response.data
   }
 };
 
@@ -25,8 +20,7 @@ export const postData = async (endpoint, data) => {
     return response.data;
 
   } catch (error) {
-    console.log(error);
-    // AlertPopup('error', error.response.data.message || 'Error Posting Data', true);
+    return error.response.data
   }
 };
 
@@ -39,7 +33,7 @@ export const updateData = async (endpoint, data) => {
     }  
 
   } catch (error) {
-    alert(error.data.message || 'Failed')
+    return error.response.data
   }
 };
 
@@ -47,13 +41,10 @@ export const deleteData = async (endpoint) => {
   try {
     const response = await axios.delete(endpoint);
 
-    if(response.status === 200){
-        AlertPopup(response.data.message || 'Error Updating Data', true);
-        return response.data;
-    }
+      return response.data
 
   } catch (error) {
     console.error('Error deleting data:', error);
-    AlertPopup('error', error.response.data.message || 'Error Deleting Data', true);
+    return error.response.data
   }
 };

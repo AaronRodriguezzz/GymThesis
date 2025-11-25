@@ -32,7 +32,7 @@ export const AuthProvider = ({children}) => {
         setAdmin(null);
         window.location.reload()
     };
-    console.log(admin)
+
     return (
         <AdminAuthContext.Provider value={{ admin, setAdmin, loading, logout }}>
             {children}

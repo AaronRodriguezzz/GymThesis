@@ -4,7 +4,7 @@ import { adminRequireAuth } from "../middlewares/authMiddleware.js";
 
 const router = Router();
 
-router.post('/', adminRequireAuth, createNewAdmin);
+router.post('/', createNewAdmin);
 router.get('/', adminRequireAuth, getAdmins);
 router.get('/me', adminRequireAuth, getAdmin);
 router.put('/password', adminRequireAuth, changePassword);
