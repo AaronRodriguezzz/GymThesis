@@ -12,9 +12,11 @@ const dirname = path.resolve();
 
 const server = createServer(app);
 
+const origin = process.env.NODE_ENV === 'production' ? '' : ['https://donsfitness.onrender.com', 'http://localhost:5173']
+
 const io = new Server(server, {
   cors: {
-    origin: ['https://donsfitness.onrender.com', 'http://localhost:5173'],
+    origin,
     methods: ["GET", "POST"],
     allowedHeaders: ['Authorization'],
     credentials: true,

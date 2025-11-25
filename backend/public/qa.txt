@@ -1,4 +1,3 @@
-FAQs
 1. How do I sign up for a membership?
 You can sign up directly on our website by clicking the “Join Now” button and
 filling out the registration form. You may also register at the front desk. Our gym is located at
@@ -20,73 +19,81 @@ bottoms, and rubber shoes. For safety, slippers and sandals are not allowed.
 7. Do you have programs for weight loss, or strength training?
 Yes, we provide specialized programs for weight loss, strength training, and
 overall fitness.
-Privacy Policies
-When you use our website or services, we may collect:
-● Personal details such as your name, email address, phone number, and billing
-information.
-● Membership information such as your selected plan, attendance, and payment history.
-● Chatbot interactions (questions you ask and responses provided) to improve our
-services.
-We use your data to:
-● Process membership applications and manage your account.
-● Provide customer support and respond to inquiries.
-● Improve our website, services, and chatbot performance.
-● Send important updates, promotions, or announcements (you may opt out anytime).
-● Ensure safety, security, and compliance with legal requirements.
-We do not sell or rent your personal information. However, we may share data with:
-● Authorities, if required by law or to protect our legal rights.
-We implement appropriate safeguards to protect your personal information. While we strive to
-secure your data, please note that no online system is 100% secure.
-Our website may use cookies and similar technologies to improve user experience, analyze
-traffic, and personalize content. You can control cookie settings through your browser.
-We keep your personal information only as long as necessary to provide services, comply with
-legal obligations, and resolve disputes.
-Terms and Conditions
-Last updated 08/28/25
-1. Membership and Registration
-To register for a membership, you must be at least 15 years old. Members are required to
-provide accurate personal details during registration, and it is their responsibility to keep this
-information up to date. All memberships are non-transferable unless explicitly approved.
-2. Payments and Fees
-Membership fees must be paid on time in accordance with the plan selected during registration.
-We accept payment methods such as credit card, GCash, or bank transfer.
-3. Cancellation of Membership
-Members may cancel their membership by contacting our support team or by visiting the front
-desk.
-4. Gym Rules and Conduct
-Proper gym attire is required at all times, which includes athletic wear and rubber shoes. For
-safety, slippers and sandals are not permitted. Members are expected to return equipment after
-use and to maintain cleanliness within the facility. Any behavior that is dangerous, offensive, or
-disruptive may result in the suspension or termination of membership. Parking within the gym
-premises is available exclusively for motorcycles.
-5. Health and Safety
-The gym is not responsible for injuries sustained during exercise, except in cases of proven
-negligence on the part of the gym or its staff. All members must follow posted safety protocols at
-all times.
-7. Website and Chatbot Use
-Information provided by the chatbot is intended for guidance only and should not be considered
-a replacement for professional advice. Our website and chatbot are provided as tools for
-member support and convenience. Members agree not to misuse these services, including
-sending offensive messages or spamming.
-8. Privacy
-We collect and process personal information in accordance with our Privacy Policy. By using our
-services, members acknowledge and consent to such collection and processing of their
-personal data.
-9. Limitation of Liability
-We are not responsible for the loss, theft, or damage of personal belongings brought into the
-gym. Furthermore, we are not liable for technical issues that may affect the availability or
-performance of our website or chatbot.
-About Us
-Welcome to Dondon’s Gym, a community gym dedicated to helping you live stronger and
-healthier. We’ve been serving our members for the past three years, and while we may be
-young, our passion for fitness and wellness runs deep.
-We don’t have multiple branches—just one location, built to focus on what matters most: giving
-our members the attention, support, and quality they deserve. We are located at 19-a Mabolo
-St, Manila, Metro Manila.
-At Dondon’s Gym, we provide well-maintained equipment, certified trainers, and programs
-designed for weight loss, strength training, and overall fitness. With safe motorcycle parking and
-flexible membership plans, we keep things simple and convenient for our community.
-Here, you’re not just joining a gym—you’re joining a family that motivates, supports, and grows
-together.
-Start your fitness journey with us today and experience the difference of a gym that truly
-cares.
+8. What is Bulking?
+bulking is to intentionally consume a calorie surplus to promote significant muscle 
+and strength gains, often combined with intense resistance training. This extra energy 
+is used to build new muscle tissue, which is most effective when the body has more fuel 
+than it needs for basic functions and daily activities.
+9. What is Cutting?
+A cut is a period of eating at a calorie deficit as a means to lose body fat while 
+maintaining as much muscle mass as possible. While resistance training continues to 
+play a role during a cutting phase, you may not be able to lift weights with the same 
+intensity as you can during a bulk. This is due to a number of factors, though the main 
+one is that you have less energy available.
+10. What are your workout tips for me?
+FOCUS ON FORM, NOT WEIGHT. Align your body correctly and move smoothly through each exercise. 
+Poor form can prompt injuries. Many experts suggest starting with no weight, or very light 
+weight, when learning a strength training routine. Concentrate on slow, smooth lifts and equally 
+controlled descents while isolating a muscle group.
+BREATHE. Blood pressure increases during a work- out, but it rises even more if you hold 
+your breath while performing strength exercises. To avoid steep increases, exhale as you lift, push, 
+or pull; inhale as you release.
+KEEP CHALLENGING MUSCLES. The right weight differs depending on the exercise. Choose a 
+weight that tires the targeted muscle or muscles by the last two repetitions (reps) while still 
+allowing you to maintain good form.
+11. How to start a bulk?
+To start bulking, add a given number of calories to your typical daily calorie intake. You can 
+determine how much to add with a quick calculation. The goal is to promote a weight gain of 
+0.25–0.5% of your body weight per week.
+12. How to start a cut?
+You can start cutting by subtracting a specific number of calories from your maintenance calorie 
+level to promote a weight loss of 0.5–1.0% of body weight per week while maintaining as much muscle 
+as possible.
+13. What foods to eat during bulk or bulking?
+During a bulk, it’s best to focus on foods that are high in nutrients and calorie content to promote 
+rapid muscle and strength gains. In general, steer clear of high calorie processed foods. Some people 
+may include these foods in a dirty bulk, in which excess fat gain isn’t a concern. However, this is 
+not recommended.
+14. What foods to eat during cut or cutting?
+When you’re cutting, your focus should be on eating foods that are high in nutrients and lower in calories. 
+These will support gradual weight loss and muscle maintenance. You’ll see that some of the foods for a 
+cutting diet are similar to those for a bulk. The difference is largely in the quantity of these foods 
+consumed.
+15. What are your goal recommendations for me?
+When deciding whether a bulk or cut is right for you, consider your starting point and long-term goals.
+If you’re new to exercising and following a structured diet, it may be best to start by improving your 
+food choices and slowly increasing your exercise intensity before bulking or cutting. Once you’ve 
+developed good practices surrounding food and exercise, you can consider whether a bulk or cut is 
+right for you. If your goal is to gain muscle and strength and you aren’t concerned with gaining a 
+bit of fat in the process, a bulk may be a good choice. On the other hand, if you’re looking to lose 
+fat and maintain muscle, a cut may be more in line with your goals.
+FOR INDIIDUALIZED GUIDANCE, CONSULT A REGISTERED DIETITIAN.
+16. Foods to eat during bulk or bulking goal?
+Lean proteins: beef, chicken, fish, turkey, pork, Greek yogurt, cottage cheese, reduced fat cheese, 
+protein powders, bars, and mass gainers, as well as tofu, tempeh, and eggs
+Healthy fats: olive oil, avocado, nuts, nut butters, fatty fish, and seeds like chia, hemp, and 
+flax seeds
+Legumes: all beans, including chickpeas and kidney, navy, black, and Great Northern beans
+High quality carbs: oats, quinoa, whole grain pasta, rice cakes, breakfast cereals, white and sweet 
+potatoes, and white and brown rice
+Fruit: apples, oranges, bananas, pineapple, grapefruit, and all types of berries
+Non-starchy vegetables: peppers, asparagus, green beans, mushrooms, onions, tomatoes, zucchini, 
+carrots, and celery
+Cruciferous veggies: broccoli, cauliflower, Brussels sprouts, and cabbage
+Dark leafy greens: spinach, Swiss chard, collard greens, and kale
+Beverages: water, seltzer, diet soda, tea, coffee, kombucha, and 100% fruit juice
+Occasional foods: pizza, regular pasta, baked goods, full fat cheese, high sugar breakfast cereals, 
+and pan-fried meats
+17. Foods to eat during cut or cutting goal?
+Lean proteins: chicken breast, lean ground turkey, lean cuts of beef or pork, fish, extra firm tofu, 
+high protein plant-based meat substitutes, low fat cottage cheese, low fat cheese, and eggs and egg 
+whites
+Limited healthy fats: olive oil, avocado, nuts, nut butters, and seeds
+Legumes: all beans, including chickpeas and kidney, navy, black, and Great Northern beans
+Fibrous carbs: brown rice, quinoa, sweet potatoes, whole grain pasta, oats, low sugar cereals, rice 
+cakes, and quinoa
+Lower sugar fruits: apples, pears, peaches, berries, melon, grapefruit, oranges, figs, kiwi, and plums
+Non-starchy vegetables: asparagus, broccoli, Brussels sprouts, green beans, cauliflower, mushrooms, 
+onions, tomatoes, cabbage, zucchini, carrots, peppers, and celery
+Dark leafy greens: spinach, Swiss chard, collard greens, and kale
+Beverages: water, sugar-free flavored seltzer, mineral water, and unsweetened coffee and tea

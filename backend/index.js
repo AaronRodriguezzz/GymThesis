@@ -14,7 +14,7 @@ import notificationRoutes from "./routes/notification.route.js";
 
 const app = express();
 
-const origin = process.env.NODE_ENV === 'production' ? 'https://dynamax-fitness.onrender.com' : 'http://localhost:5173'
+const origin = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:5173'
 
 // middleware & static files
 app.use(cors({
