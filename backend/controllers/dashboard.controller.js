@@ -51,7 +51,6 @@ export const getDashboardCardsData = async (req, res) => {
           },
         },
       ]);
-      console.log(data)
       return data[0]?.totalRevenue || 0;
     };
 
@@ -97,36 +96,48 @@ export const getDashboardGraphData = async (req,res) => {
         const currentYear = new Date().getFullYear();
 
         const monthlySales = await ProductSales.aggregate([
-        {
-            $match: {
-            $expr: {
-                $eq: [{ $year: { $toDate: "$createdAt" } }, currentYear]
-            }
-            }
-        },
-        {
-            $group: {
-            _id: { 
-                year: { $year: { $toDate: "$createdAt" } },
-                month: { $month: { $toDate: "$createdAt" } }
+            {
+                $project: {
+                totalPrice: 1,
+                // Convert createdAt to Manila time and extract year/month
+                createdStr: {
+                    $dateToString: {
+                    format: "%Y-%m-%d",
+                    date: "$createdAt",
+                    timezone: "Asia/Manila"
+                    }
+                }
+                }
             },
-            totalSales: { $sum: "$totalPrice" },
-            count: { $sum: 1 }
-            }
-        },
-        {
-            $project: {
-            _id: 0,
-            month: "$_id.month",
-            year: "$_id.year",
-            totalSales: 1,
-            count: 1
-            }
-        },
-        {
-            $sort: { month: 1 }
-        }
-        ]);
+            {
+                $addFields: {
+                year: { $toInt: { $substr: ["$createdStr", 0, 4] } },
+                month: { $toInt: { $substr: ["$createdStr", 5, 2] } }
+                }
+            },
+            {
+                $match: {
+                year: currentYear
+                }
+            },
+            {
+                $group: {
+                _id: { year: "$year", month: "$month" },
+                totalSales: { $sum: "$totalPrice" },
+                count: { $sum: 1 }
+                }
+            },
+            {
+                $project: {
+                _id: 0,
+                year: "$_id.year",
+                month: "$_id.month",
+                totalSales: 1,
+                count: 1
+                }
+            },
+            { $sort: { month: 1 } }
+            ]);
         const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
         const salesArray = monthNames.map(name => ({ month: name, total: 0 }));
@@ -235,14 +246,17 @@ export const getDashboardGraphData = async (req,res) => {
         }));
 
         members.forEach((member) => {
-            const month = member.createdAt.getMonth(); 
-            let planRevenue = 0;
+        const manilaDate = new Date(
+            new Date(member.createdAt).toLocaleString("en-US", { timeZone: "Asia/Manila" })
+        );
+        const month = manilaDate.getMonth(); // 0-11
 
-            if (member.plan === "Basic") planRevenue = 1500;
-            if (member.plan === "Pro") planRevenue = 2000;
-            if (member.plan === "Elite") planRevenue = 3000;
+        let planRevenue = 0;
+        if (member.plan === "Basic") planRevenue = 1500;
+        if (member.plan === "Pro") planRevenue = 2000;
+        if (member.plan === "Elite") planRevenue = 3000;
 
-            revenueByMonth[month].total += planRevenue;
+        revenueByMonth[month].total += planRevenue;
         });
         const membershipSalesArray = monthNames.map(name => ({ month: name, total: 0 }));
 

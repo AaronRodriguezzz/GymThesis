@@ -86,13 +86,6 @@ export const updateMember = async (req, res) => {
 
 export const getMemberships = async (req, res) => {
     try{
-       await Member.deleteMany({
-  $or: [
-    { email: 'lindseysamson5@gmail.com' },
-    { email: 'lindseysamson89@gmail.com' }
-  ]
-});
-
         const page = req.query.page || 1;
         const limit = req.query.limit || 20;
         const skip = (page - 1) * limit;
