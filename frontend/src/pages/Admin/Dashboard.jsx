@@ -38,9 +38,6 @@ const Dashboard = () => {
     return <Navigate to="/admin/borrow" />;
   }
 
-  console.log(graphData)
-
-  
   const COLORS = ['#f87171', '#60a5fa', '#4ade80', '#facc15'];
 
   return (
@@ -88,9 +85,9 @@ const Dashboard = () => {
           value={formatNumberToPeso(cardData?.membershipRevenue.year || 0)}
           icon={<FaMoneyBillWave className="text-white" />}
         />
-                <MetricCard
+        <MetricCard
           title="POS Revenue Today"
-          value={formatNumberToPeso(cardData?.membershipRevenue.today || 0)}
+          value={formatNumberToPeso(cardData?.productSalesRevenue.today || 0)}
           icon={<FaMoneyBillWave className="text-white" />}
         />
         <MetricCard

@@ -51,6 +51,7 @@ export const getDashboardCardsData = async (req, res) => {
           },
         },
       ]);
+      console.log(data)
       return data[0]?.totalRevenue || 0;
     };
 
@@ -75,7 +76,7 @@ export const getDashboardCardsData = async (req, res) => {
     ]);
     const totalEquipments = totalEquipmentsData[0]?.availableEquipments || 0;
     const totalProducts = await Products.countDocuments();
-
+    
     return res.status(200).json({
         success: true,
         membershipRevenue,
