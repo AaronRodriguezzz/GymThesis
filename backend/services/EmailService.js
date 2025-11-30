@@ -8,11 +8,11 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-export const sendEmail = async (email, subject, message) => {
+export const sendEmail = async (origin, destination, subject, message) => {
   try {
     await transporter.sendMail({
-      from: "Toto Tumbs <no-reply@tototumbs.com>",
-      to: email,
+      from: origin,
+      to: destination,
       subject: subject,
       html: `
         <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
