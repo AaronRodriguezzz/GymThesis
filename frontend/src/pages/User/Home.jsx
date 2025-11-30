@@ -1,8 +1,11 @@
 import { useState } from "react";
 import TermsModal from "../../components/modals/TermsModal";
+import { postData } from "../../api/apis";
+import { AlertPopup } from "../../components/dialogs/CustomAlert";
 
 export default function Home() {
   const [termsOpen, setTermsOpen] = useState(false);
+  const [sending, setSending] = useState(false);
   const [membershipForm, setMembershipForm] = useState({
     fullName: "",
     email: "",
@@ -10,6 +13,11 @@ export default function Home() {
     plan: "",
     fitnessGoal: "",
     expirationDate: "",
+  });
+  const [messageForm, setMessageForm] = useState({
+    name: "",
+    email: "",
+    message: "",
   });
 
   const handleChange = (e) => {
@@ -32,11 +40,37 @@ export default function Home() {
       !membershipForm.fitnessGoal
     ) {
       alert("Complete the form before submitting.");
-      return;
+      return; 
     }
 
     setTermsOpen(true);
   };
+
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+
+    if (!messageForm.name || !messageForm.email || !messageForm.message) {
+      alert("Complete the form first!");
+      return;
+    }
+
+    setSending(true); // start loading
+
+    try {
+      const response = await postData("/api/message/send", messageForm);
+
+      if (response) {
+        alert("Message sent successfully!");
+        setMessageForm({ name: "", email: "", message: "" });
+      }
+    } catch (err) {
+      console.error("Error sending message:", err);
+    }
+
+    setSending(false); // stop loading
+  };
+
+
 
   return (
     <main className="pt-10 text-gray-900">
@@ -213,7 +247,7 @@ export default function Home() {
                 Open: Mon – Sat, 6:00 AM – 10:00 PM
               </p>
             </div>
-            <form className="bg-gradient-to-r from-blue-50 to-white p-8 rounded-xl shadow-lg flex flex-col gap-6">
+            <form className="bg-gradient-to-r from-blue-50 to-white p-8 rounded-xl shadow-lg flex flex-col gap-6" onSubmit={handleSendMessage}>
               <div>
                 <label className="block text-sm font-medium mb-2 text-blue-900">
                   Your Name
@@ -222,6 +256,8 @@ export default function Home() {
                   type="text"
                   className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-900"
                   placeholder="Enter your name"
+                  value={messageForm.name}
+                  onChange={(e) => setMessageForm({...messageForm, name: e.target.value})}
                 />
               </div>
               <div>
@@ -232,6 +268,8 @@ export default function Home() {
                   type="email"
                   className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-900"
                   placeholder="Enter your email"
+                  value={messageForm.email}
+                  onChange={(e) => setMessageForm({...messageForm, email: e.target.value})}
                 />
               </div>
               <div>
@@ -242,13 +280,17 @@ export default function Home() {
                   rows="4"
                   className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-900"
                   placeholder="Write your message"
+                  value={messageForm.message}
+                  onChange={(e) => setMessageForm({...messageForm, message: e.target.value})}
                 ></textarea>
               </div>
               <button
                 type="submit"
-                className="w-full bg-blue-900 py-3 rounded-lg font-semibold text-white hover:bg-blue-700 transition"
+                disabled={sending}
+                className={`w-full py-3 rounded-lg font-semibold transition
+                  ${sending ? "bg-gray-400 cursor-not-allowed" : "bg-blue-900 text-white hover:bg-blue-700"}`}
               >
-                Send Message
+                {sending ? "Sending..." : "Send Message"}
               </button>
             </form>
           </div>

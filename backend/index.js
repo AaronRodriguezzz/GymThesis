@@ -9,8 +9,9 @@ import adminRoutes from "./routes/admin.routes.js";
 import productRoutes from "./routes/products.route.js";
 import dashboardRoutes from "./routes/dashboard.route.js";
 import authRoutes from "./routes/auth.route.js";
-import { chatAIagent } from "./controllers/ai.controller.js";
 import notificationRoutes from "./routes/notification.route.js";
+import messageRoutes from "./routes/message.route.js"
+import { chatAIagent } from "./controllers/ai.controller.js";
 
 const app = express();
 
@@ -36,5 +37,6 @@ app.use('/api/borrow-history', borrowHistoryRoutes);
 app.use('/api/admins', adminRoutes)
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/auth', authRoutes)
+app.use('/api/message', messageRoutes)
 
 export default app;
