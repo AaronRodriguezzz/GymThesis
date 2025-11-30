@@ -176,6 +176,7 @@ export const getProductSales = async (req, res) => {
         const sales = await ProductSales.find(filter)
         .skip(skip)
         .limit(limit)
+        .sort({ createdAt: -1 })
         .populate('products.product');      
 
         const totalSalesCount = await ProductSales.countDocuments(filter);
