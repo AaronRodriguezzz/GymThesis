@@ -24,7 +24,6 @@ export const createEquipment = async (req, res) => {
 }
 
 export const updateEquipment = async (req, res) => {
-    console.log(req.body);
     try{
         const equipment = await Equipment.findById(req.params.id);
 

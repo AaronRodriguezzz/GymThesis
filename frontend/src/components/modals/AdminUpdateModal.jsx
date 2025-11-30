@@ -35,10 +35,12 @@ const AdminUpdateModal = ({ onClose, admin }) => {
  
     try {
         const res = await updateData(`/api/admins/${admin._id}`, payload);
-        if (res.success) {
+        if (res?.success) {
             onClose(false);
             window.location.reload();
-        }
+        }else{
+            alert(res.message || 'Something went wrong')
+          }
     } catch (error) {
         console.error(error);
     }

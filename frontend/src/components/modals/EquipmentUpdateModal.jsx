@@ -21,8 +21,10 @@ const UpdateQuantityModal = ({ onClose, equipment }) => {
       const response = await updateData(`/api/equipments/${equipment._id}`, payload); 
       // use updateData if your API requires PUT/PATCH instead of postData
 
-      if (response) {
+      if (response.success) {
         window.location.reload();
+      }else{
+        alert(res.message || 'Something went wrong.')
       }
     } catch (err) {
       console.error(err);

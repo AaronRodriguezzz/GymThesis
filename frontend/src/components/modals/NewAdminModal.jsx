@@ -32,6 +32,8 @@ const NewAdminModal = ({ onClose }) => {
             if (res.success) {
                 onClose(false);
                 window.location.reload();
+            }else{
+                alert(res.message || 'Something went wrong')
             }
         } catch (error) {
             console.error(error);

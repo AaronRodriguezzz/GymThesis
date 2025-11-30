@@ -99,7 +99,7 @@ export const updateProduct = async (req, res) => {
         product.set({ ...req.body })
         await product.save();
 
-        res.status(200).json({ success: true, message: 'Equipment successfully updated' })
+        res.status(200).json({ success: true, message: 'Product successfully updated' })
 
     }catch(err){
         res.status(500).json({ success: false, message: err.message });

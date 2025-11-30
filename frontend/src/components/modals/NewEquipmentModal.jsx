@@ -48,11 +48,13 @@ const AddEquipmentModal = ({ onClose, equipment }) => {
         
         try{
 
-            const res = await equipment ? updateData(`/api/equipments/${equipment._id}`, formData) : postData("/api/equipments", formData);
+            const res = equipment ? await updateData(`/api/equipments/${equipment._id}`, formData) : await postData("/api/equipments", formData);
 
-            if(res){
+            if(res.success){
                 alert("Equipment added successfully!");
                 window.location.reload();
+            }else{
+                alert(res.message || 'Something went wrong.')
             }
 
         }catch(err){

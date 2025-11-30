@@ -40,10 +40,7 @@ const Accounts = () => {
       const response = await updateData(`/api/admins/disable/${accountToDisable._id}`)
 
       if(response){
-        setAccounts(prev => (
-          prev.map(acc => acc._id === accountToDisable._id ? response.admin : acc)
-        ))
-        setShowConfirm(false);
+        window.location.reload();
       }
     }catch(err){
       console.log(err);

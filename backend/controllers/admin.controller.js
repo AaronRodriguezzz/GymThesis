@@ -39,6 +39,11 @@ export const updateAdmin = async (req, res) => {
     }
 
     try{
+        const isEmailExists = await Admin.findOne({ email: updateData.email, _id: { $ne: adminId } });
+
+        if(isEmailExists){
+            return res.status(409).json({ success: false, message: 'Email already used.'})
+        }
         
         const updatedAdmin = await Admin.findByIdAndUpdate(adminId, updateData, { new: true }).select('-password');
 
