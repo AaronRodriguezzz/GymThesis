@@ -76,7 +76,7 @@ const NewProductModal = ({ onClose, product }) => {
                 className="w-[40%] bg-gray-900 p-8 rounded-xl shadow-lg flex flex-col gap-6 text-white"
             >
                 <h2 className="text-3xl font-bold text-center text-blue-500 mb-4">
-                    {product ? 'Add New' : 'Edit'} Product
+                    {!product ? 'Add New' : 'Edit'} Product
                 </h2>
 
                 {/* Name */}
