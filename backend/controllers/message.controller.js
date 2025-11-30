@@ -5,8 +5,8 @@ export const sendMessage = async (req, res) => {
 
     try{
 
-        const adminEmail = 'francisaaronrodriguez23@gmail.com';
-        await sendEmail(adminEmail, `New message from ${name}`, message);
+        const adminEmail = 'mclozano2002@gmail.com';
+        await sendEmail(email, adminEmail, `New message from ${name}`, message);
 
         res.status(200).json({ message: "Message sent successfully" });
         
