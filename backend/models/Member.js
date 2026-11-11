@@ -20,7 +20,6 @@ const MemberSchema = new Schema({
     },
     expirationDate: {
         type: Date,
-        required: true,
     },
     fitnessGoal: {
         type: String,

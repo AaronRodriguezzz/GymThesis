@@ -44,6 +44,8 @@ export const updateMembership = async (req, res) => {
     }
 }
 
+const plans = { Basic: 3, Elite: 6, Pro: 12 }
+
 export const updateMember = async (req, res) => {
 
     if(!req.params.id || !req.body){
@@ -51,16 +53,21 @@ export const updateMember = async (req, res) => {
     }
 
     try{
-
-        const member = await Member.findByIdAndUpdate(  
-            req.params.id,
-            req.body,
-            { new: true }
-        )
-
+        const member = await Member.findById(req.params.id);
         if(!member){
             return res.status(404).json({ success: false, message: 'Membership not found.'})
         }
+
+        if(!member.expirationDate && req.body.status === 'Paid'){
+            const now = new Date();
+            const expirationDate = new Date(now);
+            expirationDate .setMonth(now.getMonth() + plans[req.body.plan]);
+
+            req.body.expirationDate = expirationDate;
+        }
+
+        member.set(req.body);
+        await member.save();
 
         res.status(200).json({ success: true, message: 'Membership successfully updated'})
 

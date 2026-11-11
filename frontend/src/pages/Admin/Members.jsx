@@ -109,7 +109,7 @@ const Members = () => {
                   <td className="px-6 py-3">{member?.phone}</td>
                   <td className="px-6 py-3">{member?.plan}</td>
                   <td className="px-6 py-3">{member.createdAt.toString().split('T')[0]}</td>
-                  <td className="px-6 py-3">{member?.expirationDate.toString().split('T')[0]}</td>
+                  <td className="px-6 py-3">{member.expirationDate ? member?.expirationDate.toString().split('T')[0] : 'N/A'}</td>
                   <td 
                     className="px-6 py-3 font-semibold rounded"
                     style={{color: member?.status === 'Paid' ? 'green' : member?.status === 'Pending' ? 'orange' : 'red'}}
@@ -130,8 +130,8 @@ const Members = () => {
                       </button>
                       <button 
                         className="p-2 text-red-500 hover:text-red-700 disabled:cursor-not-allowed disabled:opacity-50" 
-                        onclick={() => updateMemberStatus(member._id, 'Expired')}
-                        disabled={member?.status === 'Pending' || member?.status === 'Expired' || new Date(member?.expirationDate) > new Date()}
+                        onClick={() => updateMemberStatus(member._id, 'Expired')}
+                        disabled={member?.status !== 'Paid' || new Date(member?.expirationDate) > new Date()}
                       >
                         <FaBan  />
                       </button>

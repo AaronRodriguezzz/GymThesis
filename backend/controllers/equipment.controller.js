@@ -1,5 +1,5 @@
 import Equipment from "../models/Equipments.js";
-import { deleteImage, uploadImage } from "../services/cloudinary.service.js";
+import { uploadImage } from "../services/cloudinary.service.js";
 
 export const createEquipment = async (req, res) => {
 
@@ -22,10 +22,8 @@ export const createEquipment = async (req, res) => {
 }
 
 export const updateEquipment = async (req, res) => {
-    console.log(req.body);
     try{
         const equipment = await Equipment.findById(req.params.id);
-        console.log(equipment);
 
         if(!equipment){
             return res.status(404).json({ success: false, message: 'Equipment not found' })
@@ -98,6 +96,7 @@ export const getEquipments = async (req, res) => {
         })
         
     }catch(err){
+        console.log(err);
         res.status(500).json({ success: false, message: err.message });
     }
 }

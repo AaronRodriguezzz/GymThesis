@@ -8,18 +8,15 @@ export default function AdminLoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const { admin, loading, setAdmin } = useAuth();
-
-  if(loading) return;
-    
-  if(admin){
-      return <Navigate to="/admin/dashboard"/>
-  }
-  
   const [error, setError] = useState("");
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
-  });
+  }); 
+  
+  if(admin && !loading){
+     return <Navigate to="/admin/dashboard"/>
+  }
 
   const from = location.state?.from?.pathname || "/admin/dashboard";
 

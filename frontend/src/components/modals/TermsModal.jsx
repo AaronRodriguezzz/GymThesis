@@ -35,29 +35,6 @@ export default function TermsModal({
     e.preventDefault();
 
     if(!agreed) return 
-    
-    const today = new Date();
-    const thisDay = today.getDate();
-    const thisMonth = today.getMonth(); 
-    const thisYear = today.getFullYear();
-    const addedMonths = expirationData[membershipForm.plan];
-
-    const expirationMonth =  thisMonth + addedMonths;
-
-    if(!member){
-
-      if(expirationMonth > 12) {
-        const extraYears = Math.floor(expirationMonth / 12);
-        const newMonth = expirationMonth % 12;
-        const newYear = thisYear + extraYears;
-        const expiration = new Date(newYear, newMonth, thisDay);
-        membershipForm.expirationDate = expiration;
-      }else{
-        const expiration = new Date(thisYear, thisMonth + addedMonths, thisDay);
-        membershipForm.expirationDate = expiration;
-      }
-    }
-
 
     try{    
       const res = !member ? await postData('/api/members', membershipForm) : await updateData(`/api/members/data/${member._id}`, membershipForm);

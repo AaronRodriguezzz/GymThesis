@@ -20,8 +20,8 @@ const Equipments = () => {
   return (
     <div className='h-screen w-full p-10'>
       <AdminHeader 
-        title={'Equipments'} 
-        description={'Manages gym equipment inventory, availability, and maintenance.'} 
+        title={'Products'} 
+        description={'Manages products inventory, availability, and maintenance.'} 
       />
       
       <div className='h-[85%] rounded bg-white/50 mt-4 p-4'>
